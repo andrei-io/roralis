@@ -1,0 +1,137 @@
+{
+  "swagger": "2.0",
+  "info": {},
+  "paths": {
+    "/users/": {
+      "get": {
+        "description": "Get all users",
+        "tags": [
+          "user"
+        ],
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetAllUsersResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      },
+      "post": {
+        "description": "Create user",
+        "tags": [
+          "user"
+        ],
+        "operationId": "createUser",
+        "responses": {
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
+    "/users/:id": {
+      "get": {
+        "description": "Get one user",
+        "tags": [
+          "user"
+        ],
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetOneUserResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      },
+      "put": {
+        "description": "Update user",
+        "tags": [
+          "user"
+        ],
+        "operationId": "updateUser",
+        "responses": {
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete user",
+        "tags": [
+          "user"
+        ],
+        "operationId": "deleteUser",
+        "responses": {
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "CreatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "DeletedAt": {
+          "description": "DeletedAt is a pointer because it can be null",
+          "type": "string",
+          "format": "date-time"
+        },
+        "Email": {
+          "type": "string"
+        },
+        "ID": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Password": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "country/domain/entity"
+    }
+  },
+  "responses": {
+    "GenericResponse": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "required": [
+          "Message"
+        ],
+        "properties": {
+          "Message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GetAllUsersResponse": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "GetOneUserResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/User"
+      }
+    }
+  }
+}
