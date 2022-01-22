@@ -8,6 +8,7 @@ CREATE TABLE "posts"(
   "description" VARCHAR(750),
   "address" VARCHAR(750),
   "expiry" TIMESTAMPTZ,
+  "photo" VARCHAR(2048),
   "region_id" integer NOT NULL REFERENCES "regions"("id"),
   "category_id" integer NOT NULL REFERENCES "categories"("id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
