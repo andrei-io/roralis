@@ -16,7 +16,7 @@ type Post struct {
 	Expiry      *time.Time `json:"Expiry"`
 	RegionID    uint64     `json:"RegionID" binding:"required"`
 	CategoryID  uint64     `json:"CategoryID" binding:"required"`
-	CreatedAt   time.Time  `json:"CreatedAt" binding:"required"`
+	CreatedAt   time.Time  `json:"CreatedAt"`
 	// DeletedAt is a pointer because it can be null
 	DeletedAt *time.Time `json:"DeletedAt"`
 }
