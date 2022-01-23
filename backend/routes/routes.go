@@ -15,6 +15,7 @@
 package routes
 
 import (
+	"country/controllers/category"
 	"country/controllers/user"
 	_ "country/doc" // for swagger responses
 
@@ -66,4 +67,22 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       default: GenericResponse
 	app.DELETE("/users/:id", user.Delete)
+
+	// swagger:route GET /categories/ category getCategory
+	//
+	// Get all categories
+	//
+	//     Responses:
+	//       200:     GetAllCategoriesResponse
+	//       default: GenericResponse
+	app.GET("/categories", category.ReadAll)
+
+	// swagger:route GET /categories/:id category getCategory
+	//
+	// Get category by id
+	//
+	//     Responses:
+	//       200:     GetOneCategoriesResponse
+	//       default: GenericResponse
+	app.GET("/categories/:id", category.ReadOne)
 }

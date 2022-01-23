@@ -6,5 +6,11 @@ CREATE TABLE "categories"(
   "deleted_at" TIMESTAMPTZ
 );
 
+INSERT INTO
+  "categories"(text)
+VALUES
+  ('Categoria 1'),
+  ('Categoria 2');
+
 -- +goose Down
 DROP TABLE IF EXISTS "categories";

@@ -22,3 +22,17 @@ type GetOneUserResponse struct {
 	// in: body
 	Body entity.User
 }
+
+// swagger:response GetAllCategoriesResponse
+type GetAllCategoriesResponse struct {
+	// Used when accesing GET /users
+	// in: body
+	Body []entity.Category
+}
+
+// swagger:response GetOneCategoriesResponse
+type GetOneCategoriesResponse struct {
+	// Used when accesing GET /users
+	// in: body
+	Body entity.Category
+}
