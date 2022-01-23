@@ -6,5 +6,11 @@ CREATE TABLE "regions"(
   "deleted_at" TIMESTAMPTZ
 );
 
+INSERT INTO
+  "regions"("text")
+VALUES
+  ('Pitesti'),
+  ('Campulung');
+
 -- +goose Down
 DROP TABLE IF EXISTS "regions";

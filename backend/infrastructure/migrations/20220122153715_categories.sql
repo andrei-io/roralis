@@ -7,7 +7,7 @@ CREATE TABLE "categories"(
 );
 
 INSERT INTO
-  "categories"(text)
+  "categories"("text")
 VALUES
   ('Categoria 1'),
   ('Categoria 2');
