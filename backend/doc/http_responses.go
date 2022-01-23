@@ -36,3 +36,17 @@ type GetOneCategoriesResponse struct {
 	// in: body
 	Body entity.Category
 }
+
+// swagger:response GetAllRegionsResponse
+type GetAllRegionsResponse struct {
+	// Used when accesing GET /users
+	// in: body
+	Body []entity.Category
+}
+
+// swagger:response GetOneRegionsResponse
+type GetOneRegionsResponse struct {
+	// Used when accesing GET /users
+	// in: body
+	Body entity.Category
+}

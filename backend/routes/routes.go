@@ -16,6 +16,7 @@ package routes
 
 import (
 	"country/controllers/category"
+	"country/controllers/region"
 	"country/controllers/user"
 	_ "country/doc" // for swagger responses
 
@@ -85,4 +86,23 @@ func MountRoutes(app *gin.Engine) {
 	//       200:     GetOneCategoriesResponse
 	//       default: GenericResponse
 	app.GET("/categories/:id", category.ReadOne)
+
+	// swagger:route GET /regions/ region getRegion
+	//
+	// Get all regions
+	//
+	//     Responses:
+	//       200:     GetAllRegionsResponse
+	//       default: GenericResponse
+	app.GET("/regions", region.ReadAll)
+
+	// swagger:route GET /regions/:id region getCategory
+	//
+	// Get region by id
+	//
+	//     Responses:
+	//       200:     GetOneRegionsResponse
+	//       default: GenericResponse
+	app.GET("/regions/:id", region.ReadOne)
+
 }
