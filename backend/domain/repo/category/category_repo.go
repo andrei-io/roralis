@@ -41,7 +41,7 @@ func (r *CategoryRepo) Get(id string) (c *entity.Category, err error) {
 	return &category, err
 }
 
-func (r *CategoryRepo) Update(id_raw string, c *entity.Category) error {
+func (r *CategoryRepo) Update(id string, c *entity.Category) error {
 	return errors.New("Modifying categories is not allowed")
 }
 
@@ -49,6 +49,6 @@ func (r *CategoryRepo) Create(c *entity.Category) error {
 	return errors.New("Modifying categories is not allowed")
 }
 
-func (r *CategoryRepo) Delete(id_raw string) error {
+func (r *CategoryRepo) Delete(id string) error {
 	return errors.New("Modifying categories is not allowed")
 }
