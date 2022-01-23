@@ -1,6 +1,7 @@
 package dic
 
 import (
+	"country/domain/repo/category"
 	"country/domain/repo/user"
 	"country/infrastructure"
 
@@ -17,6 +18,7 @@ var Builder *di.Builder
 // Constants for accesing depedencies
 const DB = "db"
 const UserRepo = "user.repo"
+const CategoryRepo = "category.repo"
 
 // Initializes container and builder
 func InitContainer() (di.Container, error) {
@@ -54,6 +56,15 @@ func RegisterServices(builder *di.Builder) error {
 		Name: UserRepo,
 		Build: func(ctn di.Container) (interface{}, error) {
 			return user.NewUserRepo(ctn.Get(DB).(*gorm.DB)), nil
+		},
+	})
+	if err != nil {
+		return err
+	}
+	err = builder.Add(di.Def{
+		Name: CategoryRepo,
+		Build: func(ctn di.Container) (interface{}, error) {
+			return category.NewCategoryRepo(ctn.Get(DB).(*gorm.DB)), nil
 		},
 	})
 	if err != nil {

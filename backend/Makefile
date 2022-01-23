@@ -28,7 +28,7 @@ migrate-reset:
 
 .PHONY: migrate-status
 migrate-status:
-	goose -dir infrastructure/migrations postgres "user=admin password=admin dbname=asdf sslmode=disable" reset
+	goose -dir infrastructure/migrations postgres "user=admin password=admin dbname=asdf sslmode=disable" status
 
 .PHONY: swagger
 swagger:
