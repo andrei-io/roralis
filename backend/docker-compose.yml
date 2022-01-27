@@ -21,3 +21,9 @@ services:
     ports:
       - 8090:8080
     restart: unless-stopped
+  
+  cache:
+    image: redis:6.2.6
+    ports:
+      - 6379:6379
+    restart: unless-stopped

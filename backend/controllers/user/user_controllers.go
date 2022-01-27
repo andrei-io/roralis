@@ -4,6 +4,7 @@ import (
 	"country/dic"
 	"country/domain/entity"
 	"country/domain/repo/email"
+	"country/domain/repo/kv"
 	"country/domain/repo/user"
 	"errors"
 	"fmt"
@@ -42,6 +43,7 @@ func ReadOne(c *gin.Context) {
 func SignUp(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
+	kvRepo := dic.Container.Get(dic.KVRepo).(kv.IKVStore)
 	var json entity.User
 
 	// Validate request form
@@ -74,15 +76,22 @@ func SignUp(c *gin.Context) {
 	}
 
 	verficationCode, err := entity.GenerateOTP(6)
-
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+		return
+	}
+
+	err = kvRepo.Set(json.Email, verficationCode, 30)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+		return
 	}
 
 	if viper.GetString("ENV") == "PROD" {
 		_, err := emailRepo.Send(json.Email, "Country Roads verification email", verficationCode)
 		if err != nil {
-			fmt.Println(err.Error())
+			c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+			return
 		}
 	} else {
 		fmt.Printf("Verification code for user %s is %s\n", json.Email, verficationCode)

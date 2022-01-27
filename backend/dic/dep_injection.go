@@ -3,11 +3,13 @@ package dic
 import (
 	"country/domain/repo/category"
 	"country/domain/repo/email"
+	"country/domain/repo/kv"
 	"country/domain/repo/region"
 	"country/domain/repo/user"
 	"country/infrastructure"
 
 	"github.com/sarulabs/di"
+	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
@@ -18,11 +20,14 @@ var Container di.Container
 var Builder *di.Builder
 
 // Constants for accesing depedencies
-const DB = "db"
-const UserRepo = "user.repo"
-const CategoryRepo = "category.repo"
-const RegionRepo = "region.repo"
-const EmailRepo = "email.repo"
+const (
+	DB           = "db"
+	UserRepo     = "user.repo"
+	CategoryRepo = "category.repo"
+	RegionRepo   = "region.repo"
+	EmailRepo    = "email.repo"
+	KVRepo       = "kv.repo"
+)
 
 // Initializes container and builder
 func InitContainer() (di.Container, error) {
@@ -88,6 +93,16 @@ func RegisterServices(builder *di.Builder) error {
 		Name: EmailRepo,
 		Build: func(ctn di.Container) (interface{}, error) {
 			return email.NewEmailRepo(), nil
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	err = builder.Add(di.Def{
+		Name: KVRepo,
+		Build: func(ctn di.Container) (interface{}, error) {
+			return kv.NewKVStore(viper.GetString("REDIS_ADDRESS"), viper.GetString("REDIS_PASSWORD")), nil
 		},
 	})
 	if err != nil {
