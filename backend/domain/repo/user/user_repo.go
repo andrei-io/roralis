@@ -43,14 +43,14 @@ func (r *UserRepo) Get(id string) (u *entity.User, err error) {
 	return &user, err
 }
 
-func (r *UserRepo) Update(id_raw string, u *entity.User) error {
-	id, err := strconv.ParseUint(id_raw, 10, 64)
+func (r *UserRepo) Update(id string, u *entity.User) error {
+	uid, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return err
 	}
-	u.ID = id
+	u.ID = uid
 	// More complicated than just db.Save(&u), but this way we can return a 404
-	operation := r.db.Model(&entity.User{}).Where("id = ?", id_raw).Updates(&u)
+	operation := r.db.Model(&entity.User{}).Where("id = ?", id).Updates(&u)
 	if operation.Error != nil {
 		message := operation.Error.(*pgconn.PgError).Message
 		if strings.Contains(message, "duplicate key value violates unique constraint") {
@@ -69,8 +69,8 @@ func (r *UserRepo) Create(u *entity.User) error {
 	return err
 }
 
-func (r *UserRepo) Delete(id_raw string) error {
-	operation := r.db.Delete(&entity.User{}, id_raw)
+func (r *UserRepo) Delete(id string) error {
+	operation := r.db.Delete(&entity.User{}, id)
 	if operation.RowsAffected == 0 {
 		return gorm.ErrRecordNotFound
 	}

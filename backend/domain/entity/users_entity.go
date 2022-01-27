@@ -9,7 +9,8 @@ type User struct {
 	ID        uint64    `json:"ID"`
 	Email     string    `json:"Email" binding:"required"`
 	Password  string    `json:"Password" binding:"required"`
-	Role      uint8     `json:"Role" binding:"required"`
+	Verified  bool      `json:"Verified"`
+	Role      uint8     `json:"Role"`
 	Name      string    `json:"Name" binding:"required"`
 	Phone     string    `json:"Phone"`
 	Profile   string    `json:"Profile"`
