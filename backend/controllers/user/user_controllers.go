@@ -3,33 +3,19 @@ package user
 import (
 	"country/dic"
 	"country/domain/entity"
+	"country/domain/repo/email"
 	"country/domain/repo/user"
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgconn"
+	"github.com/spf13/viper"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
-
-// Gin controller for GET /users
-func ReadAll(c *gin.Context) {
-	repo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
-
-	users, err := repo.GetAll()
-
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, entity.NotFoundError)
-		return
-	}
-	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, entity.Response{Message: err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, users)
-
-}
 
 // Gin controller for GET /users/:id
 func ReadOne(c *gin.Context) {
@@ -37,6 +23,8 @@ func ReadOne(c *gin.Context) {
 	id := c.Param("id")
 
 	u, err := repo.Get(id)
+	u.Password = "Secret"
+	u.Email = "Secret"
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
@@ -50,11 +38,11 @@ func ReadOne(c *gin.Context) {
 	c.JSON(http.StatusOK, u)
 }
 
-// Gin controller for PUT /users/:id
-func Update(c *gin.Context) {
-	repo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
+// Gin controlle for signup
+func SignUp(c *gin.Context) {
+	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
+	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
 	var json entity.User
-	id := c.Param("id")
 
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
@@ -62,40 +50,17 @@ func Update(c *gin.Context) {
 		return
 	}
 
-	// Update in DB. Will error out when invalid
-	err := repo.Update(id, &json)
+	json.Role = 1
+	json.Verified = false
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(json.Password), bcrypt.DefaultCost)
+
 	if err != nil {
-		err := err.(*pgconn.PgError)
-
-		message := err.Message
-		if strings.Contains(message, "duplicate key value violates unique constraint") {
-			c.JSON(http.StatusConflict, entity.NewDuplicateEntityErrorResponse(err.ConstraintName))
-			return
-		} else if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, entity.NotFoundError)
-			return
-		} else {
-			c.JSON(http.StatusUnprocessableEntity, entity.Response{Message: err.Error()})
-			return
-		}
+		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 	}
-
-	c.JSON(http.StatusOK, entity.SuccesResponse)
-}
-
-// Gin controller for POST /users/
-func Create(c *gin.Context) {
-	repo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
-	var json entity.User
-
-	// Validate request form
-	if err := c.ShouldBindJSON(&json); err != nil {
-		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
-		return
-	}
+	json.Password = string(hashedPassword)
 
 	// Create in db. Will error out when invalid
-	err := repo.Create(&json)
+	err = userRepo.Create(&json)
 	if err != nil {
 		err := err.(*pgconn.PgError)
 		message := err.Message
@@ -107,24 +72,22 @@ func Create(c *gin.Context) {
 			return
 		}
 	}
-	c.JSON(http.StatusOK, entity.SuccesResponse)
 
-}
+	verficationCode, err := entity.GenerateOTP(6)
 
-// Gin controller for DELETE /users/:id
-func Delete(c *gin.Context) {
-	repo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
-	id := c.Param("id")
-
-	err := repo.Delete(id)
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, entity.Response{Message: err.Error()})
-			return
-		}
-		c.JSON(http.StatusUnprocessableEntity, entity.Response{Message: err.Error()})
-		return
+		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 	}
+
+	if viper.GetString("ENV") == "PROD" {
+		_, err := emailRepo.Send(json.Email, "Country Roads verification email", verficationCode)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	} else {
+		fmt.Printf("Verification code for user %s is %s\n", json.Email, verficationCode)
+	}
+
 	c.JSON(http.StatusOK, entity.SuccesResponse)
 
 }

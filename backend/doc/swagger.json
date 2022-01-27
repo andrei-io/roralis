@@ -2,29 +2,68 @@
   "swagger": "2.0",
   "info": {},
   "paths": {
-    "/users/": {
+    "/categories/": {
       "get": {
-        "description": "Get all users",
+        "description": "Get all categories",
         "tags": [
-          "user"
+          "category"
         ],
-        "operationId": "getUser",
+        "operationId": "getCategory",
         "responses": {
           "200": {
-            "$ref": "#/responses/GetAllUsersResponse"
+            "$ref": "#/responses/GetAllCategoriesResponse"
           },
           "default": {
             "$ref": "#/responses/GenericResponse"
           }
         }
-      },
-      "post": {
-        "description": "Create user",
+      }
+    },
+    "/categories/:id": {
+      "get": {
+        "description": "Get category by id",
         "tags": [
-          "user"
+          "category"
         ],
-        "operationId": "createUser",
+        "operationId": "getCategory",
         "responses": {
+          "200": {
+            "$ref": "#/responses/GetOneCategoriesResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
+    "/regions/": {
+      "get": {
+        "description": "Get all regions",
+        "tags": [
+          "region"
+        ],
+        "operationId": "getRegion",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetAllRegionsResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
+    "/regions/:id": {
+      "get": {
+        "description": "Get region by id",
+        "tags": [
+          "region"
+        ],
+        "operationId": "getCategory",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetOneRegionsResponse"
+          },
           "default": {
             "$ref": "#/responses/GenericResponse"
           }
@@ -46,26 +85,19 @@
             "$ref": "#/responses/GenericResponse"
           }
         }
-      },
-      "put": {
-        "description": "Update user",
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "description": "Sign Up",
         "tags": [
           "user"
         ],
-        "operationId": "updateUser",
+        "operationId": "signup",
         "responses": {
-          "default": {
+          "200": {
             "$ref": "#/responses/GenericResponse"
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete user",
-        "tags": [
-          "user"
-        ],
-        "operationId": "deleteUser",
-        "responses": {
+          },
           "default": {
             "$ref": "#/responses/GenericResponse"
           }
@@ -74,7 +106,40 @@
     }
   },
   "definitions": {
+    "Category": {
+      "description": "nolint: govet",
+      "type": "object",
+      "properties": {
+        "CreatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "DeletedAt": {
+          "description": "DeletedAt is a pointer because it can be null",
+          "type": "string",
+          "format": "date-time"
+        },
+        "ID": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "Text": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "country/domain/entity"
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "country/domain/entity"
+    },
     "User": {
+      "description": "nolint: govet",
       "type": "object",
       "properties": {
         "CreatedAt": {
@@ -98,6 +163,19 @@
         },
         "Password": {
           "type": "string"
+        },
+        "Phone": {
+          "type": "string"
+        },
+        "Profile": {
+          "type": "string"
+        },
+        "Role": {
+          "type": "integer",
+          "format": "uint8"
+        },
+        "Verified": {
+          "type": "boolean"
         }
       },
       "x-go-package": "country/domain/entity"
@@ -107,14 +185,24 @@
     "GenericResponse": {
       "description": "",
       "schema": {
-        "type": "object",
-        "required": [
-          "Message"
-        ],
-        "properties": {
-          "Message": {
-            "type": "string"
-          }
+        "$ref": "#/definitions/Response"
+      }
+    },
+    "GetAllCategoriesResponse": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Category"
+        }
+      }
+    },
+    "GetAllRegionsResponse": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Category"
         }
       }
     },
@@ -125,6 +213,18 @@
         "items": {
           "$ref": "#/definitions/User"
         }
+      }
+    },
+    "GetOneCategoriesResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Category"
+      }
+    },
+    "GetOneRegionsResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Category"
       }
     },
     "GetOneUserResponse": {
