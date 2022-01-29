@@ -10,7 +10,7 @@ import (
 
 type IKVStore interface {
 	Set(key string, value string, expire_minutes int64) error
-	Update(key string, value string) error
+	Get(key string) (string, error)
 	Delete(key string) error
 }
 
@@ -30,13 +30,16 @@ func NewKVStore(address string, password string) *KVStore {
 
 func (k *KVStore) Set(key string, value string, expire_minutes int64) error {
 	ctx := context.TODO()
-	_, err := k.client.SetNX(ctx, key, value, time.Duration(expire_minutes)*60*time.Second).Result()
+	_, err := k.client.Set(ctx, key, value, time.Duration(expire_minutes)*60*time.Second).Result()
 	return err
 
 }
-func (k *KVStore) Update(key string, value string) error {
-	return errors.New("Not implemented yet")
+func (k *KVStore) Get(key string) (string, error) {
+	ctx := context.TODO()
+	v, err := k.client.Get(ctx, key).Result()
+	return v, err
 }
+
 func (k *KVStore) Delete(key string) error {
 	return errors.New("Not implemented yet")
 }
