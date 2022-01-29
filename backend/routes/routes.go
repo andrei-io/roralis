@@ -40,8 +40,26 @@ func MountRoutes(app *gin.Engine) {
 	//
 	//     Responses:
 	//       default: GenericResponse
-	//       200:     GenericResponse
+	//       200:     GetOneUserResponse
 	app.POST("/users/signup", user.SignUp)
+
+	// swagger:route POST /users/confirm/:id user confirm
+	//
+	// Validate email
+	//
+	//     Responses:
+	//       default: GenericResponse
+	//       200:     GenericResponse
+	app.POST("/users/confirm/:id", user.ValidateEmail)
+
+	// swagger:route GET /users/validate user confirm
+	//
+	// Resend email
+	//
+	//     Responses:
+	//       default: GenericResponse
+	//       200:     GenericResponse
+	app.GET("/users/resend/:id", user.ResendValidationEmail)
 
 	// swagger:route GET /categories/ category getCategory
 	//
