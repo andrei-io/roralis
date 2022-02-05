@@ -14,6 +14,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220126234351-aa10faf2a1f8
 	gorm.io/driver/postgres v1.2.2
 	gorm.io/gorm v1.22.3
+	github.com/golang-jwt/jwt/v4 v4.2.0
 )
 
 require (

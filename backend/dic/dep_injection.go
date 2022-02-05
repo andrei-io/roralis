@@ -1,11 +1,13 @@
 package dic
 
 import (
+	"country/domain/entity"
 	"country/domain/repo/category"
 	"country/domain/repo/email"
 	"country/domain/repo/kv"
 	"country/domain/repo/region"
 	"country/domain/repo/user"
+	"country/domain/services/jwt"
 	"country/infrastructure"
 
 	"github.com/sarulabs/di"
@@ -27,6 +29,8 @@ const (
 	RegionRepo   = "region.repo"
 	EmailRepo    = "email.repo"
 	KVRepo       = "kv.repo"
+	JWTSecret    = "jwt.secret"
+	JWTService   = "jwt.service"
 )
 
 // Initializes container and builder
@@ -103,6 +107,25 @@ func RegisterServices(builder *di.Builder) error {
 		Name: KVRepo,
 		Build: func(ctn di.Container) (interface{}, error) {
 			return kv.NewKVStore(viper.GetString("REDIS_ADDRESS"), viper.GetString("REDIS_PASSWORD")), nil
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	err = builder.Add(di.Def{
+		Name:  JWTSecret,
+		Build: loadRSAKeys,
+	})
+	if err != nil {
+		return err
+	}
+
+	err = builder.Add(di.Def{
+		Name: JWTService,
+		Build: func(ctn di.Container) (interface{}, error) {
+			jwtSecret := ctn.Get(JWTSecret).(entity.JWTSecret)
+			return jwt.NewJWTService(&jwtSecret), nil
 		},
 	})
 	if err != nil {
