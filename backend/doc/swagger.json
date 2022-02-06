@@ -87,6 +87,23 @@
         }
       }
     },
+    "/users/confirm/:id": {
+      "post": {
+        "description": "Validate email",
+        "tags": [
+          "user"
+        ],
+        "operationId": "confirm",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SignInSucces"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
     "/users/signup": {
       "post": {
         "description": "Sign Up",
@@ -96,7 +113,24 @@
         "operationId": "signup",
         "responses": {
           "200": {
+            "$ref": "#/responses/SignUpSucces"
+          },
+          "default": {
             "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
+    "/users/validate": {
+      "get": {
+        "description": "Resend email",
+        "tags": [
+          "user"
+        ],
+        "operationId": "confirm",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SignInSucces"
           },
           "default": {
             "$ref": "#/responses/GenericResponse"
@@ -231,6 +265,31 @@
       "description": "",
       "schema": {
         "$ref": "#/definitions/User"
+      }
+    },
+    "SignInSucces": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "Token": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SignUpSucces": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "Token": {
+            "type": "string"
+          },
+          "User": {
+            "$ref": "#/definitions/User"
+          }
+        }
       }
     }
   }
