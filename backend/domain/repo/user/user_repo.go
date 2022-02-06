@@ -12,6 +12,7 @@ import (
 type IUserRepo interface {
 	GetAll() (users []entity.User, err error)
 	Get(id string) (u *entity.User, err error)
+	GetByEmail(email string) (u *entity.User, err error)
 	Update(id string, u *entity.User) error
 	Create(u *entity.User) error
 	Delete(id string) error
@@ -75,4 +76,12 @@ func (r *UserRepo) Delete(id string) error {
 		return gorm.ErrRecordNotFound
 	}
 	return operation.Error
+}
+
+func (r *UserRepo) GetByEmail(email string) (u *entity.User, err error) {
+	var user entity.User
+
+	err = r.db.Where("email = ?", email).First(&user).Error
+
+	return &user, err
 }

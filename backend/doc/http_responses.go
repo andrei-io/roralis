@@ -1,6 +1,8 @@
 package doc
 
-import "country/domain/entity"
+import (
+	"country/domain/entity"
+)
 
 // swagger:response GenericResponse
 type GenericResponse struct {
@@ -49,4 +51,13 @@ type GetOneRegionsResponse struct {
 	// Used when accesing GET /users
 	// in: body
 	Body entity.Category
+}
+
+// swagger:response SignInSucces
+type SignInSucces struct {
+	// Used when accesing GET /users
+	// in: body
+	Body struct {
+		Token string
+	}
 }
