@@ -6,6 +6,7 @@ import (
 	"country/domain/repo/email"
 	"country/domain/repo/kv"
 	"country/domain/repo/user"
+	"country/domain/services/jwt"
 	"errors"
 	"fmt"
 	"net/http"
@@ -73,6 +74,8 @@ func ValidateEmail(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	kvRepo := dic.Container.Get(dic.KVRepo).(kv.IKVStore)
 
+	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
+
 	id := c.Param("id")
 
 	var json ValidateEmailRequest
@@ -103,8 +106,6 @@ func ValidateEmail(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
 	}
-	fmt.Println(json.Code)
-	fmt.Println(correctCode)
 	if json.Code != correctCode {
 		c.JSON(http.StatusUnauthorized, entity.Response{Message: "The code is not correct"})
 		return
@@ -119,6 +120,21 @@ func ValidateEmail(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, entity.SuccesResponse)
+	payload := entity.JWTClaims{
+		ID:       user.ID,
+		Name:     user.Name,
+		Verified: user.Verified,
+		Role:     user.Role,
+	}
+
+	token, err := jwtService.NewJWT(&payload)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"Token": token,
+	})
 
 }

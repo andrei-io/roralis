@@ -61,3 +61,13 @@ type SignInSucces struct {
 		Token string
 	}
 }
+
+// swagger:response SignUpSucces
+type SignUpSucces struct {
+	// Used when accesing GET /users
+	// in: body
+	Body struct {
+		User  entity.User
+		Token string
+	}
+}

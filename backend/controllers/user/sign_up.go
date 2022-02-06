@@ -6,6 +6,7 @@ import (
 	"country/domain/repo/email"
 	"country/domain/repo/kv"
 	"country/domain/repo/user"
+	"country/domain/services/jwt"
 	"fmt"
 	"net/http"
 	"strings"
@@ -20,6 +21,8 @@ import (
 func SignUp(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
+	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
+
 	kvRepo := dic.Container.Get(dic.KVRepo).(kv.IKVStore)
 	var json entity.User
 
@@ -65,7 +68,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	if viper.GetString("ENV") == "PROD" {
-		_, err := emailRepo.Send(json.Email, "Country Roads verification email", verficationCode)
+		_, err = emailRepo.Send(json.Email, "Country Roads verification email", verficationCode)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 			return
@@ -75,6 +78,21 @@ func SignUp(c *gin.Context) {
 	}
 	json.Password = "Secret"
 
-	c.JSON(http.StatusOK, json)
+	payload := entity.JWTClaims{
+		ID:       json.ID,
+		Name:     json.Name,
+		Verified: json.Verified,
+		Role:     json.Role,
+	}
+	token, err := jwtService.NewJWT(&payload)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, entity.Response{Message: "Your password or email are incorrect"})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"User":  json,
+		"Token": token,
+	})
 
 }

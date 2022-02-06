@@ -40,7 +40,7 @@ func MountRoutes(app *gin.Engine) {
 	//
 	//     Responses:
 	//       default: GenericResponse
-	//       200:     GetOneUserResponse
+	//       200:     SignUpSucces
 	app.POST("/users/signup", user.SignUp)
 
 	// swagger:route POST /users/confirm/:id user confirm
@@ -49,7 +49,7 @@ func MountRoutes(app *gin.Engine) {
 	//
 	//     Responses:
 	//       default: GenericResponse
-	//       200:     GenericResponse
+	//       200:     SignInSucces
 	app.POST("/users/confirm/:id", user.ValidateEmail)
 
 	// swagger:route GET /users/validate user confirm
