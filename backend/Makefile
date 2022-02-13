@@ -33,3 +33,12 @@ migrate-status:
 .PHONY: swagger
 swagger:
 	swagger generate spec -o doc/swagger.json
+
+.PHONY: start-containers
+start-containers:
+	docker-compose -f docker-compose.dev.yml up 
+
+.PHONY: teardown-containers
+teardown-containers:
+	docker-compose -f docker-compose.dev.yml down 
+

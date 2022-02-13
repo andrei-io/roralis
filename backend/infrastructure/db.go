@@ -1,3 +1,4 @@
+// Contains everything related physical infrastructure
 package infrastructure
 
 import (
@@ -6,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Returns a new DB
+// Gets its configuration from viper
 func NewDB() *gorm.DB {
 	dbUrl := viper.GetString("DB_URL")
 	db, err := gorm.Open(
@@ -20,3 +23,5 @@ func NewDB() *gorm.DB {
 
 	return db
 }
+
+// TODO: bring redis here
