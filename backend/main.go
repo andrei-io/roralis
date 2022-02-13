@@ -9,6 +9,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Launches the app.
+// Looks for configuration and errors out if not found.
+// Starts up dependecy injection container.
+// Starts the web server.
 func main() {
 
 	if err := config.Load(); err != nil {
