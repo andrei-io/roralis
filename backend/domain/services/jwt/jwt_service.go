@@ -1,3 +1,4 @@
+// Contains everything related to working with JWTs: service
 package jwt
 
 import (
@@ -51,6 +52,7 @@ func (j *JWTService) VerifyJWT(token *string) (*entity.JWTClaims, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
+		// the library doc is not very clear about what i should be returning but this works
 		return j.secret.VerifyKey, nil
 	})
 	if err != nil {
