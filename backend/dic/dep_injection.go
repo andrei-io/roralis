@@ -1,3 +1,5 @@
+// Anything related to dependency injection goes here.
+// If I am using a DI framework might as well use it fully.
 package dic
 
 import (
@@ -15,9 +17,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Dependency Injection Container
-// Anything related to dependency injection goes here
-// If I am using a DI framework might as well use it fully
+// Dependency Injection Container.
 var Container di.Container
 var Builder *di.Builder
 
@@ -31,7 +31,8 @@ const (
 	KVRepo       = "kv.repo"
 	JWTSecret    = "jwt.secret"
 	JWTService   = "jwt.service"
-	TokenKey     = "token"
+	// TokenKey is not part of the di framework but is something set by the IsLoggedIn middleware on the gin context
+	TokenKey = "token"
 )
 
 // Initializes container and builder
@@ -55,6 +56,7 @@ func InitBuilder() (*di.Builder, error) {
 	return Builder, err
 }
 
+// Registers all the necessary services
 func RegisterServices(builder *di.Builder) error {
 	err := builder.Add(di.Def{
 		Name: DB,

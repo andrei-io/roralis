@@ -11,8 +11,13 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Loads RSA keys from viper.
+// This function is mostly copied from the internet because working with crypto keys is golang is a pain
 func loadRSAKeys(ctn di.Container) (interface{}, error) {
+
 	var err error
+
+	// start decoding
 
 	privateBytes := []byte(viper.GetString("JWT_PRIVATE"))
 	privatePem, _ := pem.Decode(privateBytes)
@@ -35,7 +40,7 @@ func loadRSAKeys(ctn di.Container) (interface{}, error) {
 		return nil, errors.New("Unable to parse RSA private key")
 	}
 
-	// *------
+	// start decoding public key
 
 	publicBytes := []byte(viper.GetString("JWT_PUBLIC"))
 	publicPem, _ := pem.Decode(publicBytes)
