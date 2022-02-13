@@ -13,6 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Request body for Sign In route
 type SignInRequest struct {
 	Email    string `binding:"required"`
 	Password string `binding:"required"`

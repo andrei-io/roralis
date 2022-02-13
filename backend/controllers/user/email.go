@@ -16,7 +16,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Request body for the validate email route
+// GIN controller for GET /users/resend/:id
 func ResendValidationEmail(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
@@ -47,6 +47,7 @@ func ResendValidationEmail(c *gin.Context) {
 
 	err = kvRepo.Set(user.Email, verficationCode, 30)
 	if err != nil {
+		// Failing to acces redis is a fatal error
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
 	}

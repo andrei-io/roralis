@@ -25,7 +25,7 @@ func ReadOne(c *gin.Context) {
 		return
 	}
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
 	}
 

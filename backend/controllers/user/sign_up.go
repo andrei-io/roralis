@@ -22,10 +22,9 @@ func SignUp(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
 	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
-
 	kvRepo := dic.Container.Get(dic.KVRepo).(kv.IKVStore)
-	var json entity.User
 
+	var json entity.User
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
@@ -37,6 +36,7 @@ func SignUp(c *gin.Context) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(json.Password), bcrypt.DefaultCost)
 
 	if err != nil {
+		// Failing to hash a password is a fatal error
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 	}
 	json.Password = string(hashedPassword)
@@ -61,12 +61,15 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
+	// Sets a verification code in redis that expires in 30 minuets
 	err = kvRepo.Set(json.Email, verficationCode, 30)
 	if err != nil {
+		// Failing to acces redis is a fatal error
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
 	}
 
+	// Don't send emails on DEV enviroments, just output to console
 	if viper.GetString("ENV") == "PROD" {
 		_, err = emailRepo.Send(json.Email, "Country Roads verification email", verficationCode)
 		if err != nil {
