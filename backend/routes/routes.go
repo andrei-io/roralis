@@ -23,7 +23,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Mount the routes
+// Mounts the routes
 func MountRoutes(app *gin.Engine) {
 	// swagger:route GET /users/:id user getUser
 	//

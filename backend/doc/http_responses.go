@@ -1,3 +1,4 @@
+// This packages houses all swagger and other documtation stuff
 package doc
 
 import (
