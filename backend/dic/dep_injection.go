@@ -31,6 +31,7 @@ const (
 	KVRepo       = "kv.repo"
 	JWTSecret    = "jwt.secret"
 	JWTService   = "jwt.service"
+	TokenKey     = "token"
 )
 
 // Initializes container and builder

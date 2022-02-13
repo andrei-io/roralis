@@ -71,3 +71,11 @@ type SignUpSucces struct {
 		Token string
 	}
 }
+
+// swagger:response AboutMeSucces
+type AboutMeSucces struct {
+	// in: body
+	Body struct {
+		User entity.JWTClaims
+	}
+}

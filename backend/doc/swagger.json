@@ -25,7 +25,7 @@
         "tags": [
           "category"
         ],
-        "operationId": "getCategory",
+        "operationId": "getOneCategory",
         "responses": {
           "200": {
             "$ref": "#/responses/GetOneCategoriesResponse"
@@ -80,6 +80,23 @@
         "responses": {
           "200": {
             "$ref": "#/responses/GetOneUserResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
+    "/users/aoutme": {
+      "get": {
+        "description": "Sign Up",
+        "tags": [
+          "user"
+        ],
+        "operationId": "aboutme",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/AboutMeSucces"
           },
           "default": {
             "$ref": "#/responses/GenericResponse"
@@ -163,6 +180,26 @@
       },
       "x-go-package": "country/domain/entity"
     },
+    "JWTClaims": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Role": {
+          "type": "integer",
+          "format": "uint8"
+        },
+        "Verified": {
+          "type": "boolean"
+        }
+      },
+      "x-go-package": "country/domain/entity"
+    },
     "Response": {
       "type": "object",
       "properties": {
@@ -216,6 +253,17 @@
     }
   },
   "responses": {
+    "AboutMeSucces": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "User": {
+            "$ref": "#/definitions/JWTClaims"
+          }
+        }
+      }
+    },
     "GenericResponse": {
       "description": "",
       "schema": {
