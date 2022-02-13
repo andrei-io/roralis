@@ -6,7 +6,8 @@ import (
 
 const otpChars = "1234567890"
 
-func GenerateOTP(length int) (string, error) {
+// Generates a new verification code with a given length
+func GenerateVerificationCode(length int) (string, error) {
 	buffer := make([]byte, length)
 	_, err := rand.Read(buffer)
 	if err != nil {

@@ -39,7 +39,7 @@ func ResendValidationEmail(c *gin.Context) {
 		return
 	}
 
-	verficationCode, err := entity.GenerateOTP(6)
+	verficationCode, err := entity.GenerateVerificationCode(6)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return

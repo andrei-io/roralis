@@ -7,7 +7,7 @@ import (
 
 func TestGenerateOTP(t *testing.T) {
 	for i := 0; i < 6; i++ {
-		code, err := entity.GenerateOTP(6)
+		code, err := entity.GenerateVerificationCode(6)
 		if err != nil {
 			t.Errorf("Failed test with error: %s\n", err.Error())
 		}
