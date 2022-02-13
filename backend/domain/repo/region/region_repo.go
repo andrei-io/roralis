@@ -1,3 +1,4 @@
+// Contains everything related to working with regions: repo
 package region
 
 import (
@@ -19,6 +20,7 @@ type RegionRepo struct {
 	db *gorm.DB
 }
 
+// Constructor function
 func NewRegionRepo(db *gorm.DB) *RegionRepo {
 	return &RegionRepo{db}
 }

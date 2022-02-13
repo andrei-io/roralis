@@ -1,3 +1,4 @@
+// Contains everything related to working with Redis: repo
 package kv
 
 import (
@@ -18,6 +19,7 @@ type KVStore struct {
 	client redis.Client
 }
 
+// Constructor function
 func NewKVStore(address string, password string) *KVStore {
 	kv := KVStore{
 		client: *redis.NewClient(&redis.Options{
@@ -28,12 +30,15 @@ func NewKVStore(address string, password string) *KVStore {
 	return &kv
 }
 
+// Sets a (key, value) pair
 func (k *KVStore) Set(key string, value string, expire_minutes int64) error {
 	ctx := context.TODO()
 	_, err := k.client.Set(ctx, key, value, time.Duration(expire_minutes)*60*time.Second).Result()
 	return err
 
 }
+
+// Gets a (key, value) pair
 func (k *KVStore) Get(key string) (string, error) {
 	ctx := context.TODO()
 	v, err := k.client.Get(ctx, key).Result()

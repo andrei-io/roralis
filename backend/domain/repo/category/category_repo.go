@@ -1,3 +1,4 @@
+// Contains everything related to working with the Category entity: repo
 package category
 
 import (
@@ -19,6 +20,7 @@ type CategoryRepo struct {
 	db *gorm.DB
 }
 
+// Constructr funcion
 func NewCategoryRepo(db *gorm.DB) *CategoryRepo {
 	return &CategoryRepo{db}
 }
@@ -33,6 +35,7 @@ func (r *CategoryRepo) GetAll() (c []entity.Category, err error) {
 	return categories, err
 }
 
+// Returns a category by id
 func (r *CategoryRepo) Get(id string) (c *entity.Category, err error) {
 	var category entity.Category
 

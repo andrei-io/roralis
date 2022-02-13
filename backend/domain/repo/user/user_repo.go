@@ -1,3 +1,4 @@
+// Contains everything related to working with users: repo
 package user
 
 import (

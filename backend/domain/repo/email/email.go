@@ -1,3 +1,4 @@
+// Contains everything related to working with emails
 package email
 
 import (
@@ -15,10 +16,12 @@ type EmailRepo struct {
 	client *sendgrid.Client
 }
 
+// Constructor function
 func NewEmailRepo() *EmailRepo {
 	return &EmailRepo{sendgrid.NewSendClient(viper.GetString("SENDGRID_KEY"))}
 }
 
+// Sends an email with html formatting
 func (e *EmailRepo) Send(recipient string, subject string, email_content string) (*rest.Response, error) {
 
 	from := mail.NewEmail(viper.GetString("EMAIL_NAME"), viper.GetString("EMAIL_FROM"))
