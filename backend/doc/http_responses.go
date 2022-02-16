@@ -86,3 +86,9 @@ type GetOnePostResponse struct {
 	// in: body
 	Body entity.Post
 }
+
+// swagger:response GetAllPostResponse
+type GetAllPostResponse struct {
+	// in: body
+	Body []entity.Post
+}

@@ -40,12 +40,29 @@
       "get": {
         "description": "Get region by id",
         "tags": [
-          "region"
+          "posts"
         ],
-        "operationId": "getCategory",
+        "operationId": "getPost",
         "responses": {
           "200": {
             "$ref": "#/responses/GetOnePostResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/posts/?offset=\u0026limit=20": {
+      "get": {
+        "description": "Get region by id",
+        "tags": [
+          "posts"
+        ],
+        "operationId": "getAllPosts",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetAllPostResponse"
           },
           "default": {
             "$ref": "#/responses/GenericResponse"
@@ -161,7 +178,7 @@
         "tags": [
           "user"
         ],
-        "operationId": "confirm",
+        "operationId": "signin",
         "responses": {
           "200": {
             "$ref": "#/responses/SignInSucces"
@@ -349,6 +366,15 @@
         "type": "array",
         "items": {
           "$ref": "#/definitions/Category"
+        }
+      }
+    },
+    "GetAllPostResponse": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Post"
         }
       }
     },

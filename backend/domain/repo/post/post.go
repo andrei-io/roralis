@@ -9,7 +9,7 @@ import (
 )
 
 type IPostRepo interface {
-	GetAll() (c []entity.Post, err error)
+	GetAll(offset int, limit int, newest bool) (c []entity.Post, err error)
 	Get(id string) (c *entity.Post, err error)
 	Update(id string, c *entity.Post) error
 	Create(c *entity.Post) error
@@ -25,16 +25,29 @@ func NewPostRepo(db *gorm.DB) *PostRepo {
 	return &PostRepo{db: db}
 }
 
-func (r *PostRepo) GetAll() (c []entity.Post, err error) {
-	return nil, errors.New("Not implemented yet")
-}
-
+// Gets one post by id
 func (r *PostRepo) Get(id string) (c *entity.Post, err error) {
 	var post entity.Post
 
 	err = r.db.First(&post, id).Error
 
 	return &post, err
+}
+
+// Gets all the posts with pagination and if set orderds by date created
+func (r *PostRepo) GetAll(offset int, limit int, newest bool) (c []entity.Post, err error) {
+	var posts []entity.Post
+	var order string
+
+	if newest {
+		order = "created_at desc"
+	} else {
+		order = "id"
+	}
+
+	err = r.db.Offset(offset).Limit(limit).Order(order).Find(&posts).Error
+
+	return posts, err
 }
 
 func (r *PostRepo) Update(id string, c *entity.Post) error {
