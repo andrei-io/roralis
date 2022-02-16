@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {},
   "paths": {
-    "/categories/": {
+    "/api/v1/categories/": {
       "get": {
         "description": "Get all categories",
         "tags": [
@@ -19,7 +19,7 @@
         }
       }
     },
-    "/categories/:id": {
+    "/api/v1/categories/:id": {
       "get": {
         "description": "Get category by id",
         "tags": [
@@ -36,7 +36,24 @@
         }
       }
     },
-    "/regions/": {
+    "/api/v1/posts/:id": {
+      "get": {
+        "description": "Get region by id",
+        "tags": [
+          "region"
+        ],
+        "operationId": "getCategory",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetOnePostResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
+    "/api/v1/regions/": {
       "get": {
         "description": "Get all regions",
         "tags": [
@@ -53,7 +70,7 @@
         }
       }
     },
-    "/regions/:id": {
+    "/api/v1/regions/:id": {
       "get": {
         "description": "Get region by id",
         "tags": [
@@ -70,7 +87,7 @@
         }
       }
     },
-    "/users/:id": {
+    "/api/v1/users/:id": {
       "get": {
         "description": "Get one user",
         "tags": [
@@ -87,7 +104,7 @@
         }
       }
     },
-    "/users/aoutme": {
+    "/api/v1/users/aboutme": {
       "get": {
         "description": "Sign Up",
         "tags": [
@@ -104,7 +121,7 @@
         }
       }
     },
-    "/users/confirm/:id": {
+    "/api/v1/users/confirm/:id": {
       "post": {
         "description": "Validate email",
         "tags": [
@@ -121,7 +138,7 @@
         }
       }
     },
-    "/users/signup": {
+    "/api/v1/users/signup": {
       "post": {
         "description": "Sign Up",
         "tags": [
@@ -138,7 +155,7 @@
         }
       }
     },
-    "/users/validate": {
+    "/api/v1/users/validate": {
       "get": {
         "description": "Resend email",
         "tags": [
@@ -200,7 +217,63 @@
       },
       "x-go-package": "country/domain/entity"
     },
+    "Post": {
+      "description": "nolint: govet",
+      "type": "object",
+      "properties": {
+        "Address": {
+          "type": "string"
+        },
+        "CategoryID": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "CreatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "DeletedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Expiry": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ID": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "Latitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "Longitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "Photo": {
+          "type": "string"
+        },
+        "RegionID": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "UserID": {
+          "type": "integer",
+          "format": "uint64"
+        }
+      },
+      "x-go-package": "country/domain/entity"
+    },
     "Response": {
+      "description": "Standardized http response",
       "type": "object",
       "properties": {
         "Message": {
@@ -301,6 +374,12 @@
       "description": "",
       "schema": {
         "$ref": "#/definitions/Category"
+      }
+    },
+    "GetOnePostResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Post"
       }
     },
     "GetOneRegionsResponse": {

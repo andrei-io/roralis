@@ -16,7 +16,7 @@ package routes
 
 import (
 	"country/controllers/category"
-	"country/controllers/posts"
+	"country/controllers/post"
 	"country/controllers/region"
 	"country/controllers/user"
 	_ "country/doc" // for swagger responses
@@ -28,7 +28,7 @@ import (
 func MountRoutes(app *gin.Engine) {
 	v1 := app.Group("/api/v1")
 
-	// swagger:route GET /users/:id user getUser
+	// swagger:route GET /api/v1/users/:id user getUser
 	//
 	// Get one user
 	//
@@ -37,7 +37,7 @@ func MountRoutes(app *gin.Engine) {
 	//       200:     GetOneUserResponse
 	v1.GET("/users/:id", user.ReadOne)
 
-	// swagger:route POST /users/signup user signup
+	// swagger:route POST /api/v1/users/signup user signup
 	//
 	// Sign Up
 	//
@@ -46,7 +46,7 @@ func MountRoutes(app *gin.Engine) {
 	//       200:     SignUpSucces
 	v1.POST("/users/signup", user.SignUp)
 
-	// swagger:route GET /users/aboutme user aboutme
+	// swagger:route GET /api/v1/users/aboutme user aboutme
 	//
 	// Sign Up
 	//
@@ -55,7 +55,7 @@ func MountRoutes(app *gin.Engine) {
 	//       200:     AboutMeSucces
 	v1.GET("/users/aboutme", IsLoggedIn, user.AboutMe)
 
-	// swagger:route POST /users/confirm/:id user confirm
+	// swagger:route POST /api/v1/users/confirm/:id user confirm
 	//
 	// Validate email
 	//
@@ -64,7 +64,7 @@ func MountRoutes(app *gin.Engine) {
 	//       200:     SignInSucces
 	v1.POST("/users/confirm/:id", user.ValidateEmail)
 
-	// swagger:route GET /users/validate user confirm
+	// swagger:route GET /api/v1/users/validate user confirm
 	//
 	// Resend email
 	//
@@ -73,7 +73,7 @@ func MountRoutes(app *gin.Engine) {
 	//       200:     GenericResponse
 	v1.GET("/users/resend/:id", user.ResendValidationEmail)
 
-	// swagger:route GET /users/validate user confirm
+	// swagger:route GET /api/v1/users/validate user confirm
 	//
 	// Resend email
 	//
@@ -82,7 +82,7 @@ func MountRoutes(app *gin.Engine) {
 	//       200:     SignInSucces
 	v1.POST("/users/signin", user.SignIn)
 
-	// swagger:route GET /categories/ category getCategory
+	// swagger:route GET /api/v1/categories/ category getCategory
 	//
 	// Get all categories
 	//
@@ -91,7 +91,7 @@ func MountRoutes(app *gin.Engine) {
 	//       default: GenericResponse
 	v1.GET("/categories", category.ReadAll)
 
-	// swagger:route GET /categories/:id category getOneCategory
+	// swagger:route GET /api/v1/categories/:id category getOneCategory
 	//
 	// Get category by id
 	//
@@ -100,7 +100,7 @@ func MountRoutes(app *gin.Engine) {
 	//       default: GenericResponse
 	v1.GET("/categories/:id", category.ReadOne)
 
-	// swagger:route GET /regions/ region getRegion
+	// swagger:route GET /api/v1/regions/ region getRegion
 	//
 	// Get all regions
 	//
@@ -109,7 +109,7 @@ func MountRoutes(app *gin.Engine) {
 	//       default: GenericResponse
 	v1.GET("/regions", region.ReadAll)
 
-	// swagger:route GET /regions/:id region getCategory
+	// swagger:route GET /api/v1/regions/:id region getCategory
 	//
 	// Get region by id
 	//
@@ -118,13 +118,13 @@ func MountRoutes(app *gin.Engine) {
 	//       default: GenericResponse
 	v1.GET("/regions/:id", region.ReadOne)
 
-	// swagger:route GET /regions/:id region getCategory
+	// swagger:route GET /api/v1/posts/:id region getCategory
 	//
 	// Get region by id
 	//
 	//     Responses:
 	//       200:     GetOnePostResponse
 	//       default: GenericResponse
-	v1.GET("/posts/:id", posts.ReadOne)
+	v1.GET("/posts/:id", post.ReadOne)
 
 }
