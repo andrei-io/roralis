@@ -7,6 +7,7 @@ import (
 	"country/domain/repo/category"
 	"country/domain/repo/email"
 	"country/domain/repo/kv"
+	"country/domain/repo/post"
 	"country/domain/repo/region"
 	"country/domain/repo/user"
 	"country/domain/services/jwt"
@@ -29,6 +30,7 @@ const (
 	RegionRepo   = "region.repo"
 	EmailRepo    = "email.repo"
 	KVRepo       = "kv.repo"
+	PostRepo     = "post.repo"
 	JWTSecret    = "jwt.secret"
 	JWTService   = "jwt.service"
 	// TokenKey is not part of the di framework but is something set by the IsLoggedIn middleware on the gin context
@@ -129,6 +131,16 @@ func RegisterServices(builder *di.Builder) error {
 		Build: func(ctn di.Container) (interface{}, error) {
 			jwtSecret := ctn.Get(JWTSecret).(entity.JWTSecret)
 			return jwt.NewJWTService(&jwtSecret), nil
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	err = builder.Add(di.Def{
+		Name: PostRepo,
+		Build: func(ctn di.Container) (interface{}, error) {
+			return post.NewPostRepo(ctn.Get(DB).(*gorm.DB)), nil
 		},
 	})
 	if err != nil {

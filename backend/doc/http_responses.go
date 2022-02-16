@@ -80,3 +80,9 @@ type AboutMeSucces struct {
 		User entity.JWTClaims
 	}
 }
+
+// swagger:response GetOnePostResponse
+type GetOnePostResponse struct {
+	// in: body
+	Body entity.Post
+}
