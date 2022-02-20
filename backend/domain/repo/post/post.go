@@ -10,9 +10,9 @@ import (
 
 type IPostRepo interface {
 	GetAll(offset int, limit int, newest bool) (c []entity.Post, err error)
-	Get(id string) (c *entity.Post, err error)
-	Update(id string, c *entity.Post) error
-	Create(c *entity.Post) error
+	Get(id string) (p *entity.Post, err error)
+	Update(id string, p *entity.Post) error
+	Create(p *entity.Post) error
 	Delete(id string) error
 }
 
@@ -26,7 +26,7 @@ func NewPostRepo(db *gorm.DB) *PostRepo {
 }
 
 // Gets one post by id
-func (r *PostRepo) Get(id string) (c *entity.Post, err error) {
+func (r *PostRepo) Get(id string) (p *entity.Post, err error) {
 	var post entity.Post
 
 	err = r.db.First(&post, id).Error
@@ -50,12 +50,13 @@ func (r *PostRepo) GetAll(offset int, limit int, newest bool) (c []entity.Post, 
 	return posts, err
 }
 
-func (r *PostRepo) Update(id string, c *entity.Post) error {
+func (r *PostRepo) Update(id string, p *entity.Post) error {
 	return errors.New("Not implemented yet")
 }
 
-func (r *PostRepo) Create(c *entity.Post) error {
-	return errors.New("Not implemented yet")
+func (r *PostRepo) Create(p *entity.Post) error {
+	err := r.db.Create(&p).Error
+	return err
 }
 
 func (r *PostRepo) Delete(id string) error {

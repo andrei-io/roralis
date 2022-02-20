@@ -36,6 +36,23 @@
         }
       }
     },
+    "/api/v1/posts/": {
+      "post": {
+        "description": "Create post",
+        "tags": [
+          "posts"
+        ],
+        "operationId": "createPost",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetOnePostResponse"
+          },
+          "default": {
+            "$ref": "#/responses/GenericResponse"
+          }
+        }
+      }
+    },
     "/api/v1/posts/:id": {
       "get": {
         "description": "Get region by id",
@@ -55,7 +72,7 @@
     },
     "/api/v1/posts/?offset=\u0026limit=20": {
       "get": {
-        "description": "Get region by id",
+        "description": "Get post by id",
         "tags": [
           "posts"
         ],

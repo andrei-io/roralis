@@ -7,7 +7,7 @@ import (
 // nolint: govet
 type Post struct {
 	ID          uint64     `json:"ID"`
-	UserID      uint64     `json:"UserID" binding:"required"`
+	UserID      uint64     `json:"UserID"`
 	Latitude    float32    `json:"Latitude"`
 	Longitude   float32    `json:"Longitude"`
 	Title       string     `json:"Title" binding:"required"`

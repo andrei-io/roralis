@@ -129,11 +129,20 @@ func MountRoutes(app *gin.Engine) {
 
 	// swagger:route GET /api/v1/posts/?offset=&limit=20 posts getAllPosts
 	//
-	// Get region by id
+	// Get post by id
 	//
 	//     Responses:
 	//       200:     GetAllPostResponse
 	//       default: GenericResponse
 	v1.GET("/posts", post.ReadAll)
+
+	// swagger:route POST /api/v1/posts/ posts createPost
+	//
+	// Create post
+	//
+	//     Responses:
+	//       200:     GetOnePostResponse
+	//       default: GenericResponse
+	v1.POST("/posts", IsLoggedIn, post.Create)
 
 }
