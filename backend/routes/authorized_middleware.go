@@ -15,6 +15,12 @@ func IsLoggedIn(c *gin.Context) {
 	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
 	token := c.GetHeader("Authorization")
 
+	if token == "" {
+		c.JSON(http.StatusUnauthorized, entity.Response{Message: "Missing JWT token"})
+		c.Abort()
+		return
+	}
+
 	claims, err := jwtService.VerifyJWT(&token)
 
 	if err != nil {
