@@ -1,0 +1,6 @@
+docker_data/
+tmp/
+.env
+build/
+auth-private.pem
+auth-public.pem
