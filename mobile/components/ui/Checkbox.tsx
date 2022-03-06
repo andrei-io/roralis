@@ -21,9 +21,6 @@ export const RCheckbox: React.FC<ICheckboxProps> = ({ initial = false, onChange 
         setChecked(!checked);
         onChange?.(!checked);
       }}
-      onLayout={(event) => {
-        console.log(event.nativeEvent.layout);
-      }}
     />
   );
 };

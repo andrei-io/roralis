@@ -1,3 +1,4 @@
+import { RCheckbox } from '@components/ui/Checkbox';
 import { RText } from '@components/ui/Text';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Colors from '@shared/colors';
@@ -7,7 +8,7 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ParamsList } from '../router/router';
 
-type IHomeProps = NativeStackScreenProps<ParamsList, 'Home'>;
+type IDevProps = NativeStackScreenProps<ParamsList, 'Home'>;
 
 const styles = StyleSheet.create({
   container: {
@@ -18,13 +19,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeScreen: React.FC<IHomeProps> = ({ navigation }) => {
+const DevScreen: React.FC<IDevProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <RText text="Ecran Acasa" accent={true} />
+      <RCheckbox />
+      <RText
+        text="Aș dori să primesc buletinul dumneavoastră informativ și alte informații promoționale."
+        accent={true}
+      />
       <StatusBar style="inverted" />
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default DevScreen;
