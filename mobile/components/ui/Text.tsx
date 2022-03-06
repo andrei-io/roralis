@@ -25,7 +25,7 @@ export const RText: React.FC<ITextProps> = ({
 }) => {
   const combinedStyle = StyleSheet.compose(
     {
-      color: accent ? colors.dark.accent : colors.dark.textBlack,
+      color: accent ? colors.dark.accent : colors.dark.black,
       fontSize: TextSize[size],
       fontFamily: 'Inter_600SemiBold',
     } as TextStyle,
