@@ -20,8 +20,7 @@
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
     "paths": {
-      "@shared/*": ["shared/*"],
-      "@components/*": ["components/*"]
+      "@/*": ["./*"]
     }
   }
 }

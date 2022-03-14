@@ -1,11 +1,10 @@
+import Colors from '@/shared/colors';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { ParamsList } from '../router/router';
-import Colors from '@shared/colors';
-import { StatusBar } from 'expo-status-bar';
 
 type IHomeProps = NativeStackScreenProps<ParamsList, 'Loading'>;
 

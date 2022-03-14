@@ -1,6 +1,6 @@
-import { RText } from '@components/ui/Text';
+import { RText } from '@/components/ui/Text';
+import Colors from '@/shared/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import Colors from '@shared/colors';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet } from 'react-native';

@@ -1,4 +1,4 @@
-import colors from '@shared/colors';
+import colors from '@/shared/colors';
 import React from 'react';
 import { StyleSheet, TextInput, TextStyle, ViewStyle } from 'react-native';
 

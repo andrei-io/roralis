@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, Button, Pressable } from 'react-native';
+import { ParamsList } from '@/router/router';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ParamsList } from '../router/router';
+import React from 'react';
+import { Button, Text, View } from 'react-native';
 
 interface ILoginProps {}
 type RouterProps = NativeStackScreenProps<ParamsList, 'Home'>;
