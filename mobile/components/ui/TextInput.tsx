@@ -1,6 +1,7 @@
 import colors from '@/shared/colors';
 import React from 'react';
 import { StyleSheet, TextInput, TextStyle, ViewStyle } from 'react-native';
+import { TextVariant } from './Text';
 
 interface ITextInputProps {
   style?: any;
@@ -11,11 +12,18 @@ export const RTextInput: React.FC<ITextInputProps> = ({ style = {}, placeholder 
   const combinedStyle = StyleSheet.compose(
     {
       backgroundColor: colors.dark.lightGray,
-      minWidth: 100,
       paddingHorizontal: 10,
-      fontFamily: 'Inter_500Medium',
+      paddingVertical: 5,
+      borderRadius: 8,
+      fontFamily: TextVariant.medium,
     } as ViewStyle & TextStyle,
     style,
   );
-  return <TextInput style={combinedStyle} placeholder={placeholder} />;
+  return (
+    <TextInput
+      style={combinedStyle}
+      placeholder={placeholder}
+      selectionColor={colors.dark.accent}
+    />
+  );
 };

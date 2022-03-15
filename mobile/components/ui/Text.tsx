@@ -2,18 +2,23 @@ import colors from '@/shared/colors';
 import React from 'react';
 import { StyleSheet, Text, TextStyle } from 'react-native';
 
-// type TextSize = 'large' | 'normal' | 'small';
-
-enum TextSize {
+export enum TextSize {
   large = 30,
   normal = 16,
   small = 10,
 }
 
+export enum TextVariant {
+  regular = 'Inter_400Regular',
+  medium = 'Inter_500Medium',
+  bold = 'Inter_600SemiBold',
+}
+
 export interface ITextProps {
   style?: TextStyle;
-  size?: TextSize;
+  size?: keyof typeof TextSize;
   accent?: boolean;
+  variant?: keyof typeof TextVariant;
   text: string;
 }
 
@@ -21,13 +26,14 @@ export const RText: React.FC<ITextProps> = ({
   size = 'normal',
   accent = false,
   text,
+  variant = 'regular',
   style = {},
 }) => {
   const combinedStyle = StyleSheet.compose(
     {
       color: accent ? colors.dark.accent : colors.dark.black,
       fontSize: TextSize[size],
-      fontFamily: 'Inter_600SemiBold',
+      fontFamily: TextVariant[variant],
     } as TextStyle,
     style,
   );
