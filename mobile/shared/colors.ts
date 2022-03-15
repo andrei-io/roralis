@@ -4,5 +4,6 @@ export default {
     accent: '#F4CB1E',
     black: '#000000',
     lightGray: '#E8E8E8',
+    mediumGray: '#AAAAAA',
   },
 };

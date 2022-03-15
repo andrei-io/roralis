@@ -1,10 +1,9 @@
-import { RCheckbox } from '@components/ui/Checkbox';
-import { RText } from '@components/ui/Text';
+import { RPostNormal } from '@/components/core/Post';
+import Colors from '@/shared/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import Colors from '@shared/colors';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ParamsList } from '../router/router';
 
@@ -17,16 +16,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.dark.background,
   },
+  scollView: {
+    flex: 1,
+    width: '100%',
+  },
 });
 
 const DevScreen: React.FC<IDevProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <RCheckbox />
-      <RText
-        text="Aș dori să primesc buletinul dumneavoastră informativ și alte informații promoționale."
-        accent={true}
-      />
+      <ScrollView style={styles.scollView}>
+        <RPostNormal
+          title="Header"
+          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, doloremque."
+        />
+      </ScrollView>
+      {/* <RTextInput placeholder="Nume" /> */}
       <StatusBar style="inverted" />
     </SafeAreaView>
   );
