@@ -8,7 +8,7 @@ interface ITextInputProps {
   placeholder?: string;
 }
 
-export const RTextInput: React.FC<ITextInputProps> = ({ style = {}, placeholder }) => {
+export const RTextInput: React.FC<ITextInputProps> = ({ style, placeholder }) => {
   const combinedStyle = StyleSheet.compose(
     {
       backgroundColor: colors.dark.lightGray,

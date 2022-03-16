@@ -27,7 +27,7 @@ export const RText: React.FC<ITextProps> = ({
   accent = false,
   text,
   variant = 'regular',
-  style = {},
+  style,
 }) => {
   const combinedStyle = StyleSheet.compose(
     {

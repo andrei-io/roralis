@@ -8,7 +8,7 @@ export interface IButtonProps {
   text?: string;
 }
 
-export const RButton: React.FC<IButtonProps> = ({ style = {}, text, children }) => {
+export const RButton: React.FC<IButtonProps> = ({ style, text, children }) => {
   const combinedStyle = StyleSheet.compose(
     {
       backgroundColor: colors.dark.accent,
