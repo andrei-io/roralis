@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { RButton } from '../ui/Button';
 import { RText } from '../ui/Text';
 
-export interface IGoodLuckPopupProps {
+export interface IInternetProblemProps {
   onFinish?(): void;
 }
 
@@ -22,15 +22,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export const RGoodLuckPopup: FC<IGoodLuckPopupProps> = ({ onFinish }) => {
+export const RInternetProblem: FC<IInternetProblemProps> = ({ onFinish }) => {
   return (
     <View style={styles.container}>
-      <RText text={I18n.t('goodLuckTitle')} size="large" variant="semiBold" />
       <RText
-        text={I18n.t('goodLuckMessage')}
+        text={I18n.t('internetProblemTitle')}
+        size="large"
+        variant="semiBold"
+        style={{
+          textAlign: 'center',
+        }}
+      />
+      <RText
+        text={I18n.t('internetProblemMessage')}
         size="semiLarge"
         variant="medium"
         style={{
+          textAlign: 'center',
           color: colors.dark.darkGray,
         }}
       />
