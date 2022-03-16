@@ -2,6 +2,7 @@ import {
   Inter_400Regular,
   Inter_500Medium,
   Inter_600SemiBold,
+  Inter_700Bold,
   useFonts,
 } from '@expo-google-fonts/inter';
 import { Router } from './router/router';
@@ -12,6 +13,7 @@ export default function App() {
     Inter_600SemiBold,
     Inter_500Medium,
     Inter_400Regular,
+    Inter_700Bold,
   });
   setup();
 

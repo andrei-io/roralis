@@ -45,11 +45,11 @@ export const RPostNormal: React.FC<IPostProps> = ({ title, description, time = '
       <Image style={styles.tinyImage} source={require('@/assets/post-placeholder.png')} />
       <View style={styles.textContainer}>
         <View style={styles.headerContainer}>
-          <RText text={title} style={{ color: colors.dark.mediumGray }} variant="bold" />
+          <RText text={title} style={{ color: colors.dark.mediumGray }} variant="semiBold" />
           <RText
             text={time.toString() + ' ' + I18n.t('ago')}
             style={{ color: colors.dark.mediumGray }}
-            variant="bold"
+            variant="semiBold"
           />
         </View>
         <RText text={description} style={{ color: colors.dark.mediumGray }} />

@@ -6,9 +6,10 @@ import { RText } from './Text';
 export interface IButtonProps {
   style?: ViewStyle;
   text?: string;
+  onClick?(): void;
 }
 
-export const RButton: React.FC<IButtonProps> = ({ style, text, children }) => {
+export const RButton: React.FC<IButtonProps> = ({ style, text, children, onClick }) => {
   const combinedStyle = StyleSheet.compose(
     {
       backgroundColor: colors.dark.accent,
@@ -21,8 +22,8 @@ export const RButton: React.FC<IButtonProps> = ({ style, text, children }) => {
     style,
   );
   return (
-    <Pressable style={combinedStyle}>
-      {text && <RText text={text} />}
+    <Pressable style={combinedStyle} onPress={onClick} android_disableSound={true}>
+      {text && <RText text={text} variant="semiBold" />}
       {children}
     </Pressable>
   );

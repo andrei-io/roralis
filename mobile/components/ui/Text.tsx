@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextStyle } from 'react-native';
 
 export enum TextSize {
   large = 30,
+  semiLarge = 24,
   normal = 16,
   small = 10,
 }
@@ -11,7 +12,8 @@ export enum TextSize {
 export enum TextVariant {
   regular = 'Inter_400Regular',
   medium = 'Inter_500Medium',
-  bold = 'Inter_600SemiBold',
+  semiBold = 'Inter_600SemiBold',
+  bold = 'Inter_700Bold',
 }
 
 export interface ITextProps {
