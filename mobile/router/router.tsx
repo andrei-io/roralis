@@ -13,7 +13,8 @@ export type ParamsList = {
   Dev: undefined;
 };
 
-export const Stack = createNativeStackNavigator();
+// The api for tabsNavigator is really idiotic so it's easier to hand-roll a component than deal with it
+const Stack = createNativeStackNavigator();
 export function Router() {
   const production = Constants.manifest?.extra?.production ?? true;
 
