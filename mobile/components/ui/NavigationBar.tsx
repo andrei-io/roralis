@@ -1,39 +1,42 @@
+import { ScreenParamsList } from '@/router/router';
 import colors from '@/shared/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 export type RScreen = {
   name: string;
-  routeName: string;
+  routeName: keyof ScreenParamsList;
   iconName: string;
   checked?: boolean;
 };
 
 interface INavigationBarProps {
   screens?: RScreen[];
+  navigation: NativeStackNavigationProp<ScreenParamsList, keyof ScreenParamsList>;
 }
 
 export const RDefaultScreens: RScreen[] = [
   {
     name: 'Posts',
-    routeName: '',
+    routeName: 'Home',
     iconName: 'md-home-outline',
     checked: true,
   },
   {
     name: 'Map',
-    routeName: '',
+    routeName: 'Home',
     iconName: 'md-map-outline',
   },
   {
     name: 'Articles',
-    routeName: '',
+    routeName: 'Home',
     iconName: 'md-pencil-outline',
   },
   {
     name: 'User',
-    routeName: '',
+    routeName: 'Login',
     iconName: 'md-person-outline',
   },
 ];
@@ -66,7 +69,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export const RNavigationBar: FC<INavigationBarProps> = ({ screens = RDefaultScreens }) => {
+export const RNavigationBar: FC<INavigationBarProps> = ({
+  screens = RDefaultScreens,
+  navigation,
+}) => {
   // Ignoring typescript beacuse i can't find the correct type for Ionicons.name
   // I have tried:
   //     - checking the type definitions
@@ -75,10 +81,17 @@ export const RNavigationBar: FC<INavigationBarProps> = ({ screens = RDefaultScre
   return (
     <View style={styles.container}>
       {screens.map((screen, i) => (
-        <View style={screen.checked ? styles.selectedIcon : styles.icon} key={i}>
+        <Pressable
+          style={screen.checked ? styles.selectedIcon : styles.icon}
+          onPress={() => {
+            navigation.push(screen.routeName);
+          }}
+          android_disableSound
+          key={i}
+        >
           {/* @ts-ignore */}
           <Ionicons name={screen.iconName} size={24} color={colors.dark.black} />
-        </View>
+        </Pressable>
       ))}
     </View>
   );

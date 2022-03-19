@@ -1,10 +1,10 @@
-import { ParamsList } from '@/router/router';
+import { ScreenParamsList } from '@/router/router';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 
 interface ILoginProps {}
-type RouterProps = NativeStackScreenProps<ParamsList, 'Home'>;
+type RouterProps = NativeStackScreenProps<ScreenParamsList, 'Login'>;
 
 const LoginScreen: React.FC<ILoginProps & RouterProps> = ({ navigation }) => {
   return (

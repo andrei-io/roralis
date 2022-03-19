@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ParamsList } from '../router/router';
+import { ScreenParamsList } from '../router/router';
 
-type IHomeProps = NativeStackScreenProps<ParamsList, 'Loading'>;
+type IHomeProps = NativeStackScreenProps<ScreenParamsList, 'Loading'>;
 
 const styles = StyleSheet.create({
   container: {

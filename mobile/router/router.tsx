@@ -6,7 +6,7 @@ import HomeScreen from '../screens/Home';
 import LoadingScreen from '../screens/Loading';
 import LoginScreen from '../screens/Login';
 
-export type ParamsList = {
+export type ScreenParamsList = {
   Home: undefined;
   Login: undefined;
   Loading: undefined;
@@ -23,6 +23,7 @@ export function Router() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+          animation: 'none',
         }}
         initialRouteName={production ? 'Home' : 'Dev'}
       >
