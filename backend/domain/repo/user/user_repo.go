@@ -2,7 +2,7 @@
 package user
 
 import (
-	"country/domain/entity"
+	"backend/roralis/domain/entity"
 	"strconv"
 	"strings"
 

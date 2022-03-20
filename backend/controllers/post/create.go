@@ -1,9 +1,9 @@
 package post
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/repo/post"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/post"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

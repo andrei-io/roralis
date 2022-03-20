@@ -3,15 +3,15 @@
 package dic
 
 import (
-	"country/domain/entity"
-	"country/domain/repo/category"
-	"country/domain/repo/email"
-	"country/domain/repo/otc"
-	"country/domain/repo/post"
-	"country/domain/repo/region"
-	"country/domain/repo/user"
-	"country/domain/services/jwt"
-	"country/infrastructure"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/category"
+	"backend/roralis/domain/repo/email"
+	"backend/roralis/domain/repo/otc"
+	"backend/roralis/domain/repo/post"
+	"backend/roralis/domain/repo/region"
+	"backend/roralis/domain/repo/user"
+	"backend/roralis/domain/services/jwt"
+	"backend/roralis/infrastructure"
 
 	"github.com/sarulabs/di"
 	"gorm.io/gorm"

@@ -2,7 +2,7 @@
 package doc
 
 import (
-	"country/domain/entity"
+	"backend/roralis/domain/entity"
 )
 
 // swagger:response GenericResponse

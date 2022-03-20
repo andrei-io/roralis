@@ -1,8 +1,8 @@
 package main
 
 import (
-	"country/config"
-	"country/dic"
+	"backend/roralis/config"
+	"backend/roralis/dic"
 	"fmt"
 	"os"
 

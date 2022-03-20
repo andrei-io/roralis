@@ -1,12 +1,12 @@
 package user
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/repo/email"
-	"country/domain/repo/otc"
-	"country/domain/repo/user"
-	"country/domain/services/jwt"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/email"
+	"backend/roralis/domain/repo/otc"
+	"backend/roralis/domain/repo/user"
+	"backend/roralis/domain/services/jwt"
 	"fmt"
 	"net/http"
 	"strings"
@@ -71,7 +71,7 @@ func SignUp(c *gin.Context) {
 
 	// Don't send emails on DEV enviroments, just output to console
 	if viper.GetString("ENV") == "PROD" {
-		_, err = emailRepo.Send(json.Email, "Country Roads verification email", verficationCode)
+		_, err = emailRepo.Send(json.Email, "backend/roralis Roads verification email", verficationCode)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 			return
