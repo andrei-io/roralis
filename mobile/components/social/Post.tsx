@@ -1,13 +1,13 @@
 import colors from '@/shared/colors';
 import I18n from 'i18n-js';
-import React from 'react';
+import { FC } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { RText } from '../ui/Text';
 
 export interface IPostProps {
   title: string;
   description: string;
-  time?: string | number;
+  time?: string;
 }
 
 const styles = StyleSheet.create({
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const RPostNormal: React.FC<IPostProps> = ({ title, description, time = '?' }) => {
+export const RPostNormal: FC<IPostProps> = ({ title, description, time = '?' }) => {
   return (
     <View style={styles.bigContainer}>
       <Image style={styles.tinyImage} source={require('@/assets/post-placeholder.png')} />
@@ -47,7 +47,7 @@ export const RPostNormal: React.FC<IPostProps> = ({ title, description, time = '
         <View style={styles.headerContainer}>
           <RText text={title} style={{ color: colors.dark.mediumGray }} variant="semiBold" />
           <RText
-            text={time.toString() + ' ' + I18n.t('ago')}
+            text={time + ' ' + I18n.t('ago')}
             style={{ color: colors.dark.mediumGray }}
             variant="semiBold"
           />
