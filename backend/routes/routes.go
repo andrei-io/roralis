@@ -15,11 +15,11 @@
 package routes
 
 import (
-	"country/controllers/category"
-	"country/controllers/post"
-	"country/controllers/region"
-	"country/controllers/user"
-	_ "country/doc" // for swagger responses
+	"backend/roralis/controllers/category"
+	"backend/roralis/controllers/post"
+	"backend/roralis/controllers/region"
+	"backend/roralis/controllers/user"
+	_ "backend/roralis/doc" // for swagger responses
 
 	"github.com/gin-gonic/gin"
 )

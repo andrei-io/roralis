@@ -1,9 +1,9 @@
 package user
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/repo/user"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/user"
 	"errors"
 	"net/http"
 

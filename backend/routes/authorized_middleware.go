@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/services/jwt"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/services/jwt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

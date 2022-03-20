@@ -1,4 +1,4 @@
-module country
+module backend/roralis
 
 go 1.17
 

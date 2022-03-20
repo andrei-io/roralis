@@ -1,9 +1,9 @@
 package region
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/repo/region"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/region"
 	"errors"
 	"net/http"
 

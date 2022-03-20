@@ -3,7 +3,7 @@ FROM golang:1.17-alpine AS build
 
 # Install tools required for project
 
-WORKDIR /usr/src/country/
+WORKDIR /usr/src/roralis/
 COPY . .
 # Install library dependencies
 RUN go get
