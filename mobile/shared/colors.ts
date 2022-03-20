@@ -7,5 +7,7 @@ export default {
     lightGray: '#E8E8E8',
     mediumGray: '#AAAAAA',
     darkGray: '#666666',
+    green: '#008A1E',
+    red: '#FF0000',
   },
 };

@@ -1,6 +1,6 @@
-import { RNavigationBar } from '@/components/ui/NavigationBar';
+import { RPhotoAdder } from '@/components/social/PhotoAdder';
 import { ScreenParamsList } from '@/router/router';
-import { default as Colors } from '@/shared/colors';
+import colors from '@/shared/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.dark.background,
+    backgroundColor: colors.dark.background,
   },
   scollView: {
     flex: 1,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 const DevScreen: React.FC<IDevProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <RNavigationBar navigation={navigation} />
+      <RPhotoAdder />
       <StatusBar style="inverted" />
     </SafeAreaView>
   );
