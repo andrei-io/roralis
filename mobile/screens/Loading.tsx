@@ -1,12 +1,12 @@
-import Colors from '@/shared/colors';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScreenParamsList } from '../router/router';
+import Colors from "@/shared/colors";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScreenParamsList } from "../router/router";
 
-type IHomeProps = NativeStackScreenProps<ScreenParamsList, 'Loading'>;
+type IHomeProps = NativeStackScreenProps<ScreenParamsList, "Loading">;
 
 const styles = StyleSheet.create({
   container: {
