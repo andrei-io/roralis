@@ -2,7 +2,17 @@ package entity
 
 import (
 	"crypto/rand"
+	"time"
 )
+
+// nolint: govet
+type OneTimeCode struct {
+	ID     uint64
+	Code   string
+	Active bool
+	Expire time.Time
+	UserID uint64
+}
 
 const otpChars = "1234567890"
 
