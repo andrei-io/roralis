@@ -1,8 +1,8 @@
 package user
 
 import (
-	"country/dic"
-	"country/domain/entity"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

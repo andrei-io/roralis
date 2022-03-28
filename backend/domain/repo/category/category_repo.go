@@ -2,7 +2,7 @@
 package category
 
 import (
-	"country/domain/entity"
+	"backend/roralis/domain/entity"
 	"errors"
 
 	"gorm.io/gorm"

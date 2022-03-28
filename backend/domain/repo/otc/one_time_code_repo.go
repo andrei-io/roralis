@@ -2,7 +2,7 @@
 package otc
 
 import (
-	"country/domain/entity"
+	"backend/roralis/domain/entity"
 	"errors"
 	"time"
 

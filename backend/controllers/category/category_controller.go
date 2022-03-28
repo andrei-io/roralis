@@ -1,9 +1,9 @@
 package category
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/repo/category"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/category"
 	"errors"
 	"net/http"
 

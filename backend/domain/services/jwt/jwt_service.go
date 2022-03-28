@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"country/domain/entity"
+	"backend/roralis/domain/entity"
 
 	"github.com/golang-jwt/jwt/v4"
 )

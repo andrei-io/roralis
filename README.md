@@ -1,9 +1,9 @@
-<h1 align="center">Welcome to Country Roads 👋</h1>
+<h1 align="center">Welcome to Roralis 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-alpha-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> CountryRoads Monorepo
+> Roralis Monorepo
 
 ## Author
 

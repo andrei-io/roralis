@@ -1,12 +1,12 @@
 package user
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/repo/email"
-	"country/domain/repo/otc"
-	"country/domain/repo/user"
-	"country/domain/services/jwt"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/email"
+	"backend/roralis/domain/repo/otc"
+	"backend/roralis/domain/repo/user"
+	"backend/roralis/domain/services/jwt"
 	"errors"
 	"fmt"
 	"net/http"
@@ -53,7 +53,7 @@ func ResendValidationEmail(c *gin.Context) {
 	}
 
 	if viper.GetString("ENV") == "PROD" {
-		_, err := emailRepo.Send(user.Email, "Country Roads verification email", verficationCode)
+		_, err := emailRepo.Send(user.Email, "backend/roralis Roads verification email", verficationCode)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 			return

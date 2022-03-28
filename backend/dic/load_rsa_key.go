@@ -1,7 +1,7 @@
 package dic
 
 import (
-	"country/domain/entity"
+	"backend/roralis/domain/entity"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"

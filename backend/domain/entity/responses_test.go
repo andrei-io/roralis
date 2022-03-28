@@ -1,7 +1,7 @@
 package entity_test
 
 import (
-	"country/domain/entity"
+	"backend/roralis/domain/entity"
 	"testing"
 )
 

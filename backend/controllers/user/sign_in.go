@@ -1,10 +1,10 @@
 package user
 
 import (
-	"country/dic"
-	"country/domain/entity"
-	"country/domain/repo/user"
-	"country/domain/services/jwt"
+	"backend/roralis/dic"
+	"backend/roralis/domain/entity"
+	"backend/roralis/domain/repo/user"
+	"backend/roralis/domain/services/jwt"
 	"errors"
 	"net/http"
 
