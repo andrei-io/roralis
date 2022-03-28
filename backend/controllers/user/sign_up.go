@@ -4,7 +4,7 @@ import (
 	"country/dic"
 	"country/domain/entity"
 	"country/domain/repo/email"
-	"country/domain/repo/kv"
+	"country/domain/repo/otc"
 	"country/domain/repo/user"
 	"country/domain/services/jwt"
 	"fmt"
@@ -22,7 +22,7 @@ func SignUp(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
 	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
-	kvRepo := dic.Container.Get(dic.KVRepo).(kv.IKVStore)
+	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.IOTCRepo)
 
 	var json entity.User
 	// Validate request form
@@ -61,10 +61,10 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	// Sets a verification code in redis that expires in 30 minuets
-	err = kvRepo.Set(json.Email, verficationCode, 30)
+	// Sets a verification code in db that expires in 30 minuets
+	err = otcRepo.Set(json.ID, verficationCode, 30)
 	if err != nil {
-		// Failing to acces redis is a fatal error
+		// TODO: handle this better
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
 	}

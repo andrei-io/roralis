@@ -22,8 +22,6 @@ func Load() error {
 	viper.SetDefault("EMAIL_NAME", "")
 	viper.SetDefault("EMAIL_FROM", "")
 	viper.SetDefault("ENV", "")
-	viper.SetDefault("REDIS_ADDRESS", "")
-	viper.SetDefault("REDIS_PASSWORD", "")
 	viper.SetDefault("JWT_PUBLIC", "")
 	viper.SetDefault("JWT_PRIVATE", "")
 

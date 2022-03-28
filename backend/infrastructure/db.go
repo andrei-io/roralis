@@ -23,5 +23,3 @@ func NewDB() *gorm.DB {
 
 	return db
 }
-
-// TODO: bring redis here

@@ -6,7 +6,7 @@ import (
 	"country/domain/entity"
 	"country/domain/repo/category"
 	"country/domain/repo/email"
-	"country/domain/repo/kv"
+	"country/domain/repo/otc"
 	"country/domain/repo/post"
 	"country/domain/repo/region"
 	"country/domain/repo/user"
@@ -14,7 +14,6 @@ import (
 	"country/infrastructure"
 
 	"github.com/sarulabs/di"
-	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
@@ -29,7 +28,7 @@ const (
 	CategoryRepo = "category.repo"
 	RegionRepo   = "region.repo"
 	EmailRepo    = "email.repo"
-	KVRepo       = "kv.repo"
+	OTCRepo      = "otc.repo"
 	PostRepo     = "post.repo"
 	JWTSecret    = "jwt.secret"
 	JWTService   = "jwt.service"
@@ -109,9 +108,9 @@ func RegisterServices(builder *di.Builder) error {
 	}
 
 	err = builder.Add(di.Def{
-		Name: KVRepo,
+		Name: OTCRepo,
 		Build: func(ctn di.Container) (interface{}, error) {
-			return kv.NewKVStore(viper.GetString("REDIS_ADDRESS"), viper.GetString("REDIS_PASSWORD")), nil
+			return otc.NewOTCRepo(ctn.Get(DB).(*gorm.DB)), nil
 		},
 	})
 	if err != nil {

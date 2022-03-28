@@ -4,7 +4,7 @@ import (
 	"country/dic"
 	"country/domain/entity"
 	"country/domain/repo/email"
-	"country/domain/repo/kv"
+	"country/domain/repo/otc"
 	"country/domain/repo/user"
 	"country/domain/services/jwt"
 	"errors"
@@ -20,7 +20,7 @@ import (
 func ResendValidationEmail(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
-	kvRepo := dic.Container.Get(dic.KVRepo).(kv.IKVStore)
+	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.IOTCRepo)
 
 	id := c.Param("id")
 
@@ -45,9 +45,9 @@ func ResendValidationEmail(c *gin.Context) {
 		return
 	}
 
-	err = kvRepo.Set(user.Email, verficationCode, 30)
+	err = otcRepo.Set(user.ID, verficationCode, 30)
 	if err != nil {
-		// Failing to acces redis is a fatal error
+		// TODO: handle this better
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
 	}
@@ -73,7 +73,7 @@ type ValidateEmailRequest struct {
 
 func ValidateEmail(c *gin.Context) {
 	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
-	kvRepo := dic.Container.Get(dic.KVRepo).(kv.IKVStore)
+	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.IOTCRepo)
 
 	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
 
@@ -101,7 +101,7 @@ func ValidateEmail(c *gin.Context) {
 		return
 	}
 
-	correctCode, err := kvRepo.Get(user.Email)
+	correctCode, err := otcRepo.Get(user.ID)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
