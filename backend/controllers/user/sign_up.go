@@ -1,6 +1,7 @@
 package user
 
 import (
+	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
 	"backend/roralis/otc"
 	"fmt"
@@ -73,7 +74,7 @@ func (r *UserController) SignUp(c *gin.Context) {
 	}
 	json.Password = "Secret"
 
-	payload := entity.JWTClaims{
+	payload := auth.JWTClaims{
 		ID:       json.ID,
 		Name:     json.Name,
 		Verified: json.Verified,

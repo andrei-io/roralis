@@ -1,6 +1,7 @@
 package post
 
 import (
+	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
 	"net/http"
 
@@ -17,7 +18,7 @@ func (r *PostController) Create(c *gin.Context) {
 		return
 	}
 
-	claims, ok := claimsRaw.(*entity.JWTClaims)
+	claims, ok := claimsRaw.(*auth.JWTClaims)
 
 	if !ok {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: "JWT claims is not of correct shape"})
