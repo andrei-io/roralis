@@ -1,18 +1,16 @@
-// Contains everything related to working with regions: repo
 package region
 
 import (
-	"backend/roralis/domain/entity"
 	"errors"
 
 	"gorm.io/gorm"
 )
 
 type RegionRepo interface {
-	GetAll() (re []entity.Region, err error)
-	Get(id string) (re *entity.Region, err error)
-	Update(id string, re *entity.Region) error
-	Create(re *entity.Region) error
+	GetAll() (re []Region, err error)
+	Get(id string) (re *Region, err error)
+	Update(id string, re *Region) error
+	Create(re *Region) error
 	Delete(id string) error
 }
 
@@ -29,8 +27,8 @@ func NewRegionRepo(db *gorm.DB) *regionRepo {
 }
 
 // Returns an array of all regions
-func (r *regionRepo) GetAll() (re []entity.Region, err error) {
-	var regions []entity.Region
+func (r *regionRepo) GetAll() (re []Region, err error) {
+	var regions []Region
 
 	// Will panic on fail,but gin has a recovery middleware
 	err = r.db.Find(&regions).Error
@@ -39,19 +37,19 @@ func (r *regionRepo) GetAll() (re []entity.Region, err error) {
 }
 
 // Get one region by id
-func (r *regionRepo) Get(id string) (re *entity.Region, err error) {
-	var region entity.Region
+func (r *regionRepo) Get(id string) (re *Region, err error) {
+	var region Region
 
 	err = r.db.First(&region, id).Error
 
 	return &region, err
 }
 
-func (r *regionRepo) Update(id string, re *entity.Region) error {
+func (r *regionRepo) Update(id string, re *Region) error {
 	return errors.New("Modifying regions is not allowed")
 }
 
-func (r *regionRepo) Create(re *entity.Region) error {
+func (r *regionRepo) Create(re *Region) error {
 	return errors.New("Modifying regions is not allowed")
 }
 
