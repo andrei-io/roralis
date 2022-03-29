@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type IUserRepo interface {
+type UserRepo interface {
 	GetAll() (users []entity.User, err error)
 	Get(id string) (u *entity.User, err error)
 	GetByEmail(email string) (u *entity.User, err error)
@@ -19,16 +19,19 @@ type IUserRepo interface {
 	Delete(id string) error
 }
 
-type UserRepo struct {
+type userRepo struct {
 	db *gorm.DB
 }
 
-func NewUserRepo(db *gorm.DB) *UserRepo {
-	return &UserRepo{db}
+// Check interface at compile time
+var _ UserRepo = (*userRepo)(nil)
+
+func NewUserRepo(db *gorm.DB) *userRepo {
+	return &userRepo{db}
 }
 
 // Returns an array of all users
-func (r *UserRepo) GetAll() (users []entity.User, err error) {
+func (r *userRepo) GetAll() (users []entity.User, err error) {
 	var user []entity.User
 
 	// Will panic on fail,but gin has a recovery middleware
@@ -37,7 +40,7 @@ func (r *UserRepo) GetAll() (users []entity.User, err error) {
 	return user, err
 }
 
-func (r *UserRepo) Get(id string) (u *entity.User, err error) {
+func (r *userRepo) Get(id string) (u *entity.User, err error) {
 	var user entity.User
 
 	err = r.db.First(&user, id).Error
@@ -45,7 +48,7 @@ func (r *UserRepo) Get(id string) (u *entity.User, err error) {
 	return &user, err
 }
 
-func (r *UserRepo) Update(id string, u *entity.User) error {
+func (r *userRepo) Update(id string, u *entity.User) error {
 	uid, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return err
@@ -66,12 +69,12 @@ func (r *UserRepo) Update(id string, u *entity.User) error {
 	return nil
 }
 
-func (r *UserRepo) Create(u *entity.User) error {
+func (r *userRepo) Create(u *entity.User) error {
 	err := r.db.Create(&u).Error
 	return err
 }
 
-func (r *UserRepo) Delete(id string) error {
+func (r *userRepo) Delete(id string) error {
 	operation := r.db.Delete(&entity.User{}, id)
 	if operation.RowsAffected == 0 {
 		return gorm.ErrRecordNotFound
@@ -79,7 +82,7 @@ func (r *UserRepo) Delete(id string) error {
 	return operation.Error
 }
 
-func (r *UserRepo) GetByEmail(email string) (u *entity.User, err error) {
+func (r *userRepo) GetByEmail(email string) (u *entity.User, err error) {
 	var user entity.User
 
 	err = r.db.Where("email = ?", email).First(&user).Error

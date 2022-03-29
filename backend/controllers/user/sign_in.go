@@ -1,10 +1,7 @@
 package user
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/user"
-	"backend/roralis/domain/services/jwt"
 	"errors"
 	"net/http"
 
@@ -20,10 +17,8 @@ type SignInRequest struct {
 }
 
 // Gin controller for sign-in flou
-func SignIn(c *gin.Context) {
+func (r *UserController) SignIn(c *gin.Context) {
 	// TODO
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
-	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
 	var json SignInRequest
 
 	if err := c.ShouldBindJSON(&json); err != nil {
@@ -31,7 +26,7 @@ func SignIn(c *gin.Context) {
 		return
 	}
 
-	user, err := userRepo.GetByEmail(json.Email)
+	user, err := r.userRepo.GetByEmail(json.Email)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
@@ -55,7 +50,7 @@ func SignIn(c *gin.Context) {
 		Verified: user.Verified,
 		Role:     user.Role,
 	}
-	token, err := jwtService.NewJWT(&payload)
+	token, err := r.jwtService.NewJWT(&payload)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: "Your password or email are incorrect"})

@@ -1,4 +1,4 @@
-package dic
+package config
 
 import (
 	"backend/roralis/domain/entity"
@@ -6,20 +6,17 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
-
-	"github.com/sarulabs/di"
-	"github.com/spf13/viper"
 )
 
 // Loads RSA keys from viper.
 // This function is mostly copied from the internet because working with crypto keys is golang is a pain
-func loadRSAKeys(ctn di.Container) (interface{}, error) {
+func loadRSAKeys(jwtPrivate, jwtPublic string) (*entity.JWTSecret, error) {
 
 	var err error
 
 	// start decoding
 
-	privateBytes := []byte(viper.GetString("JWT_PRIVATE"))
+	privateBytes := []byte(jwtPrivate)
 	privatePem, _ := pem.Decode(privateBytes)
 
 	if privatePem.Type != "RSA PRIVATE KEY" {
@@ -42,7 +39,7 @@ func loadRSAKeys(ctn di.Container) (interface{}, error) {
 
 	// start decoding public key
 
-	publicBytes := []byte(viper.GetString("JWT_PUBLIC"))
+	publicBytes := []byte(jwtPublic)
 	publicPem, _ := pem.Decode(publicBytes)
 
 	if publicPem.Type != "PUBLIC KEY" {
@@ -63,7 +60,7 @@ func loadRSAKeys(ctn di.Container) (interface{}, error) {
 
 	privateKey.PublicKey = *publicKey
 
-	return entity.JWTSecret{
+	return &entity.JWTSecret{
 		SignKey:   privateKey,
 		VerifyKey: publicKey,
 	}, nil

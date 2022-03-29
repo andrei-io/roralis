@@ -1,9 +1,7 @@
 package user
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/user"
 	"errors"
 	"net/http"
 
@@ -12,11 +10,10 @@ import (
 )
 
 // Gin controller for GET /users/:id
-func ReadOne(c *gin.Context) {
-	repo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
+func (r *UserController) ReadOne(c *gin.Context) {
 	id := c.Param("id")
 
-	u, err := repo.Get(id)
+	u, err := r.userRepo.Get(id)
 	u.Password = "Secret"
 	u.Email = "Secret"
 

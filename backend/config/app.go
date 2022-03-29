@@ -1,14 +1,12 @@
 package config
 
 import (
-	"backend/roralis/routes"
-
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
 // Creates Gin server and mounts routes
-func StartApp() (*gin.Engine, error) {
+func BuildApp(c *Config) *gin.Engine {
 	gin.SetMode(viper.GetString("GIN_MODE"))
 
 	// Blank gin app.
@@ -19,8 +17,5 @@ func StartApp() (*gin.Engine, error) {
 	app.Use(gin.Logger())
 	app.Use(gin.ErrorLogger())
 
-	// Mounts the routes
-	routes.MountRoutes(app)
-
-	return app, nil
+	return app
 }

@@ -15,17 +15,14 @@
 package routes
 
 import (
-	"backend/roralis/controllers/category"
-	"backend/roralis/controllers/post"
-	"backend/roralis/controllers/region"
-	"backend/roralis/controllers/user"
+	"backend/roralis/config"
 	_ "backend/roralis/doc" // for swagger responses
 
 	"github.com/gin-gonic/gin"
 )
 
 // Mounts the routes
-func MountRoutes(app *gin.Engine) {
+func MountRoutes(app *gin.Engine, c *config.Config) {
 	v1 := app.Group("/api/v1")
 
 	// swagger:route GET /api/v1/users/:id user getUser
@@ -35,7 +32,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     GetOneUserResponse
-	v1.GET("/users/:id", user.ReadOne)
+	v1.GET("/users/:id", c.UserController.ReadOne)
 
 	// swagger:route POST /api/v1/users/signup user signup
 	//
@@ -44,7 +41,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignUpSucces
-	v1.POST("/users/signup", user.SignUp)
+	v1.POST("/users/signup", c.UserController.SignUp)
 
 	// swagger:route GET /api/v1/users/aboutme user aboutme
 	//
@@ -53,7 +50,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     AboutMeSucces
-	v1.GET("/users/aboutme", IsLoggedIn, user.AboutMe)
+	v1.GET("/users/aboutme", c.AuthService.IsLoggedIn, c.UserController.AboutMe)
 
 	// swagger:route POST /api/v1/users/confirm/:id user confirm
 	//
@@ -62,7 +59,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignInSucces
-	v1.POST("/users/confirm/:id", user.ValidateEmail)
+	v1.POST("/users/confirm/:id", c.UserController.ValidateEmail)
 
 	// swagger:route GET /api/v1/users/validate user resend
 	//
@@ -71,7 +68,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     GenericResponse
-	v1.GET("/users/resend/:id", user.ResendValidationEmail)
+	v1.GET("/users/resend/:id", c.UserController.ResendValidationEmail)
 
 	// swagger:route GET /api/v1/users/validate user signin
 	//
@@ -80,7 +77,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignInSucces
-	v1.POST("/users/signin", user.SignIn)
+	v1.POST("/users/signin", c.UserController.SignIn)
 
 	// swagger:route GET /api/v1/categories/ category getCategory
 	//
@@ -89,7 +86,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetAllCategoriesResponse
 	//       default: GenericResponse
-	v1.GET("/categories", category.ReadAll)
+	v1.GET("/categories", c.CategoryController.ReadAll)
 
 	// swagger:route GET /api/v1/categories/:id category getOneCategory
 	//
@@ -98,7 +95,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetOneCategoriesResponse
 	//       default: GenericResponse
-	v1.GET("/categories/:id", category.ReadOne)
+	v1.GET("/categories/:id", c.CategoryController.ReadOne)
 
 	// swagger:route GET /api/v1/regions/ region getRegion
 	//
@@ -107,7 +104,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetAllRegionsResponse
 	//       default: GenericResponse
-	v1.GET("/regions", region.ReadAll)
+	v1.GET("/regions", c.RegionController.ReadAll)
 
 	// swagger:route GET /api/v1/regions/:id region getCategory
 	//
@@ -116,7 +113,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetOneRegionsResponse
 	//       default: GenericResponse
-	v1.GET("/regions/:id", region.ReadOne)
+	v1.GET("/regions/:id", c.RegionController.ReadOne)
 
 	// swagger:route GET /api/v1/posts/:id posts getPost
 	//
@@ -125,7 +122,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetOnePostResponse
 	//       default: GenericResponse
-	v1.GET("/posts/:id", post.ReadOne)
+	v1.GET("/posts/:id", c.PostController.ReadOne)
 
 	// swagger:route GET /api/v1/posts/?offset=&limit=20 posts getAllPosts
 	//
@@ -134,7 +131,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetAllPostResponse
 	//       default: GenericResponse
-	v1.GET("/posts", post.ReadAll)
+	v1.GET("/posts", c.PostController.ReadAll)
 
 	// swagger:route POST /api/v1/posts/ posts createPost
 	//
@@ -143,6 +140,6 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetOnePostResponse
 	//       default: GenericResponse
-	v1.POST("/posts", IsLoggedIn, post.Create)
+	v1.POST("/posts", c.AuthService.IsLoggedIn, c.PostController.Create)
 
 }
