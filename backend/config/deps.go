@@ -2,6 +2,7 @@ package config
 
 import (
 	categoryController "backend/roralis/controllers/category"
+	regionController "backend/roralis/controllers/region"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/category"
 	"backend/roralis/domain/repo/email"
@@ -23,9 +24,10 @@ type Config struct {
 	DB                 *gorm.DB
 	CategoryRepo       category.CategoryRepo
 	CategoryController categoryController.CategoryController
+	RegionRepo         region.RegionRepo
+	RegionController   regionController.RegionController
 
 	UserRepo   user.UserRepo
-	RegionRepo region.RegionRepo
 	EmailRepo  email.EmailRepo
 	OTCRepo    otc.OTCRepo
 	PostRepo   post.PostRepo
@@ -48,6 +50,9 @@ func BootstrapServices() (*Config, error) {
 	}
 	config.CategoryRepo = category.NewCategoryRepo(config.DB)
 	config.CategoryController = categoryController.NewCategoryController(config.CategoryRepo)
+
+	config.RegionRepo = region.NewRegionRepo(config.DB)
+	config.RegionController = regionController.NewRegionController(config.RegionRepo)
 
 	return &config, nil
 

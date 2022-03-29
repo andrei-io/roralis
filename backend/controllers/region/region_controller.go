@@ -1,7 +1,6 @@
 package region
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/region"
 	"errors"
@@ -11,11 +10,18 @@ import (
 	"gorm.io/gorm"
 )
 
-// Gin controller for GET /users
-func ReadAll(c *gin.Context) {
-	repo := dic.Container.Get(dic.RegionRepo).(region.RegionRepo)
+type RegionController struct {
+	repo region.RegionRepo
+}
 
-	regions, err := repo.GetAll()
+func NewRegionController(c region.RegionRepo) RegionController {
+	return RegionController{repo: c}
+}
+
+// Gin controller for GET /users
+func (r *RegionController) ReadAll(c *gin.Context) {
+
+	regions, err := r.repo.GetAll()
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
@@ -30,11 +36,10 @@ func ReadAll(c *gin.Context) {
 }
 
 // Gin controller for GET /users/:id
-func ReadOne(c *gin.Context) {
-	repo := dic.Container.Get(dic.RegionRepo).(region.RegionRepo)
+func (r *RegionController) ReadOne(c *gin.Context) {
 	id := c.Param("id")
 
-	region, err := repo.Get(id)
+	region, err := r.repo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
