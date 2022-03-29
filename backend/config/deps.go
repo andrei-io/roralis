@@ -4,13 +4,13 @@ import (
 	"backend/roralis/auth"
 	"backend/roralis/category"
 	postController "backend/roralis/controllers/post"
-	userController "backend/roralis/controllers/user"
-	"backend/roralis/domain/repo/email"
 	"backend/roralis/domain/repo/post"
+	"backend/roralis/email"
+	"backend/roralis/jwt"
 	"backend/roralis/otc"
 	"backend/roralis/region"
+	"backend/roralis/user"
 
-	"backend/roralis/domain/repo/user"
 	"backend/roralis/infrastructure"
 	"backend/roralis/middleware"
 
@@ -24,8 +24,8 @@ type Services struct {
 	TokenKey string
 	DB       *gorm.DB
 
-	JWTSecret  *auth.JWTSecret
-	JWTService auth.JWTService
+	JWTSecret  *jwt.JWTSecret
+	JWTService jwt.JWTService
 
 	CategoryRepo       category.CategoryRepo
 	CategoryController category.CategoryController
@@ -37,12 +37,14 @@ type Services struct {
 	PostController postController.PostController
 
 	UserRepo       user.UserRepo
-	UserController userController.UserController
+	UserController user.UserController
+
+	AuthController auth.AuthController
 
 	EmailRepo email.EmailRepo
 	OTCRepo   otc.OTCRepo
 
-	AuthService middleware.AuthService
+	AuthMiddleware middleware.AuthService
 }
 
 // Set up all the services.
@@ -74,10 +76,12 @@ func BootstrapServices() (*Services, error) {
 	if err != nil {
 		return nil, err
 	}
-	config.JWTService = auth.NewJWTService(config.JWTSecret)
+	config.JWTService = jwt.NewJWTService(config.JWTSecret)
 
 	config.UserRepo = user.NewUserRepo(config.DB)
-	config.UserController = userController.NewUserController(
+	config.UserController = user.NewUserController(config.UserRepo)
+
+	config.AuthController = auth.NewAuthController(
 		config.UserRepo,
 		config.EmailRepo,
 		config.OTCRepo,
@@ -85,7 +89,7 @@ func BootstrapServices() (*Services, error) {
 		config.TokenKey,
 	)
 
-	config.AuthService = middleware.NewAuthService(config.JWTService, config.TokenKey)
+	config.AuthMiddleware = middleware.NewAuthService(config.JWTService, config.TokenKey)
 
 	return &config, nil
 

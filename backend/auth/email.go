@@ -1,8 +1,8 @@
-package user
+package auth
 
 import (
-	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
+	"backend/roralis/jwt"
 	"backend/roralis/otc"
 	"errors"
 	"fmt"
@@ -14,7 +14,7 @@ import (
 )
 
 // GIN controller for GET /users/resend/:id
-func (r *UserController) ResendValidationEmail(c *gin.Context) {
+func (r *AuthController) ResendValidationEmail(c *gin.Context) {
 
 	id := c.Param("id")
 
@@ -61,15 +61,15 @@ func (r *UserController) ResendValidationEmail(c *gin.Context) {
 }
 
 // Request body for the validate email route
-type ValidateEmailRequest struct {
+type validateEmailRequest struct {
 	Code string
 }
 
-func (r *UserController) ValidateEmail(c *gin.Context) {
+func (r *AuthController) ValidateEmail(c *gin.Context) {
 
 	id := c.Param("id")
 
-	var json ValidateEmailRequest
+	var json validateEmailRequest
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
@@ -111,7 +111,7 @@ func (r *UserController) ValidateEmail(c *gin.Context) {
 		return
 	}
 
-	payload := auth.JWTClaims{
+	payload := jwt.JWTClaims{
 		ID:       user.ID,
 		Name:     user.Name,
 		Verified: user.Verified,

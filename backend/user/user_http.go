@@ -9,6 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
+type UserController struct {
+	userRepo UserRepo
+}
+
+func NewUserController(u UserRepo) UserController {
+	return UserController{userRepo: u}
+}
+
 // Gin controller for GET /users/:id
 func (r *UserController) ReadOne(c *gin.Context) {
 	id := c.Param("id")

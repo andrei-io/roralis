@@ -1,8 +1,6 @@
-package entity
+package user
 
-import (
-	"time"
-)
+import "time"
 
 // nolint: govet
 type User struct {

@@ -1,14 +1,14 @@
 package post
 
 import (
-	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
+	"backend/roralis/jwt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-// Gin controller for creating a post, needs auth key
+// Gin controller for creating a post, needs jwt key
 func (r *PostController) Create(c *gin.Context) {
 
 	claimsRaw, exists := c.Get(r.tokenKey)
@@ -18,7 +18,7 @@ func (r *PostController) Create(c *gin.Context) {
 		return
 	}
 
-	claims, ok := claimsRaw.(*auth.JWTClaims)
+	claims, ok := claimsRaw.(*jwt.JWTClaims)
 
 	if !ok {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: "JWT claims is not of correct shape"})

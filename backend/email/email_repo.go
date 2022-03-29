@@ -1,4 +1,3 @@
-// Contains everything related to working with emails
 package email
 
 import (
