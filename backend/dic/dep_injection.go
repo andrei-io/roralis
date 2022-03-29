@@ -101,7 +101,7 @@ func RegisterServices(builder *di.Builder) error {
 	err = builder.Add(di.Def{
 		Name: EmailRepo,
 		Build: func(ctn di.Container) (interface{}, error) {
-			return email.NewEmailRepo(), nil
+			return email.NewEmailRepo(viper.GetString("SENDGRID_KEY")), nil
 		},
 	})
 	if err != nil {

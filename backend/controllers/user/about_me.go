@@ -9,7 +9,7 @@ import (
 )
 
 // Gin controller that decodes and sends jwt back
-func AboutMe(c *gin.Context) {
+func (r *UserController) AboutMe(c *gin.Context) {
 
 	claimsRaw, exists := c.Get(dic.TokenKey)
 

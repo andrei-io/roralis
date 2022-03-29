@@ -20,8 +20,8 @@ type emailRepo struct {
 var _ EmailRepo = (*emailRepo)(nil)
 
 // Constructor function
-func NewEmailRepo() *emailRepo {
-	return &emailRepo{sendgrid.NewSendClient(viper.GetString("SENDGRID_KEY"))}
+func NewEmailRepo(sendgridKey string) *emailRepo {
+	return &emailRepo{sendgrid.NewSendClient(sendgridKey)}
 }
 
 // Sends an email with html formatting

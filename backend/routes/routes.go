@@ -16,7 +16,6 @@ package routes
 
 import (
 	"backend/roralis/config"
-	"backend/roralis/controllers/user"
 	_ "backend/roralis/doc" // for swagger responses
 
 	"github.com/gin-gonic/gin"
@@ -33,7 +32,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     GetOneUserResponse
-	v1.GET("/users/:id", user.ReadOne)
+	v1.GET("/users/:id", c.UserController.ReadOne)
 
 	// swagger:route POST /api/v1/users/signup user signup
 	//
@@ -42,7 +41,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignUpSucces
-	v1.POST("/users/signup", user.SignUp)
+	v1.POST("/users/signup", c.UserController.SignUp)
 
 	// swagger:route GET /api/v1/users/aboutme user aboutme
 	//
@@ -51,7 +50,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     AboutMeSucces
-	v1.GET("/users/aboutme", IsLoggedIn, user.AboutMe)
+	v1.GET("/users/aboutme", IsLoggedIn, c.UserController.AboutMe)
 
 	// swagger:route POST /api/v1/users/confirm/:id user confirm
 	//
@@ -60,7 +59,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignInSucces
-	v1.POST("/users/confirm/:id", user.ValidateEmail)
+	v1.POST("/users/confirm/:id", c.UserController.ValidateEmail)
 
 	// swagger:route GET /api/v1/users/validate user resend
 	//
@@ -69,7 +68,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     GenericResponse
-	v1.GET("/users/resend/:id", user.ResendValidationEmail)
+	v1.GET("/users/resend/:id", c.UserController.ResendValidationEmail)
 
 	// swagger:route GET /api/v1/users/validate user signin
 	//
@@ -78,7 +77,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignInSucces
-	v1.POST("/users/signin", user.SignIn)
+	v1.POST("/users/signin", c.UserController.SignIn)
 
 	// swagger:route GET /api/v1/categories/ category getCategory
 	//
