@@ -16,7 +16,6 @@ package routes
 
 import (
 	"backend/roralis/config"
-	"backend/roralis/controllers/post"
 	"backend/roralis/controllers/user"
 	_ "backend/roralis/doc" // for swagger responses
 
@@ -124,7 +123,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       200:     GetOnePostResponse
 	//       default: GenericResponse
-	v1.GET("/posts/:id", post.ReadOne)
+	v1.GET("/posts/:id", c.PostController.ReadOne)
 
 	// swagger:route GET /api/v1/posts/?offset=&limit=20 posts getAllPosts
 	//
@@ -133,7 +132,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       200:     GetAllPostResponse
 	//       default: GenericResponse
-	v1.GET("/posts", post.ReadAll)
+	v1.GET("/posts", c.PostController.ReadAll)
 
 	// swagger:route POST /api/v1/posts/ posts createPost
 	//
@@ -142,6 +141,6 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       200:     GetOnePostResponse
 	//       default: GenericResponse
-	v1.POST("/posts", IsLoggedIn, post.Create)
+	v1.POST("/posts", IsLoggedIn, c.PostController.Create)
 
 }
