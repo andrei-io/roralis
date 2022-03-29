@@ -6,7 +6,7 @@ import (
 )
 
 // Creates Gin server and mounts routes
-func BuildApp(c *Config) *gin.Engine {
+func BuildApp(c *Services) *gin.Engine {
 	gin.SetMode(viper.GetString("GIN_MODE"))
 
 	// Blank gin app.

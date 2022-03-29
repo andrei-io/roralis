@@ -21,8 +21,8 @@ import (
 )
 
 // nolint: govet
-// Config struct for all the dependencies
-type Config struct {
+// Services struct for all the dependencies
+type Services struct {
 	TokenKey string
 	DB       *gorm.DB
 
@@ -49,10 +49,10 @@ type Config struct {
 
 // Set up all the services.
 // Will error out.
-func BootstrapServices() (*Config, error) {
+func BootstrapServices() (*Services, error) {
 	var (
 		err    error
-		config Config
+		config Services
 	)
 	config.DB, err = infrastructure.NewDB(viper.GetString("DB_URL"))
 	if err != nil {
