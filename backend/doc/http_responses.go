@@ -2,7 +2,9 @@
 package doc
 
 import (
+	"backend/roralis/category"
 	"backend/roralis/domain/entity"
+	"backend/roralis/region"
 )
 
 // swagger:response GenericResponse
@@ -30,28 +32,28 @@ type GetOneUserResponse struct {
 type GetAllCategoriesResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body []entity.Category
+	Body []category.Category
 }
 
 // swagger:response GetOneCategoriesResponse
 type GetOneCategoriesResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body entity.Category
+	Body category.Category
 }
 
 // swagger:response GetAllRegionsResponse
 type GetAllRegionsResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body []entity.Category
+	Body []region.Region
 }
 
 // swagger:response GetOneRegionsResponse
 type GetOneRegionsResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body entity.Category
+	Body region.Region
 }
 
 // swagger:response SignInSucces

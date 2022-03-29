@@ -1,18 +1,16 @@
-// Contains everything related to working with the Category entity: repo
 package category
 
 import (
-	"backend/roralis/domain/entity"
 	"errors"
 
 	"gorm.io/gorm"
 )
 
 type CategoryRepo interface {
-	GetAll() (c []entity.Category, err error)
-	Get(id string) (c *entity.Category, err error)
-	Update(id string, c *entity.Category) error
-	Create(c *entity.Category) error
+	GetAll() (c []Category, err error)
+	Get(id string) (c *Category, err error)
+	Update(id string, c *Category) error
+	Create(c *Category) error
 	Delete(id string) error
 }
 
@@ -29,8 +27,8 @@ func NewCategoryRepo(db *gorm.DB) *categoryRepo {
 }
 
 // Returns an array of all categories
-func (r *categoryRepo) GetAll() (c []entity.Category, err error) {
-	var categories []entity.Category
+func (r *categoryRepo) GetAll() (c []Category, err error) {
+	var categories []Category
 
 	// Will panic on fail,but gin has a recovery middleware
 	err = r.db.Find(&categories).Error
@@ -39,19 +37,19 @@ func (r *categoryRepo) GetAll() (c []entity.Category, err error) {
 }
 
 // Returns a category by id
-func (r *categoryRepo) Get(id string) (c *entity.Category, err error) {
-	var category entity.Category
+func (r *categoryRepo) Get(id string) (c *Category, err error) {
+	var category Category
 
 	err = r.db.First(&category, id).Error
 
 	return &category, err
 }
 
-func (r *categoryRepo) Update(id string, c *entity.Category) error {
+func (r *categoryRepo) Update(id string, c *Category) error {
 	return errors.New("Modifying categories is not allowed")
 }
 
-func (r *categoryRepo) Create(c *entity.Category) error {
+func (r *categoryRepo) Create(c *Category) error {
 	return errors.New("Modifying categories is not allowed")
 }
 
