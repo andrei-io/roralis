@@ -3,15 +3,13 @@ package post
 import (
 	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/post"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Gin controller for creating a post, needs auth key
-func Create(c *gin.Context) {
-	postRepo := dic.Container.Get(dic.PostRepo).(post.PostRepo)
+func (r *PostController) Create(c *gin.Context) {
 
 	claimsRaw, exists := c.Get(dic.TokenKey)
 
@@ -41,7 +39,7 @@ func Create(c *gin.Context) {
 
 	json.UserID = claims.ID
 
-	err := postRepo.Create(&json)
+	err := r.repo.Create(&json)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return

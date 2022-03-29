@@ -1,9 +1,7 @@
 package post
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/post"
 	"errors"
 	"net/http"
 	"strconv"
@@ -13,13 +11,12 @@ import (
 )
 
 // Gin controller for reading all posts
-func ReadAll(c *gin.Context) {
-	postRepo := dic.Container.Get(dic.PostRepo).(post.PostRepo)
+func (r *PostController) ReadAll(c *gin.Context) {
 
 	offset, _ := strconv.Atoi(c.DefaultQuery("offset", "0"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "200"))
 
-	posts, err := postRepo.GetAll(offset, limit, true)
+	posts, err := r.repo.GetAll(offset, limit, true)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)

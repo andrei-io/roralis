@@ -2,6 +2,7 @@ package config
 
 import (
 	categoryController "backend/roralis/controllers/category"
+	postController "backend/roralis/controllers/post"
 	regionController "backend/roralis/controllers/region"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/category"
@@ -20,17 +21,21 @@ import (
 // // nolint: govet
 // Config struct for all the dependencies
 type Config struct {
-	TokenKey           string
-	DB                 *gorm.DB
+	TokenKey string
+	DB       *gorm.DB
+
 	CategoryRepo       category.CategoryRepo
 	CategoryController categoryController.CategoryController
-	RegionRepo         region.RegionRepo
-	RegionController   regionController.RegionController
+
+	RegionRepo       region.RegionRepo
+	RegionController regionController.RegionController
+
+	PostRepo       post.PostRepo
+	PostController postController.PostController
 
 	UserRepo   user.UserRepo
 	EmailRepo  email.EmailRepo
 	OTCRepo    otc.OTCRepo
-	PostRepo   post.PostRepo
 	JWTSecret  entity.JWTSecret
 	JWTService jwt.JWTService
 }
@@ -53,6 +58,9 @@ func BootstrapServices() (*Config, error) {
 
 	config.RegionRepo = region.NewRegionRepo(config.DB)
 	config.RegionController = regionController.NewRegionController(config.RegionRepo)
+
+	config.PostRepo = post.NewPostRepo(config.DB)
+	config.PostController = postController.NewPostController(config.PostRepo)
 
 	return &config, nil
 

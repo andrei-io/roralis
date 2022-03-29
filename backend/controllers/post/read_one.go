@@ -1,9 +1,7 @@
 package post
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/post"
 	"errors"
 	"net/http"
 
@@ -12,12 +10,11 @@ import (
 )
 
 // Gin controller for reading a single post
-func ReadOne(c *gin.Context) {
-	postRepo := dic.Container.Get(dic.PostRepo).(post.PostRepo)
+func (r *PostController) ReadOne(c *gin.Context) {
 
 	id := c.Param("id")
 
-	post, err := postRepo.Get(id)
+	post, err := r.repo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
