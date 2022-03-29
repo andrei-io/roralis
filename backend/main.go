@@ -3,6 +3,7 @@ package main
 import (
 	"backend/roralis/config"
 	"backend/roralis/dic"
+	"backend/roralis/routes"
 	"fmt"
 	"os"
 
@@ -25,12 +26,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	app, err := config.StartApp()
+	appConfig, err := config.BootstrapServices()
 	if err != nil {
-		fmt.Printf("Failed to asemble Gin server:\n     %v", err)
+		fmt.Printf("Failed to assemble services:\n 	%v", err)
 		os.Exit(1)
 	}
+
+	app := config.BuildApp(appConfig)
+
 	// By default, Gin uses the PORT enviroment variables
+
+	// Mounts the routes
+	routes.MountRoutes(app, appConfig)
 
 	fmt.Printf("Server running on localhost:%v\n", viper.GetString("PORT"))
 	err = app.Run(":" + viper.GetString("PORT"))

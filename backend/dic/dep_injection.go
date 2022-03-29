@@ -14,6 +14,7 @@ import (
 	"backend/roralis/infrastructure"
 
 	"github.com/sarulabs/di"
+	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
@@ -62,7 +63,7 @@ func RegisterServices(builder *di.Builder) error {
 	err := builder.Add(di.Def{
 		Name: DB,
 		Build: func(ctn di.Container) (interface{}, error) {
-			return infrastructure.NewDB(), nil
+			return infrastructure.NewDB(viper.GetString("DB_URL"))
 		},
 	})
 	if err != nil {
