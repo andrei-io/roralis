@@ -2,7 +2,6 @@ package config
 
 import (
 	categoryController "backend/roralis/controllers/category"
-	"backend/roralis/controllers/middleware"
 	postController "backend/roralis/controllers/post"
 	regionController "backend/roralis/controllers/region"
 	userController "backend/roralis/controllers/user"
@@ -15,12 +14,13 @@ import (
 	"backend/roralis/domain/repo/user"
 	"backend/roralis/domain/services/jwt"
 	"backend/roralis/infrastructure"
+	"backend/roralis/middleware"
 
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
-// // nolint: govet
+// nolint: govet
 // Config struct for all the dependencies
 type Config struct {
 	TokenKey string
