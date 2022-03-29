@@ -41,7 +41,7 @@ func MountRoutes(app *gin.Engine, c *config.Services) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignUpSucces
-	v1.POST("/users/signup", c.UserController.SignUp)
+	v1.POST("/users/signup", c.AuthController.SignUp)
 
 	// swagger:route GET /api/v1/users/aboutme user aboutme
 	//
@@ -50,7 +50,7 @@ func MountRoutes(app *gin.Engine, c *config.Services) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     AboutMeSucces
-	v1.GET("/users/aboutme", c.AuthService.IsLoggedIn, c.UserController.AboutMe)
+	v1.GET("/users/aboutme", c.AuthMiddleware.IsLoggedIn, c.AuthController.AboutMe)
 
 	// swagger:route POST /api/v1/users/confirm/:id user confirm
 	//
@@ -59,7 +59,7 @@ func MountRoutes(app *gin.Engine, c *config.Services) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignInSucces
-	v1.POST("/users/confirm/:id", c.UserController.ValidateEmail)
+	v1.POST("/users/confirm/:id", c.AuthController.ValidateEmail)
 
 	// swagger:route GET /api/v1/users/validate user resend
 	//
@@ -68,7 +68,7 @@ func MountRoutes(app *gin.Engine, c *config.Services) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     GenericResponse
-	v1.GET("/users/resend/:id", c.UserController.ResendValidationEmail)
+	v1.GET("/users/resend/:id", c.AuthController.ResendValidationEmail)
 
 	// swagger:route GET /api/v1/users/validate user signin
 	//
@@ -77,7 +77,7 @@ func MountRoutes(app *gin.Engine, c *config.Services) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     SignInSucces
-	v1.POST("/users/signin", c.UserController.SignIn)
+	v1.POST("/users/signin", c.AuthController.SignIn)
 
 	// swagger:route GET /api/v1/categories/ category getCategory
 	//
@@ -140,6 +140,6 @@ func MountRoutes(app *gin.Engine, c *config.Services) {
 	//     Responses:
 	//       200:     GetOnePostResponse
 	//       default: GenericResponse
-	v1.POST("/posts", c.AuthService.IsLoggedIn, c.PostController.Create)
+	v1.POST("/posts", c.AuthMiddleware.IsLoggedIn, c.PostController.Create)
 
 }

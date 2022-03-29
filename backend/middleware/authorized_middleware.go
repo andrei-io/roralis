@@ -1,19 +1,19 @@
 package middleware
 
 import (
-	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
+	"backend/roralis/jwt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type AuthService struct {
-	jwtService  auth.JWTService
+	jwtService  jwt.JWTService
 	tokenString string
 }
 
-func NewAuthService(j auth.JWTService, t string) AuthService {
+func NewAuthService(j jwt.JWTService, t string) AuthService {
 	return AuthService{jwtService: j, tokenString: t}
 }
 

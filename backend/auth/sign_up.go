@@ -1,9 +1,10 @@
-package user
+package auth
 
 import (
-	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
+	"backend/roralis/jwt"
 	"backend/roralis/otc"
+	"backend/roralis/user"
 	"fmt"
 	"net/http"
 	"strings"
@@ -15,9 +16,9 @@ import (
 )
 
 // Gin controller for signup
-func (r *UserController) SignUp(c *gin.Context) {
+func (r *AuthController) SignUp(c *gin.Context) {
 
-	var json entity.User
+	var json user.User
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
@@ -74,7 +75,7 @@ func (r *UserController) SignUp(c *gin.Context) {
 	}
 	json.Password = "Secret"
 
-	payload := auth.JWTClaims{
+	payload := jwt.JWTClaims{
 		ID:       json.ID,
 		Name:     json.Name,
 		Verified: json.Verified,

@@ -1,8 +1,8 @@
-package user
+package auth
 
 import (
-	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
+	"backend/roralis/jwt"
 	"errors"
 	"net/http"
 
@@ -12,15 +12,15 @@ import (
 )
 
 // Request body for Sign In route
-type SignInRequest struct {
+type signInRequest struct {
 	Email    string `binding:"required"`
 	Password string `binding:"required"`
 }
 
 // Gin controller for sign-in flou
-func (r *UserController) SignIn(c *gin.Context) {
+func (r *AuthController) SignIn(c *gin.Context) {
 	// TODO
-	var json SignInRequest
+	var json signInRequest
 
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
@@ -45,7 +45,7 @@ func (r *UserController) SignIn(c *gin.Context) {
 		return
 	}
 
-	payload := auth.JWTClaims{
+	payload := jwt.JWTClaims{
 		ID:       user.ID,
 		Name:     user.Name,
 		Verified: user.Verified,

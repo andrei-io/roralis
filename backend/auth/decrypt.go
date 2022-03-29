@@ -1,15 +1,15 @@
-package user
+package auth
 
 import (
-	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
+	"backend/roralis/jwt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Gin controller that decodes and sends jwt back
-func (r *UserController) AboutMe(c *gin.Context) {
+func (r *AuthController) AboutMe(c *gin.Context) {
 
 	claimsRaw, exists := c.Get(r.tokenString)
 
@@ -18,7 +18,7 @@ func (r *UserController) AboutMe(c *gin.Context) {
 		return
 	}
 
-	claims, ok := claimsRaw.(*auth.JWTClaims)
+	claims, ok := claimsRaw.(*jwt.JWTClaims)
 
 	if !ok {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: "JWT claims is not of correct shape"})

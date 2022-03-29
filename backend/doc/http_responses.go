@@ -2,10 +2,11 @@
 package doc
 
 import (
-	"backend/roralis/auth"
 	"backend/roralis/category"
 	"backend/roralis/domain/entity"
+	"backend/roralis/jwt"
 	"backend/roralis/region"
+	"backend/roralis/user"
 )
 
 // swagger:response GenericResponse
@@ -19,14 +20,14 @@ type GenericResponse struct {
 type GetAllUsersResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body []entity.User
+	Body []user.User
 }
 
 // swagger:response GetOneUserResponse
 type GetOneUserResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body entity.User
+	Body user.User
 }
 
 // swagger:response GetAllCategoriesResponse
@@ -71,7 +72,7 @@ type SignUpSucces struct {
 	// Used when accesing GET /users
 	// in: body
 	Body struct {
-		User  entity.User
+		User  user.User
 		Token string
 	}
 }
@@ -80,7 +81,7 @@ type SignUpSucces struct {
 type AboutMeSucces struct {
 	// in: body
 	Body struct {
-		User auth.JWTClaims
+		User jwt.JWTClaims
 	}
 }
 
