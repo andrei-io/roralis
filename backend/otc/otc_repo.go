@@ -1,8 +1,6 @@
-// Contains everything related to working with OneTimeCodes
 package otc
 
 import (
-	"backend/roralis/domain/entity"
 	"errors"
 	"time"
 
@@ -29,7 +27,7 @@ func NewOTCRepo(db *gorm.DB) *otcRepo {
 
 // Sets a (key, value) pair
 func (k *otcRepo) Set(key uint64, value string, expire_minutes int64) error {
-	otc := entity.OneTimeCode{
+	otc := OneTimeCode{
 		UserID: key,
 		Code:   value,
 		Active: true,
@@ -42,7 +40,7 @@ func (k *otcRepo) Set(key uint64, value string, expire_minutes int64) error {
 
 // Gets a (key, value) pair
 func (k *otcRepo) Get(key uint64) (string, error) {
-	var otc entity.OneTimeCode
+	var otc OneTimeCode
 
 	err := k.db.Where("user_id = ?", key).First(&otc).Error
 	if err != nil {

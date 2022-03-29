@@ -1,4 +1,4 @@
-package entity
+package otc
 
 import (
 	"crypto/rand"
@@ -14,10 +14,9 @@ type OneTimeCode struct {
 	UserID uint64
 }
 
-const otpChars = "1234567890"
-
 // Generates a new verification code with a given length
 func GenerateVerificationCode(length int) (string, error) {
+	const otpChars = "1234567890"
 	buffer := make([]byte, length)
 	_, err := rand.Read(buffer)
 	if err != nil {

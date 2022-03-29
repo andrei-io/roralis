@@ -6,8 +6,8 @@ import (
 	userController "backend/roralis/controllers/user"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/email"
-	"backend/roralis/domain/repo/otc"
 	"backend/roralis/domain/repo/post"
+	"backend/roralis/otc"
 	"backend/roralis/region"
 
 	"backend/roralis/domain/repo/user"
