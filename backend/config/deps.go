@@ -3,14 +3,14 @@ package config
 import (
 	categoryController "backend/roralis/controllers/category"
 	postController "backend/roralis/controllers/post"
-	regionController "backend/roralis/controllers/region"
 	userController "backend/roralis/controllers/user"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/category"
 	"backend/roralis/domain/repo/email"
 	"backend/roralis/domain/repo/otc"
 	"backend/roralis/domain/repo/post"
-	"backend/roralis/domain/repo/region"
+	"backend/roralis/region"
+
 	"backend/roralis/domain/repo/user"
 	"backend/roralis/domain/services/jwt"
 	"backend/roralis/infrastructure"
@@ -33,7 +33,7 @@ type Services struct {
 	CategoryController categoryController.CategoryController
 
 	RegionRepo       region.RegionRepo
-	RegionController regionController.RegionController
+	RegionController region.RegionController
 
 	PostRepo       post.PostRepo
 	PostController postController.PostController
@@ -64,7 +64,7 @@ func BootstrapServices() (*Services, error) {
 	config.CategoryController = categoryController.NewCategoryController(config.CategoryRepo)
 
 	config.RegionRepo = region.NewRegionRepo(config.DB)
-	config.RegionController = regionController.NewRegionController(config.RegionRepo)
+	config.RegionController = region.NewRegionController(config.RegionRepo)
 
 	config.PostRepo = post.NewPostRepo(config.DB)
 	config.PostController = postController.NewPostController(config.PostRepo, config.TokenKey)

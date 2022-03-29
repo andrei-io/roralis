@@ -2,7 +2,6 @@ package region
 
 import (
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/region"
 	"errors"
 	"net/http"
 
@@ -11,10 +10,10 @@ import (
 )
 
 type RegionController struct {
-	repo region.RegionRepo
+	repo RegionRepo
 }
 
-func NewRegionController(c region.RegionRepo) RegionController {
+func NewRegionController(c RegionRepo) RegionController {
 	return RegionController{repo: c}
 }
 
