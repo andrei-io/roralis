@@ -1,12 +1,7 @@
 package user
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/email"
-	"backend/roralis/domain/repo/otc"
-	"backend/roralis/domain/repo/user"
-	"backend/roralis/domain/services/jwt"
 	"fmt"
 	"net/http"
 	"strings"
@@ -18,11 +13,7 @@ import (
 )
 
 // Gin controller for signup
-func SignUp(c *gin.Context) {
-	userRepo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
-	emailRepo := dic.Container.Get(dic.EmailRepo).(email.EmailRepo)
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.JWTService)
-	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.OTCRepo)
+func (r *UserController) SignUp(c *gin.Context) {
 
 	var json entity.User
 	// Validate request form
@@ -42,7 +33,7 @@ func SignUp(c *gin.Context) {
 	json.Password = string(hashedPassword)
 
 	// Create in db. Will error out when invalid
-	err = userRepo.Create(&json)
+	err = r.userRepo.Create(&json)
 	if err != nil {
 		err := err.(*pgconn.PgError)
 		message := err.Message
@@ -62,7 +53,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	// Sets a verification code in db that expires in 30 minuets
-	err = otcRepo.Set(json.ID, verficationCode, 30)
+	err = r.otcRepo.Set(json.ID, verficationCode, 30)
 	if err != nil {
 		// TODO: handle this better
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
@@ -71,7 +62,7 @@ func SignUp(c *gin.Context) {
 
 	// Don't send emails on DEV enviroments, just output to console
 	if viper.GetString("ENV") == "PROD" {
-		_, err = emailRepo.Send(json.Email, "backend/roralis Roads verification email", verficationCode)
+		_, err = r.emailRepo.Send(json.Email, "backend/roralis Roads verification email", verficationCode)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 			return
@@ -87,8 +78,8 @@ func SignUp(c *gin.Context) {
 		Verified: json.Verified,
 		Role:     json.Role,
 	}
-	token, err := jwtService.NewJWT(&payload)
 
+	token, err := r.jwtService.NewJWT(&payload)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: "Your password or email are incorrect"})
 	}

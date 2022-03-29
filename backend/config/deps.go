@@ -4,6 +4,7 @@ import (
 	categoryController "backend/roralis/controllers/category"
 	postController "backend/roralis/controllers/post"
 	regionController "backend/roralis/controllers/region"
+	userController "backend/roralis/controllers/user"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/category"
 	"backend/roralis/domain/repo/email"
@@ -24,6 +25,9 @@ type Config struct {
 	TokenKey string
 	DB       *gorm.DB
 
+	JWTSecret  *entity.JWTSecret
+	JWTService jwt.JWTService
+
 	CategoryRepo       category.CategoryRepo
 	CategoryController categoryController.CategoryController
 
@@ -33,11 +37,11 @@ type Config struct {
 	PostRepo       post.PostRepo
 	PostController postController.PostController
 
-	UserRepo   user.UserRepo
-	EmailRepo  email.EmailRepo
-	OTCRepo    otc.OTCRepo
-	JWTSecret  entity.JWTSecret
-	JWTService jwt.JWTService
+	UserRepo       user.UserRepo
+	UserController userController.UserController
+
+	EmailRepo email.EmailRepo
+	OTCRepo   otc.OTCRepo
 }
 
 // Set up all the services.
@@ -47,12 +51,12 @@ func BootstrapServices() (*Config, error) {
 		err    error
 		config Config
 	)
-	config.TokenKey = "token"
-
 	config.DB, err = infrastructure.NewDB(viper.GetString("DB_URL"))
 	if err != nil {
 		return nil, err
 	}
+	config.TokenKey = "token"
+
 	config.CategoryRepo = category.NewCategoryRepo(config.DB)
 	config.CategoryController = categoryController.NewCategoryController(config.CategoryRepo)
 
@@ -61,6 +65,23 @@ func BootstrapServices() (*Config, error) {
 
 	config.PostRepo = post.NewPostRepo(config.DB)
 	config.PostController = postController.NewPostController(config.PostRepo)
+
+	config.EmailRepo = email.NewEmailRepo(viper.GetString("SENDGRID_KEY"))
+	config.OTCRepo = otc.NewOTCRepo(config.DB)
+
+	config.JWTSecret, err = loadRSAKeys(viper.GetString("JWT_PRIVATE"), viper.GetString("JWT_PUBLIC"))
+	if err != nil {
+		return nil, err
+	}
+	config.JWTService = jwt.NewJWTService(config.JWTSecret)
+
+	config.UserRepo = user.NewUserRepo(config.DB)
+	config.UserController = userController.NewUserController(
+		config.UserRepo,
+		config.EmailRepo,
+		config.OTCRepo,
+		config.JWTService,
+	)
 
 	return &config, nil
 

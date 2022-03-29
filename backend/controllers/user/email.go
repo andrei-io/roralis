@@ -1,12 +1,7 @@
 package user
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/email"
-	"backend/roralis/domain/repo/otc"
-	"backend/roralis/domain/repo/user"
-	"backend/roralis/domain/services/jwt"
 	"errors"
 	"fmt"
 	"net/http"
@@ -17,14 +12,11 @@ import (
 )
 
 // GIN controller for GET /users/resend/:id
-func ResendValidationEmail(c *gin.Context) {
-	userRepo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
-	emailRepo := dic.Container.Get(dic.EmailRepo).(email.EmailRepo)
-	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.OTCRepo)
+func (r *UserController) ResendValidationEmail(c *gin.Context) {
 
 	id := c.Param("id")
 
-	user, err := userRepo.Get(id)
+	user, err := r.userRepo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
@@ -45,7 +37,7 @@ func ResendValidationEmail(c *gin.Context) {
 		return
 	}
 
-	err = otcRepo.Set(user.ID, verficationCode, 30)
+	err = r.otcRepo.Set(user.ID, verficationCode, 30)
 	if err != nil {
 		// TODO: handle this better
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
@@ -53,7 +45,7 @@ func ResendValidationEmail(c *gin.Context) {
 	}
 
 	if viper.GetString("ENV") == "PROD" {
-		_, err := emailRepo.Send(user.Email, "backend/roralis Roads verification email", verficationCode)
+		_, err := r.emailRepo.Send(user.Email, "backend/roralis Roads verification email", verficationCode)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 			return
@@ -71,11 +63,7 @@ type ValidateEmailRequest struct {
 	Code string
 }
 
-func ValidateEmail(c *gin.Context) {
-	userRepo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
-	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.OTCRepo)
-
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.JWTService)
+func (r *UserController) ValidateEmail(c *gin.Context) {
 
 	id := c.Param("id")
 
@@ -86,7 +74,7 @@ func ValidateEmail(c *gin.Context) {
 		return
 	}
 
-	user, err := userRepo.Get(id)
+	user, err := r.userRepo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
@@ -101,7 +89,7 @@ func ValidateEmail(c *gin.Context) {
 		return
 	}
 
-	correctCode, err := otcRepo.Get(user.ID)
+	correctCode, err := r.otcRepo.Get(user.ID)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
@@ -115,7 +103,7 @@ func ValidateEmail(c *gin.Context) {
 	user.Verified = true
 	user.Role = 5
 
-	err = userRepo.Update(id, user)
+	err = r.userRepo.Update(id, user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
@@ -128,7 +116,7 @@ func ValidateEmail(c *gin.Context) {
 		Role:     user.Role,
 	}
 
-	token, err := jwtService.NewJWT(&payload)
+	token, err := r.jwtService.NewJWT(&payload)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return
