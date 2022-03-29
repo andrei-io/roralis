@@ -1,7 +1,6 @@
 package category
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/category"
 	"errors"
@@ -11,11 +10,18 @@ import (
 	"gorm.io/gorm"
 )
 
-// Gin controller for GET /users
-func ReadAll(c *gin.Context) {
-	repo := dic.Container.Get(dic.CategoryRepo).(category.CategoryRepo)
+type CategoryController struct {
+	repo category.CategoryRepo
+}
 
-	categories, err := repo.GetAll()
+func NewCategoryController(c category.CategoryRepo) CategoryController {
+	return CategoryController{repo: c}
+}
+
+// Gin controller for GET /users
+func (r *CategoryController) ReadAll(c *gin.Context) {
+
+	categories, err := r.repo.GetAll()
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)
@@ -30,11 +36,10 @@ func ReadAll(c *gin.Context) {
 }
 
 // Gin controller for GET /users/:id
-func ReadOne(c *gin.Context) {
-	repo := dic.Container.Get(dic.CategoryRepo).(category.CategoryRepo)
+func (r *CategoryController) ReadOne(c *gin.Context) {
 	id := c.Param("id")
 
-	category, err := repo.Get(id)
+	category, err := r.repo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, entity.NotFoundError)

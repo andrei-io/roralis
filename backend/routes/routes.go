@@ -15,7 +15,7 @@
 package routes
 
 import (
-	"backend/roralis/controllers/category"
+	"backend/roralis/config"
 	"backend/roralis/controllers/post"
 	"backend/roralis/controllers/region"
 	"backend/roralis/controllers/user"
@@ -25,7 +25,7 @@ import (
 )
 
 // Mounts the routes
-func MountRoutes(app *gin.Engine) {
+func MountRoutes(app *gin.Engine, c *config.Config) {
 	v1 := app.Group("/api/v1")
 
 	// swagger:route GET /api/v1/users/:id user getUser
@@ -89,7 +89,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetAllCategoriesResponse
 	//       default: GenericResponse
-	v1.GET("/categories", category.ReadAll)
+	v1.GET("/categories", c.CategoryController.ReadAll)
 
 	// swagger:route GET /api/v1/categories/:id category getOneCategory
 	//
@@ -98,7 +98,7 @@ func MountRoutes(app *gin.Engine) {
 	//     Responses:
 	//       200:     GetOneCategoriesResponse
 	//       default: GenericResponse
-	v1.GET("/categories/:id", category.ReadOne)
+	v1.GET("/categories/:id", c.CategoryController.ReadOne)
 
 	// swagger:route GET /api/v1/regions/ region getRegion
 	//
