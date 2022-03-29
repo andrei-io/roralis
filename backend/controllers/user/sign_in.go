@@ -22,8 +22,8 @@ type SignInRequest struct {
 // Gin controller for sign-in flou
 func SignIn(c *gin.Context) {
 	// TODO
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
-	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
+	jwtService := dic.Container.Get(dic.JWTService).(jwt.JWTService)
+	userRepo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
 	var json SignInRequest
 
 	if err := c.ShouldBindJSON(&json); err != nil {

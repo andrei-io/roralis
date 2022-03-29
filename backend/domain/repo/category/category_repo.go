@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ICategoryRepo interface {
+type CategoryRepo interface {
 	GetAll() (c []entity.Category, err error)
 	Get(id string) (c *entity.Category, err error)
 	Update(id string, c *entity.Category) error
@@ -16,17 +16,20 @@ type ICategoryRepo interface {
 	Delete(id string) error
 }
 
-type CategoryRepo struct {
+type categoryRepo struct {
 	db *gorm.DB
 }
 
+// Check interface at compile time
+var _ CategoryRepo = (*categoryRepo)(nil)
+
 // Constructr funcion
-func NewCategoryRepo(db *gorm.DB) *CategoryRepo {
-	return &CategoryRepo{db}
+func NewCategoryRepo(db *gorm.DB) *categoryRepo {
+	return &categoryRepo{db}
 }
 
 // Returns an array of all categories
-func (r *CategoryRepo) GetAll() (c []entity.Category, err error) {
+func (r *categoryRepo) GetAll() (c []entity.Category, err error) {
 	var categories []entity.Category
 
 	// Will panic on fail,but gin has a recovery middleware
@@ -36,7 +39,7 @@ func (r *CategoryRepo) GetAll() (c []entity.Category, err error) {
 }
 
 // Returns a category by id
-func (r *CategoryRepo) Get(id string) (c *entity.Category, err error) {
+func (r *categoryRepo) Get(id string) (c *entity.Category, err error) {
 	var category entity.Category
 
 	err = r.db.First(&category, id).Error
@@ -44,14 +47,14 @@ func (r *CategoryRepo) Get(id string) (c *entity.Category, err error) {
 	return &category, err
 }
 
-func (r *CategoryRepo) Update(id string, c *entity.Category) error {
+func (r *categoryRepo) Update(id string, c *entity.Category) error {
 	return errors.New("Modifying categories is not allowed")
 }
 
-func (r *CategoryRepo) Create(c *entity.Category) error {
+func (r *categoryRepo) Create(c *entity.Category) error {
 	return errors.New("Modifying categories is not allowed")
 }
 
-func (r *CategoryRepo) Delete(id string) error {
+func (r *categoryRepo) Delete(id string) error {
 	return errors.New("Modifying categories is not allowed")
 }

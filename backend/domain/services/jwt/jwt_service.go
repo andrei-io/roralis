@@ -11,22 +11,25 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-type IJWTService interface {
+type JWTService interface {
 	NewJWT(c *entity.JWTClaims) (string, error)
 	VerifyJWT(token *string) (*entity.JWTClaims, error)
 }
 
-type JWTService struct {
+type jwtService struct {
 	secret *entity.JWTSecret
 }
 
+// Check interface at compile time
+var _ JWTService = (*jwtService)(nil)
+
 // Constructor function
-func NewJWTService(secret *entity.JWTSecret) *JWTService {
-	return &JWTService{secret: secret}
+func NewJWTService(secret *entity.JWTSecret) *jwtService {
+	return &jwtService{secret: secret}
 }
 
 // Returns a new JWT from the given claims
-func (j *JWTService) NewJWT(c *entity.JWTClaims) (string, error) {
+func (j *jwtService) NewJWT(c *entity.JWTClaims) (string, error) {
 	token := jwt.New(jwt.GetSigningMethod("RS256"))
 	// TODO: fix linting
 	// nolint
@@ -47,7 +50,7 @@ func (j *JWTService) NewJWT(c *entity.JWTClaims) (string, error) {
 }
 
 // Verifies the given JWT and returns its custom claims
-func (j *JWTService) VerifyJWT(token *string) (*entity.JWTClaims, error) {
+func (j *jwtService) VerifyJWT(token *string) (*entity.JWTClaims, error) {
 	t, err := jwt.ParseWithClaims(*token, &entity.JWTInfo{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])

@@ -13,7 +13,7 @@ import (
 
 // Gin controller for reading a single post
 func ReadOne(c *gin.Context) {
-	postRepo := dic.Container.Get(dic.PostRepo).(post.IPostRepo)
+	postRepo := dic.Container.Get(dic.PostRepo).(post.PostRepo)
 
 	id := c.Param("id")
 

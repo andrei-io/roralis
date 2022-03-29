@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type IRegionRepo interface {
+type RegionRepo interface {
 	GetAll() (re []entity.Region, err error)
 	Get(id string) (re *entity.Region, err error)
 	Update(id string, re *entity.Region) error
@@ -16,17 +16,20 @@ type IRegionRepo interface {
 	Delete(id string) error
 }
 
-type RegionRepo struct {
+type regionRepo struct {
 	db *gorm.DB
 }
 
+// Check interface at compile time
+var _ RegionRepo = (*regionRepo)(nil)
+
 // Constructor function
-func NewRegionRepo(db *gorm.DB) *RegionRepo {
-	return &RegionRepo{db}
+func NewRegionRepo(db *gorm.DB) *regionRepo {
+	return &regionRepo{db}
 }
 
 // Returns an array of all regions
-func (r *RegionRepo) GetAll() (re []entity.Region, err error) {
+func (r *regionRepo) GetAll() (re []entity.Region, err error) {
 	var regions []entity.Region
 
 	// Will panic on fail,but gin has a recovery middleware
@@ -36,7 +39,7 @@ func (r *RegionRepo) GetAll() (re []entity.Region, err error) {
 }
 
 // Get one region by id
-func (r *RegionRepo) Get(id string) (re *entity.Region, err error) {
+func (r *regionRepo) Get(id string) (re *entity.Region, err error) {
 	var region entity.Region
 
 	err = r.db.First(&region, id).Error
@@ -44,14 +47,14 @@ func (r *RegionRepo) Get(id string) (re *entity.Region, err error) {
 	return &region, err
 }
 
-func (r *RegionRepo) Update(id string, re *entity.Region) error {
+func (r *regionRepo) Update(id string, re *entity.Region) error {
 	return errors.New("Modifying regions is not allowed")
 }
 
-func (r *RegionRepo) Create(re *entity.Region) error {
+func (r *regionRepo) Create(re *entity.Region) error {
 	return errors.New("Modifying regions is not allowed")
 }
 
-func (r *RegionRepo) Delete(id string) error {
+func (r *regionRepo) Delete(id string) error {
 	return errors.New("Modifying regions is not allowed")
 }

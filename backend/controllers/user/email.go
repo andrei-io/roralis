@@ -18,9 +18,9 @@ import (
 
 // GIN controller for GET /users/resend/:id
 func ResendValidationEmail(c *gin.Context) {
-	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
-	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
-	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.IOTCRepo)
+	userRepo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
+	emailRepo := dic.Container.Get(dic.EmailRepo).(email.EmailRepo)
+	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.OTCRepo)
 
 	id := c.Param("id")
 
@@ -72,10 +72,10 @@ type ValidateEmailRequest struct {
 }
 
 func ValidateEmail(c *gin.Context) {
-	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
-	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.IOTCRepo)
+	userRepo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
+	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.OTCRepo)
 
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
+	jwtService := dic.Container.Get(dic.JWTService).(jwt.JWTService)
 
 	id := c.Param("id")
 

@@ -11,7 +11,7 @@ import (
 
 // Gin controller for creating a post, needs auth key
 func Create(c *gin.Context) {
-	postRepo := dic.Container.Get(dic.PostRepo).(post.IPostRepo)
+	postRepo := dic.Container.Get(dic.PostRepo).(post.PostRepo)
 
 	claimsRaw, exists := c.Get(dic.TokenKey)
 

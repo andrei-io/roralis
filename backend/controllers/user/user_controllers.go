@@ -13,7 +13,7 @@ import (
 
 // Gin controller for GET /users/:id
 func ReadOne(c *gin.Context) {
-	repo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
+	repo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
 	id := c.Param("id")
 
 	u, err := repo.Get(id)
