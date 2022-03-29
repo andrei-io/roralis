@@ -2,6 +2,7 @@ package user
 
 import (
 	"backend/roralis/domain/entity"
+	"backend/roralis/otc"
 	"errors"
 	"fmt"
 	"net/http"
@@ -31,7 +32,7 @@ func (r *UserController) ResendValidationEmail(c *gin.Context) {
 		return
 	}
 
-	verficationCode, err := entity.GenerateVerificationCode(6)
+	verficationCode, err := otc.GenerateVerificationCode(6)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
 		return

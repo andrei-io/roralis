@@ -2,9 +2,9 @@ package user
 
 import (
 	"backend/roralis/domain/repo/email"
-	"backend/roralis/domain/repo/otc"
 	"backend/roralis/domain/repo/user"
 	"backend/roralis/domain/services/jwt"
+	"backend/roralis/otc"
 )
 
 type UserController struct {
