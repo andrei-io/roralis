@@ -12,7 +12,7 @@ import (
 // Gin middleware for checking if jwt is valid
 // If valid will set a property on the context with the decoded claims
 func IsLoggedIn(c *gin.Context) {
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
+	jwtService := dic.Container.Get(dic.JWTService).(jwt.JWTService)
 	token := c.GetHeader("Authorization")
 
 	if token == "" {

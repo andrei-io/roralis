@@ -19,10 +19,10 @@ import (
 
 // Gin controller for signup
 func SignUp(c *gin.Context) {
-	userRepo := dic.Container.Get(dic.UserRepo).(user.IUserRepo)
-	emailRepo := dic.Container.Get(dic.EmailRepo).(email.IEmailRepo)
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.IJWTService)
-	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.IOTCRepo)
+	userRepo := dic.Container.Get(dic.UserRepo).(user.UserRepo)
+	emailRepo := dic.Container.Get(dic.EmailRepo).(email.EmailRepo)
+	jwtService := dic.Container.Get(dic.JWTService).(jwt.JWTService)
+	otcRepo := dic.Container.Get(dic.OTCRepo).(otc.OTCRepo)
 
 	var json entity.User
 	// Validate request form

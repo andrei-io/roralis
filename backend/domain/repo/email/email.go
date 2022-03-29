@@ -8,21 +8,24 @@ import (
 	"github.com/spf13/viper"
 )
 
-type IEmailRepo interface {
+type EmailRepo interface {
 	Send(recipient string, subject string, email_content string) (*rest.Response, error)
 }
 
-type EmailRepo struct {
+type emailRepo struct {
 	client *sendgrid.Client
 }
 
+// Check interface at compile time
+var _ EmailRepo = (*emailRepo)(nil)
+
 // Constructor function
-func NewEmailRepo() *EmailRepo {
-	return &EmailRepo{sendgrid.NewSendClient(viper.GetString("SENDGRID_KEY"))}
+func NewEmailRepo() *emailRepo {
+	return &emailRepo{sendgrid.NewSendClient(viper.GetString("SENDGRID_KEY"))}
 }
 
 // Sends an email with html formatting
-func (e *EmailRepo) Send(recipient string, subject string, email_content string) (*rest.Response, error) {
+func (e *emailRepo) Send(recipient string, subject string, email_content string) (*rest.Response, error) {
 
 	from := mail.NewEmail(viper.GetString("EMAIL_NAME"), viper.GetString("EMAIL_FROM"))
 	to := mail.NewEmail("The User", recipient)

@@ -14,7 +14,7 @@ import (
 
 // Gin controller for reading all posts
 func ReadAll(c *gin.Context) {
-	postRepo := dic.Container.Get(dic.PostRepo).(post.IPostRepo)
+	postRepo := dic.Container.Get(dic.PostRepo).(post.PostRepo)
 
 	offset, _ := strconv.Atoi(c.DefaultQuery("offset", "0"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "200"))

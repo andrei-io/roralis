@@ -9,23 +9,26 @@ import (
 	"gorm.io/gorm"
 )
 
-type IOTCRepo interface {
+type OTCRepo interface {
 	Set(key uint64, value string, expire_minutes int64) error
 	Get(key uint64) (string, error)
 	Delete(key string) error
 }
 
-type OTCRepo struct {
+type otcRepo struct {
 	db *gorm.DB
 }
 
+// Check interface at compile time
+var _ OTCRepo = (*otcRepo)(nil)
+
 // Constructor function
-func NewOTCRepo(db *gorm.DB) *OTCRepo {
-	return &OTCRepo{db}
+func NewOTCRepo(db *gorm.DB) *otcRepo {
+	return &otcRepo{db}
 }
 
 // Sets a (key, value) pair
-func (k *OTCRepo) Set(key uint64, value string, expire_minutes int64) error {
+func (k *otcRepo) Set(key uint64, value string, expire_minutes int64) error {
 	otc := entity.OneTimeCode{
 		UserID: key,
 		Code:   value,
@@ -38,7 +41,7 @@ func (k *OTCRepo) Set(key uint64, value string, expire_minutes int64) error {
 }
 
 // Gets a (key, value) pair
-func (k *OTCRepo) Get(key uint64) (string, error) {
+func (k *otcRepo) Get(key uint64) (string, error) {
 	var otc entity.OneTimeCode
 
 	err := k.db.Where("user_id = ?", key).First(&otc).Error
@@ -51,6 +54,6 @@ func (k *OTCRepo) Get(key uint64) (string, error) {
 	return otc.Code, nil
 }
 
-func (k *OTCRepo) Delete(key string) error {
+func (k *otcRepo) Delete(key string) error {
 	return errors.New("Not implemented yet")
 }

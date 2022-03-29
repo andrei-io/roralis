@@ -13,7 +13,7 @@ import (
 
 // Gin controller for GET /users
 func ReadAll(c *gin.Context) {
-	repo := dic.Container.Get(dic.RegionRepo).(region.IRegionRepo)
+	repo := dic.Container.Get(dic.RegionRepo).(region.RegionRepo)
 
 	regions, err := repo.GetAll()
 
@@ -31,7 +31,7 @@ func ReadAll(c *gin.Context) {
 
 // Gin controller for GET /users/:id
 func ReadOne(c *gin.Context) {
-	repo := dic.Container.Get(dic.RegionRepo).(region.IRegionRepo)
+	repo := dic.Container.Get(dic.RegionRepo).(region.RegionRepo)
 	id := c.Param("id")
 
 	region, err := repo.Get(id)

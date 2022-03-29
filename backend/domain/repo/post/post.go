@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type IPostRepo interface {
+type PostRepo interface {
 	GetAll(offset int, limit int, newest bool) (c []entity.Post, err error)
 	Get(id string) (p *entity.Post, err error)
 	Update(id string, p *entity.Post) error
@@ -16,17 +16,20 @@ type IPostRepo interface {
 	Delete(id string) error
 }
 
-type PostRepo struct {
+type postRepo struct {
 	db *gorm.DB
 }
 
+// Check interface at compile time
+var _ PostRepo = (*postRepo)(nil)
+
 // Constructor function
-func NewPostRepo(db *gorm.DB) *PostRepo {
-	return &PostRepo{db: db}
+func NewPostRepo(db *gorm.DB) *postRepo {
+	return &postRepo{db: db}
 }
 
 // Gets one post by id
-func (r *PostRepo) Get(id string) (p *entity.Post, err error) {
+func (r *postRepo) Get(id string) (p *entity.Post, err error) {
 	var post entity.Post
 
 	err = r.db.First(&post, id).Error
@@ -35,7 +38,7 @@ func (r *PostRepo) Get(id string) (p *entity.Post, err error) {
 }
 
 // Gets all the posts with pagination and if set orderds by date created
-func (r *PostRepo) GetAll(offset int, limit int, newest bool) (c []entity.Post, err error) {
+func (r *postRepo) GetAll(offset int, limit int, newest bool) (c []entity.Post, err error) {
 	var posts []entity.Post
 	var order string
 
@@ -50,15 +53,15 @@ func (r *PostRepo) GetAll(offset int, limit int, newest bool) (c []entity.Post, 
 	return posts, err
 }
 
-func (r *PostRepo) Update(id string, p *entity.Post) error {
+func (r *postRepo) Update(id string, p *entity.Post) error {
 	return errors.New("Not implemented yet")
 }
 
-func (r *PostRepo) Create(p *entity.Post) error {
+func (r *postRepo) Create(p *entity.Post) error {
 	err := r.db.Create(&p).Error
 	return err
 }
 
-func (r *PostRepo) Delete(id string) error {
+func (r *postRepo) Delete(id string) error {
 	return errors.New("Not implemented yet")
 }
