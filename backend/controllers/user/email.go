@@ -1,6 +1,7 @@
 package user
 
 import (
+	"backend/roralis/auth"
 	"backend/roralis/domain/entity"
 	"backend/roralis/otc"
 	"errors"
@@ -110,7 +111,7 @@ func (r *UserController) ValidateEmail(c *gin.Context) {
 		return
 	}
 
-	payload := entity.JWTClaims{
+	payload := auth.JWTClaims{
 		ID:       user.ID,
 		Name:     user.Name,
 		Verified: user.Verified,

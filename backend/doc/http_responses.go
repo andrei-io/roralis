@@ -2,6 +2,7 @@
 package doc
 
 import (
+	"backend/roralis/auth"
 	"backend/roralis/category"
 	"backend/roralis/domain/entity"
 	"backend/roralis/region"
@@ -79,7 +80,7 @@ type SignUpSucces struct {
 type AboutMeSucces struct {
 	// in: body
 	Body struct {
-		User entity.JWTClaims
+		User auth.JWTClaims
 	}
 }
 

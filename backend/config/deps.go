@@ -1,17 +1,16 @@
 package config
 
 import (
+	"backend/roralis/auth"
 	"backend/roralis/category"
 	postController "backend/roralis/controllers/post"
 	userController "backend/roralis/controllers/user"
-	"backend/roralis/domain/entity"
 	"backend/roralis/domain/repo/email"
 	"backend/roralis/domain/repo/post"
 	"backend/roralis/otc"
 	"backend/roralis/region"
 
 	"backend/roralis/domain/repo/user"
-	"backend/roralis/domain/services/jwt"
 	"backend/roralis/infrastructure"
 	"backend/roralis/middleware"
 
@@ -25,8 +24,8 @@ type Services struct {
 	TokenKey string
 	DB       *gorm.DB
 
-	JWTSecret  *entity.JWTSecret
-	JWTService jwt.JWTService
+	JWTSecret  *auth.JWTSecret
+	JWTService auth.JWTService
 
 	CategoryRepo       category.CategoryRepo
 	CategoryController category.CategoryController
@@ -75,7 +74,7 @@ func BootstrapServices() (*Services, error) {
 	if err != nil {
 		return nil, err
 	}
-	config.JWTService = jwt.NewJWTService(config.JWTSecret)
+	config.JWTService = auth.NewJWTService(config.JWTSecret)
 
 	config.UserRepo = user.NewUserRepo(config.DB)
 	config.UserController = userController.NewUserController(
