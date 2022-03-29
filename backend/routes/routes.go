@@ -22,7 +22,7 @@ import (
 )
 
 // Mounts the routes
-func MountRoutes(app *gin.Engine, c *config.Config) {
+func MountRoutes(app *gin.Engine, c *config.Services) {
 	v1 := app.Group("/api/v1")
 
 	// swagger:route GET /api/v1/users/:id user getUser
