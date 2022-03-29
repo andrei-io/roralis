@@ -1,7 +1,6 @@
 package user
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
 	"net/http"
 
@@ -11,7 +10,7 @@ import (
 // Gin controller that decodes and sends jwt back
 func (r *UserController) AboutMe(c *gin.Context) {
 
-	claimsRaw, exists := c.Get(dic.TokenKey)
+	claimsRaw, exists := c.Get(r.tokenString)
 
 	if !exists {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: "JWT claims object is missing"})

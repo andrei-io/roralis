@@ -50,7 +50,7 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     AboutMeSucces
-	v1.GET("/users/aboutme", IsLoggedIn, c.UserController.AboutMe)
+	v1.GET("/users/aboutme", c.AuthService.IsLoggedIn, c.UserController.AboutMe)
 
 	// swagger:route POST /api/v1/users/confirm/:id user confirm
 	//
@@ -140,6 +140,6 @@ func MountRoutes(app *gin.Engine, c *config.Config) {
 	//     Responses:
 	//       200:     GetOnePostResponse
 	//       default: GenericResponse
-	v1.POST("/posts", IsLoggedIn, c.PostController.Create)
+	v1.POST("/posts", c.AuthService.IsLoggedIn, c.PostController.Create)
 
 }

@@ -1,7 +1,6 @@
 package post
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
 	"net/http"
 
@@ -11,7 +10,7 @@ import (
 // Gin controller for creating a post, needs auth key
 func (r *PostController) Create(c *gin.Context) {
 
-	claimsRaw, exists := c.Get(dic.TokenKey)
+	claimsRaw, exists := c.Get(r.tokenKey)
 
 	if !exists {
 		c.JSON(http.StatusInternalServerError, entity.Response{Message: "JWT claims object is missing"})
