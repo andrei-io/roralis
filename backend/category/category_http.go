@@ -2,7 +2,6 @@ package category
 
 import (
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/category"
 	"errors"
 	"net/http"
 
@@ -11,10 +10,10 @@ import (
 )
 
 type CategoryController struct {
-	repo category.CategoryRepo
+	repo CategoryRepo
 }
 
-func NewCategoryController(c category.CategoryRepo) CategoryController {
+func NewCategoryController(c CategoryRepo) CategoryController {
 	return CategoryController{repo: c}
 }
 

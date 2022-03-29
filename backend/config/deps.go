@@ -1,11 +1,10 @@
 package config
 
 import (
-	categoryController "backend/roralis/controllers/category"
+	"backend/roralis/category"
 	postController "backend/roralis/controllers/post"
 	userController "backend/roralis/controllers/user"
 	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/category"
 	"backend/roralis/domain/repo/email"
 	"backend/roralis/domain/repo/otc"
 	"backend/roralis/domain/repo/post"
@@ -30,7 +29,7 @@ type Services struct {
 	JWTService jwt.JWTService
 
 	CategoryRepo       category.CategoryRepo
-	CategoryController categoryController.CategoryController
+	CategoryController category.CategoryController
 
 	RegionRepo       region.RegionRepo
 	RegionController region.RegionController
@@ -61,7 +60,7 @@ func BootstrapServices() (*Services, error) {
 	config.TokenKey = "token"
 
 	config.CategoryRepo = category.NewCategoryRepo(config.DB)
-	config.CategoryController = categoryController.NewCategoryController(config.CategoryRepo)
+	config.CategoryController = category.NewCategoryController(config.CategoryRepo)
 
 	config.RegionRepo = region.NewRegionRepo(config.DB)
 	config.RegionController = region.NewRegionController(config.RegionRepo)
