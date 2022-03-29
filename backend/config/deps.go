@@ -2,6 +2,7 @@ package config
 
 import (
 	categoryController "backend/roralis/controllers/category"
+	"backend/roralis/controllers/middleware"
 	postController "backend/roralis/controllers/post"
 	regionController "backend/roralis/controllers/region"
 	userController "backend/roralis/controllers/user"
@@ -42,6 +43,8 @@ type Config struct {
 
 	EmailRepo email.EmailRepo
 	OTCRepo   otc.OTCRepo
+
+	AuthService middleware.AuthService
 }
 
 // Set up all the services.
@@ -64,7 +67,7 @@ func BootstrapServices() (*Config, error) {
 	config.RegionController = regionController.NewRegionController(config.RegionRepo)
 
 	config.PostRepo = post.NewPostRepo(config.DB)
-	config.PostController = postController.NewPostController(config.PostRepo)
+	config.PostController = postController.NewPostController(config.PostRepo, config.TokenKey)
 
 	config.EmailRepo = email.NewEmailRepo(viper.GetString("SENDGRID_KEY"))
 	config.OTCRepo = otc.NewOTCRepo(config.DB)
@@ -81,7 +84,10 @@ func BootstrapServices() (*Config, error) {
 		config.EmailRepo,
 		config.OTCRepo,
 		config.JWTService,
+		config.TokenKey,
 	)
+
+	config.AuthService = middleware.NewAuthService(config.JWTService, config.TokenKey)
 
 	return &config, nil
 

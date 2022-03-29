@@ -2,7 +2,6 @@ package main
 
 import (
 	"backend/roralis/config"
-	"backend/roralis/dic"
 	"backend/roralis/routes"
 	"fmt"
 	"os"
@@ -18,11 +17,6 @@ func main() {
 
 	if err := config.Load(); err != nil {
 		fmt.Printf("Failed to read config:\n     %v", err)
-		os.Exit(1)
-	}
-
-	if _, err := dic.InitContainer(); err != nil {
-		fmt.Printf("Failed to start Dependency Injection Conatiner:\n    %v", err)
 		os.Exit(1)
 	}
 

@@ -1,7 +1,6 @@
-package routes
+package middleware
 
 import (
-	"backend/roralis/dic"
 	"backend/roralis/domain/entity"
 	"backend/roralis/domain/services/jwt"
 	"net/http"
@@ -9,10 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type AuthService struct {
+	jwtService  jwt.JWTService
+	tokenString string
+}
+
+func NewAuthService(j jwt.JWTService, t string) AuthService {
+	return AuthService{jwtService: j, tokenString: t}
+}
+
 // Gin middleware for checking if jwt is valid
 // If valid will set a property on the context with the decoded claims
-func IsLoggedIn(c *gin.Context) {
-	jwtService := dic.Container.Get(dic.JWTService).(jwt.JWTService)
+func (r *AuthService) IsLoggedIn(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 
 	if token == "" {
@@ -21,7 +28,7 @@ func IsLoggedIn(c *gin.Context) {
 		return
 	}
 
-	claims, err := jwtService.VerifyJWT(&token)
+	claims, err := r.jwtService.VerifyJWT(&token)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, entity.Response{Message: err.Error()})
@@ -29,7 +36,7 @@ func IsLoggedIn(c *gin.Context) {
 		return
 	}
 
-	c.Set(dic.TokenKey, claims)
+	c.Set(r.tokenString, claims)
 
 	c.Next()
 }
