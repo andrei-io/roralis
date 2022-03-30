@@ -1,18 +1,16 @@
-// Contains everything related to interacting with posts
 package post
 
 import (
-	"backend/roralis/domain/entity"
 	"errors"
 
 	"gorm.io/gorm"
 )
 
 type PostRepo interface {
-	GetAll(offset int, limit int, newest bool) (c []entity.Post, err error)
-	Get(id string) (p *entity.Post, err error)
-	Update(id string, p *entity.Post) error
-	Create(p *entity.Post) error
+	GetAll(offset int, limit int, newest bool) (c []Post, err error)
+	Get(id string) (p *Post, err error)
+	Update(id string, p *Post) error
+	Create(p *Post) error
 	Delete(id string) error
 }
 
@@ -29,8 +27,8 @@ func NewPostRepo(db *gorm.DB) *postRepo {
 }
 
 // Gets one post by id
-func (r *postRepo) Get(id string) (p *entity.Post, err error) {
-	var post entity.Post
+func (r *postRepo) Get(id string) (p *Post, err error) {
+	var post Post
 
 	err = r.db.First(&post, id).Error
 
@@ -38,8 +36,8 @@ func (r *postRepo) Get(id string) (p *entity.Post, err error) {
 }
 
 // Gets all the posts with pagination and if set orderds by date created
-func (r *postRepo) GetAll(offset int, limit int, newest bool) (c []entity.Post, err error) {
-	var posts []entity.Post
+func (r *postRepo) GetAll(offset int, limit int, newest bool) (c []Post, err error) {
+	var posts []Post
 	var order string
 
 	if newest {
@@ -53,11 +51,11 @@ func (r *postRepo) GetAll(offset int, limit int, newest bool) (c []entity.Post, 
 	return posts, err
 }
 
-func (r *postRepo) Update(id string, p *entity.Post) error {
+func (r *postRepo) Update(id string, p *Post) error {
 	return errors.New("Not implemented yet")
 }
 
-func (r *postRepo) Create(p *entity.Post) error {
+func (r *postRepo) Create(p *Post) error {
 	err := r.db.Create(&p).Error
 	return err
 }

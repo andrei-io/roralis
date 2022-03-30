@@ -1,8 +1,9 @@
-package post
+package posthttp
 
 import (
 	"backend/roralis/domain/entity"
 	"backend/roralis/jwt"
+	"backend/roralis/post"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +31,7 @@ func (r *PostController) Create(c *gin.Context) {
 		return
 	}
 
-	var json entity.Post
+	var json post.Post
 
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
