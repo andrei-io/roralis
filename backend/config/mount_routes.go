@@ -12,17 +12,16 @@
 //
 // swagger:meta
 
-package routes
+package config
 
 import (
-	"backend/roralis/config"
 	_ "backend/roralis/doc" // for swagger responses
 
 	"github.com/gin-gonic/gin"
 )
 
 // Mounts the routes
-func MountRoutes(app *gin.Engine, c *config.Services) {
+func mountRoutes(app *gin.Engine, c *Services) {
 	v1 := app.Group("/api/v1")
 
 	// swagger:route GET /api/v1/users/:id user getUser

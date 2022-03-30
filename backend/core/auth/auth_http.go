@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"backend/roralis/email"
-	"backend/roralis/jwt"
-	"backend/roralis/otc"
-	"backend/roralis/user"
+	"backend/roralis/core/email"
+	"backend/roralis/core/jwt"
+	"backend/roralis/core/otc"
+	"backend/roralis/core/user"
 )
 
 type AuthController struct {

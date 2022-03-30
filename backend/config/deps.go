@@ -1,15 +1,15 @@
 package config
 
 import (
-	"backend/roralis/auth"
-	"backend/roralis/category"
-	"backend/roralis/email"
-	"backend/roralis/jwt"
-	"backend/roralis/otc"
-	"backend/roralis/post"
-	posthttp "backend/roralis/post/post_http"
-	"backend/roralis/region"
-	"backend/roralis/user"
+	"backend/roralis/core/auth"
+	"backend/roralis/core/category"
+	"backend/roralis/core/email"
+	"backend/roralis/core/jwt"
+	"backend/roralis/core/otc"
+	"backend/roralis/core/post"
+	posthttp "backend/roralis/core/post/post_http"
+	"backend/roralis/core/region"
+	"backend/roralis/core/user"
 
 	"backend/roralis/infrastructure"
 	"backend/roralis/middleware"
