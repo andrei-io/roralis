@@ -5,6 +5,7 @@ import (
 	"backend/roralis/category"
 	"backend/roralis/domain/entity"
 	"backend/roralis/jwt"
+	"backend/roralis/post"
 	"backend/roralis/region"
 	"backend/roralis/user"
 )
@@ -88,11 +89,11 @@ type AboutMeSucces struct {
 // swagger:response GetOnePostResponse
 type GetOnePostResponse struct {
 	// in: body
-	Body entity.Post
+	Body post.Post
 }
 
 // swagger:response GetAllPostResponse
 type GetAllPostResponse struct {
 	// in: body
-	Body []entity.Post
+	Body []post.Post
 }
