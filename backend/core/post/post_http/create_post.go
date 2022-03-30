@@ -1,8 +1,8 @@
 package posthttp
 
 import (
-	"backend/roralis/jwt"
-	"backend/roralis/post"
+	"backend/roralis/core/jwt"
+	"backend/roralis/core/post"
 	httpresponse "backend/roralis/shared/http_response"
 	"net/http"
 

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"backend/roralis/jwt"
+	"backend/roralis/core/jwt"
 
 	"crypto/rsa"
 	"crypto/x509"

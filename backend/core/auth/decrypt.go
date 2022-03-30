@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"backend/roralis/jwt"
+	"backend/roralis/core/jwt"
 	httpresponse "backend/roralis/shared/http_response"
 
 	"net/http"

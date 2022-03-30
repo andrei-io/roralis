@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"backend/roralis/jwt"
-	"backend/roralis/otc"
+	"backend/roralis/core/jwt"
+	"backend/roralis/core/otc"
+	"backend/roralis/core/user"
 	httpresponse "backend/roralis/shared/http_response"
-	"backend/roralis/user"
 	"fmt"
 	"net/http"
 	"strings"

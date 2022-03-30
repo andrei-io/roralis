@@ -2,12 +2,12 @@
 package doc
 
 import (
-	"backend/roralis/category"
-	"backend/roralis/jwt"
-	"backend/roralis/post"
-	"backend/roralis/region"
+	"backend/roralis/core/category"
+	"backend/roralis/core/jwt"
+	"backend/roralis/core/post"
+	"backend/roralis/core/region"
+	"backend/roralis/core/user"
 	httpresponse "backend/roralis/shared/http_response"
-	"backend/roralis/user"
 )
 
 // swagger:response GenericResponse

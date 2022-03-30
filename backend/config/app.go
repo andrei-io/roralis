@@ -17,5 +17,7 @@ func BuildApp(c *Services) *gin.Engine {
 	app.Use(gin.Logger())
 	app.Use(gin.ErrorLogger())
 
+	mountRoutes(app, c)
+
 	return app
 }
