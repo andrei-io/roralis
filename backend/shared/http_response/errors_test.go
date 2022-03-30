@@ -1,7 +1,6 @@
-package entity_test
+package httpresponse
 
 import (
-	"backend/roralis/domain/entity"
 	"testing"
 )
 
@@ -25,7 +24,7 @@ func TestNewDuplicateEntityErrorResponse(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		r := entity.NewDuplicateEntityErrorResponse(tt.Field)
+		r := NewDuplicateEntityErrorResponse(tt.Field)
 		if r.Message != tt.Correct {
 			t.Errorf("Failed.Got %q, Wanted %q", r.Message, tt.Correct)
 		}

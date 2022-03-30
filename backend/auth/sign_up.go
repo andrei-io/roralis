@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"backend/roralis/domain/entity"
 	"backend/roralis/jwt"
 	"backend/roralis/otc"
+	httpresponse "backend/roralis/shared/http_response"
 	"backend/roralis/user"
 	"fmt"
 	"net/http"
@@ -21,7 +21,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 	var json user.User
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
-		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusBadRequest, httpresponse.Response{Message: err.Error()})
 		return
 	}
 
@@ -31,7 +31,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 
 	if err != nil {
 		// Failing to hash a password is a fatal error
-		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
 	}
 	json.Password = string(hashedPassword)
 
@@ -41,17 +41,17 @@ func (r *AuthController) SignUp(c *gin.Context) {
 		err := err.(*pgconn.PgError)
 		message := err.Message
 		if strings.Contains(message, "duplicate key value violates unique constraint") {
-			c.JSON(http.StatusConflict, entity.NewDuplicateEntityErrorResponse(err.ConstraintName))
+			c.JSON(http.StatusConflict, httpresponse.NewDuplicateEntityErrorResponse(err.ConstraintName))
 			return
 		} else {
-			c.JSON(http.StatusUnprocessableEntity, entity.Response{Message: err.Error()})
+			c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
 			return
 		}
 	}
 
 	verficationCode, err := otc.GenerateVerificationCode(6)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
 		return
 	}
 
@@ -59,7 +59,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 	err = r.otcRepo.Set(json.ID, verficationCode, 30)
 	if err != nil {
 		// TODO: handle this better
-		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
 		return
 	}
 
@@ -67,7 +67,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 	if viper.GetString("ENV") == "PROD" {
 		_, err = r.emailRepo.Send(json.Email, "backend/roralis Roads verification email", verficationCode)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+			c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
 			return
 		}
 	} else {
@@ -84,7 +84,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 
 	token, err := r.jwtService.NewJWT(&payload)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, entity.Response{Message: "Your password or email are incorrect"})
+		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: "Your password or email are incorrect"})
 	}
 
 	c.JSON(http.StatusOK, gin.H{
