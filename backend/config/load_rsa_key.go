@@ -1,7 +1,8 @@
 package config
 
 import (
-	"backend/roralis/domain/entity"
+	"backend/roralis/core/jwt"
+
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
@@ -10,7 +11,7 @@ import (
 
 // Loads RSA keys from viper.
 // This function is mostly copied from the internet because working with crypto keys is golang is a pain
-func loadRSAKeys(jwtPrivate, jwtPublic string) (*entity.JWTSecret, error) {
+func loadRSAKeys(jwtPrivate, jwtPublic string) (*jwt.JWTSecret, error) {
 
 	var err error
 
@@ -60,7 +61,7 @@ func loadRSAKeys(jwtPrivate, jwtPublic string) (*entity.JWTSecret, error) {
 
 	privateKey.PublicKey = *publicKey
 
-	return &entity.JWTSecret{
+	return &jwt.JWTSecret{
 		SignKey:   privateKey,
 		VerifyKey: publicKey,
 	}, nil

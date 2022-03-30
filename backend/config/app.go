@@ -6,7 +6,7 @@ import (
 )
 
 // Creates Gin server and mounts routes
-func BuildApp(c *Config) *gin.Engine {
+func BuildApp(c *Services) *gin.Engine {
 	gin.SetMode(viper.GetString("GIN_MODE"))
 
 	// Blank gin app.
@@ -16,6 +16,8 @@ func BuildApp(c *Config) *gin.Engine {
 	// TODO: use a logging library here
 	app.Use(gin.Logger())
 	app.Use(gin.ErrorLogger())
+
+	mountRoutes(app, c)
 
 	return app
 }

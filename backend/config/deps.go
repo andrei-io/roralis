@@ -1,18 +1,16 @@
 package config
 
 import (
-	categoryController "backend/roralis/controllers/category"
-	postController "backend/roralis/controllers/post"
-	regionController "backend/roralis/controllers/region"
-	userController "backend/roralis/controllers/user"
-	"backend/roralis/domain/entity"
-	"backend/roralis/domain/repo/category"
-	"backend/roralis/domain/repo/email"
-	"backend/roralis/domain/repo/otc"
-	"backend/roralis/domain/repo/post"
-	"backend/roralis/domain/repo/region"
-	"backend/roralis/domain/repo/user"
-	"backend/roralis/domain/services/jwt"
+	"backend/roralis/core/auth"
+	"backend/roralis/core/category"
+	"backend/roralis/core/email"
+	"backend/roralis/core/jwt"
+	"backend/roralis/core/otc"
+	"backend/roralis/core/post"
+	posthttp "backend/roralis/core/post/post_http"
+	"backend/roralis/core/region"
+	"backend/roralis/core/user"
+
 	"backend/roralis/infrastructure"
 	"backend/roralis/middleware"
 
@@ -21,38 +19,40 @@ import (
 )
 
 // nolint: govet
-// Config struct for all the dependencies
-type Config struct {
+// Services struct for all the dependencies
+type Services struct {
 	TokenKey string
 	DB       *gorm.DB
 
-	JWTSecret  *entity.JWTSecret
+	JWTSecret  *jwt.JWTSecret
 	JWTService jwt.JWTService
 
 	CategoryRepo       category.CategoryRepo
-	CategoryController categoryController.CategoryController
+	CategoryController category.CategoryController
 
 	RegionRepo       region.RegionRepo
-	RegionController regionController.RegionController
+	RegionController region.RegionController
 
 	PostRepo       post.PostRepo
-	PostController postController.PostController
+	PostController posthttp.PostController
 
 	UserRepo       user.UserRepo
-	UserController userController.UserController
+	UserController user.UserController
+
+	AuthController auth.AuthController
 
 	EmailRepo email.EmailRepo
 	OTCRepo   otc.OTCRepo
 
-	AuthService middleware.AuthService
+	AuthMiddleware middleware.AuthService
 }
 
 // Set up all the services.
 // Will error out.
-func BootstrapServices() (*Config, error) {
+func BootstrapServices() (*Services, error) {
 	var (
 		err    error
-		config Config
+		config Services
 	)
 	config.DB, err = infrastructure.NewDB(viper.GetString("DB_URL"))
 	if err != nil {
@@ -61,13 +61,13 @@ func BootstrapServices() (*Config, error) {
 	config.TokenKey = "token"
 
 	config.CategoryRepo = category.NewCategoryRepo(config.DB)
-	config.CategoryController = categoryController.NewCategoryController(config.CategoryRepo)
+	config.CategoryController = category.NewCategoryController(config.CategoryRepo)
 
 	config.RegionRepo = region.NewRegionRepo(config.DB)
-	config.RegionController = regionController.NewRegionController(config.RegionRepo)
+	config.RegionController = region.NewRegionController(config.RegionRepo)
 
 	config.PostRepo = post.NewPostRepo(config.DB)
-	config.PostController = postController.NewPostController(config.PostRepo, config.TokenKey)
+	config.PostController = posthttp.NewPostController(config.PostRepo, config.TokenKey)
 
 	config.EmailRepo = email.NewEmailRepo(viper.GetString("SENDGRID_KEY"))
 	config.OTCRepo = otc.NewOTCRepo(config.DB)
@@ -79,7 +79,9 @@ func BootstrapServices() (*Config, error) {
 	config.JWTService = jwt.NewJWTService(config.JWTSecret)
 
 	config.UserRepo = user.NewUserRepo(config.DB)
-	config.UserController = userController.NewUserController(
+	config.UserController = user.NewUserController(config.UserRepo)
+
+	config.AuthController = auth.NewAuthController(
 		config.UserRepo,
 		config.EmailRepo,
 		config.OTCRepo,
@@ -87,7 +89,7 @@ func BootstrapServices() (*Config, error) {
 		config.TokenKey,
 	)
 
-	config.AuthService = middleware.NewAuthService(config.JWTService, config.TokenKey)
+	config.AuthMiddleware = middleware.NewAuthService(config.JWTService, config.TokenKey)
 
 	return &config, nil
 

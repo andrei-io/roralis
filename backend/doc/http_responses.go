@@ -2,56 +2,61 @@
 package doc
 
 import (
-	"backend/roralis/domain/entity"
+	"backend/roralis/core/category"
+	"backend/roralis/core/jwt"
+	"backend/roralis/core/post"
+	"backend/roralis/core/region"
+	"backend/roralis/core/user"
+	httpresponse "backend/roralis/shared/http_response"
 )
 
 // swagger:response GenericResponse
 type GenericResponse struct {
 	// Generic response, used when erros occurep
 	// in: body
-	Body entity.Response
+	Body httpresponse.Response
 }
 
 // swagger:response GetAllUsersResponse
 type GetAllUsersResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body []entity.User
+	Body []user.User
 }
 
 // swagger:response GetOneUserResponse
 type GetOneUserResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body entity.User
+	Body user.User
 }
 
 // swagger:response GetAllCategoriesResponse
 type GetAllCategoriesResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body []entity.Category
+	Body []category.Category
 }
 
 // swagger:response GetOneCategoriesResponse
 type GetOneCategoriesResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body entity.Category
+	Body category.Category
 }
 
 // swagger:response GetAllRegionsResponse
 type GetAllRegionsResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body []entity.Category
+	Body []region.Region
 }
 
 // swagger:response GetOneRegionsResponse
 type GetOneRegionsResponse struct {
 	// Used when accesing GET /users
 	// in: body
-	Body entity.Category
+	Body region.Region
 }
 
 // swagger:response SignInSucces
@@ -68,7 +73,7 @@ type SignUpSucces struct {
 	// Used when accesing GET /users
 	// in: body
 	Body struct {
-		User  entity.User
+		User  user.User
 		Token string
 	}
 }
@@ -77,18 +82,18 @@ type SignUpSucces struct {
 type AboutMeSucces struct {
 	// in: body
 	Body struct {
-		User entity.JWTClaims
+		User jwt.JWTClaims
 	}
 }
 
 // swagger:response GetOnePostResponse
 type GetOnePostResponse struct {
 	// in: body
-	Body entity.Post
+	Body post.Post
 }
 
 // swagger:response GetAllPostResponse
 type GetAllPostResponse struct {
 	// in: body
-	Body []entity.Post
+	Body []post.Post
 }
