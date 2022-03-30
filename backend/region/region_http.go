@@ -1,7 +1,7 @@
 package region
 
 import (
-	"backend/roralis/domain/entity"
+	httpresponse "backend/roralis/shared/http_response"
 	"errors"
 	"net/http"
 
@@ -23,11 +23,11 @@ func (r *RegionController) ReadAll(c *gin.Context) {
 	regions, err := r.repo.GetAll()
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, entity.NotFoundError)
+		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
 		return
 	}
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, regions)
@@ -41,11 +41,11 @@ func (r *RegionController) ReadOne(c *gin.Context) {
 	region, err := r.repo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, entity.NotFoundError)
+		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
 		return
 	}
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
 		return
 	}
 

@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"backend/roralis/domain/entity"
 	"backend/roralis/jwt"
+	httpresponse "backend/roralis/shared/http_response"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -23,7 +23,7 @@ func (r *AuthService) IsLoggedIn(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 
 	if token == "" {
-		c.JSON(http.StatusUnauthorized, entity.Response{Message: "Missing JWT token"})
+		c.JSON(http.StatusUnauthorized, httpresponse.Response{Message: "Missing JWT token"})
 		c.Abort()
 		return
 	}
@@ -31,7 +31,7 @@ func (r *AuthService) IsLoggedIn(c *gin.Context) {
 	claims, err := r.jwtService.VerifyJWT(&token)
 
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusUnauthorized, httpresponse.Response{Message: err.Error()})
 		c.Abort()
 		return
 	}

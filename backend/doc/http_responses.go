@@ -3,10 +3,10 @@ package doc
 
 import (
 	"backend/roralis/category"
-	"backend/roralis/domain/entity"
 	"backend/roralis/jwt"
 	"backend/roralis/post"
 	"backend/roralis/region"
+	httpresponse "backend/roralis/shared/http_response"
 	"backend/roralis/user"
 )
 
@@ -14,7 +14,7 @@ import (
 type GenericResponse struct {
 	// Generic response, used when erros occurep
 	// in: body
-	Body entity.Response
+	Body httpresponse.Response
 }
 
 // swagger:response GetAllUsersResponse

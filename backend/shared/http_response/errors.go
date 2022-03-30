@@ -1,4 +1,4 @@
-package entity
+package httpresponse
 
 import "fmt"
 
@@ -7,8 +7,8 @@ type Response struct {
 	Message string
 }
 
-var NotFoundError Response
-var SuccesResponse Response
+var NotFoundError = Response{Message: "Record not found"}
+var SuccesResponse Response = Response{Message: "Succes"}
 
 // Returns a new formatted error for duplicate entities in the DB
 // Useful for standardized responses

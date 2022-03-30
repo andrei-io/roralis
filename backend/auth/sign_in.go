@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"backend/roralis/domain/entity"
 	"backend/roralis/jwt"
+	httpresponse "backend/roralis/shared/http_response"
 	"errors"
 	"net/http"
 
@@ -23,25 +23,25 @@ func (r *AuthController) SignIn(c *gin.Context) {
 	var json signInRequest
 
 	if err := c.ShouldBindJSON(&json); err != nil {
-		c.JSON(http.StatusBadRequest, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusBadRequest, httpresponse.Response{Message: err.Error()})
 		return
 	}
 
 	user, err := r.userRepo.GetByEmail(json.Email)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, entity.NotFoundError)
+		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
 		return
 	}
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, entity.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(json.Password))
 
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, entity.Response{Message: "Your password or email are incorrect"})
+		c.JSON(http.StatusUnauthorized, httpresponse.Response{Message: "Your password or email are incorrect"})
 		return
 	}
 
@@ -54,7 +54,7 @@ func (r *AuthController) SignIn(c *gin.Context) {
 	token, err := r.jwtService.NewJWT(&payload)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, entity.Response{Message: "Your password or email are incorrect"})
+		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: "Your password or email are incorrect"})
 	}
 
 	c.JSON(http.StatusOK, gin.H{
