@@ -1,0 +1,332 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  Category:
+    description: 'nolint: govet'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        description: DeletedAt is a pointer because it can be null
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Text:
+        type: string
+    type: object
+    x-go-package: backend/roralis/core/category
+  JWTClaims:
+    properties:
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Role:
+        format: uint8
+        type: integer
+      Verified:
+        type: boolean
+    type: object
+    x-go-package: backend/roralis/core/jwt
+  Post:
+    description: 'nolint: govet'
+    properties:
+      Address:
+        type: string
+      CategoryID:
+        format: uint64
+        type: integer
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Description:
+        type: string
+      Expiry:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Latitude:
+        format: float
+        type: number
+      Longitude:
+        format: float
+        type: number
+      Photo:
+        type: string
+      RegionID:
+        format: uint64
+        type: integer
+      Title:
+        type: string
+      UserID:
+        format: uint64
+        type: integer
+    type: object
+    x-go-package: backend/roralis/core/post
+  Region:
+    description: 'nolint: govet'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        description: DeletedAt is a pointer because it can be null
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Text:
+        type: string
+    type: object
+    x-go-package: backend/roralis/core/region
+  Response:
+    description: Standardized http response
+    properties:
+      Message:
+        type: string
+    type: object
+    x-go-package: backend/roralis/shared/http_response
+  User:
+    description: 'nolint: govet'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        description: DeletedAt is a pointer because it can be null
+        format: date-time
+        type: string
+      Email:
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Password:
+        type: string
+      Phone:
+        type: string
+      Profile:
+        type: string
+      Role:
+        format: uint8
+        type: integer
+      Verified:
+        type: boolean
+    type: object
+    x-go-package: backend/roralis/core/user
+info:
+  title: Roralis API.
+  version: 1.0.0
+paths:
+  /api/v1/categories/:
+    get:
+      description: Get all categories
+      operationId: getCategories
+      responses:
+        "200":
+          $ref: '#/responses/GetAllCategoriesResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - category
+  /api/v1/categories/:id:
+    get:
+      description: Get category by id
+      operationId: getOneCategory
+      responses:
+        "200":
+          $ref: '#/responses/GetOneCategoriesResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - category
+  /api/v1/posts/:
+    get:
+      description: Get post by id
+      operationId: getPosts
+      responses:
+        "200":
+          $ref: '#/responses/GetAllPostResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - posts
+    post:
+      description: Create post
+      operationId: createPost
+      responses:
+        "200":
+          $ref: '#/responses/GetOnePostResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - posts
+  /api/v1/posts/:id:
+    get:
+      description: Get region by id
+      operationId: getOnePost
+      responses:
+        "200":
+          $ref: '#/responses/GetOnePostResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - posts
+  /api/v1/regions/:
+    get:
+      description: Get all regions
+      operationId: getRegions
+      responses:
+        "200":
+          $ref: '#/responses/GetAllRegionsResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - region
+  /api/v1/regions/:id:
+    get:
+      description: Get region by id
+      operationId: getOneRegion
+      responses:
+        "200":
+          $ref: '#/responses/GetOneRegionsResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - region
+  /api/v1/users/:id:
+    get:
+      description: Get one user
+      operationId: getUser
+      responses:
+        "200":
+          $ref: '#/responses/GetOneUserResponse'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - user
+  /api/v1/users/aboutme:
+    get:
+      description: Sign Up
+      operationId: aboutme
+      responses:
+        "200":
+          $ref: '#/responses/AboutMeSucces'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - user
+  /api/v1/users/confirm/:id:
+    post:
+      description: Validate email
+      operationId: confirm
+      responses:
+        "200":
+          $ref: '#/responses/SignInSucces'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - user
+  /api/v1/users/signup:
+    post:
+      description: Sign Up
+      operationId: signup
+      responses:
+        "200":
+          $ref: '#/responses/SignUpSucces'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - user
+  /api/v1/users/validate:
+    get:
+      description: Resend email
+      operationId: signin
+      responses:
+        "200":
+          $ref: '#/responses/SignInSucces'
+        default:
+          $ref: '#/responses/GenericResponse'
+      tags:
+      - user
+produces:
+- application/json
+responses:
+  AboutMeSucces:
+    description: ""
+    schema:
+      properties:
+        User:
+          $ref: '#/definitions/JWTClaims'
+      type: object
+  GenericResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/Response'
+  GetAllCategoriesResponse:
+    description: ""
+    schema:
+      items:
+        $ref: '#/definitions/Category'
+      type: array
+  GetAllPostResponse:
+    description: ""
+    schema:
+      items:
+        $ref: '#/definitions/Post'
+      type: array
+  GetAllRegionsResponse:
+    description: ""
+    schema:
+      items:
+        $ref: '#/definitions/Region'
+      type: array
+  GetOneCategoriesResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/Category'
+  GetOnePostResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/Post'
+  GetOneRegionsResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/Region'
+  GetOneUserResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/User'
+  SignInSucces:
+    description: ""
+    schema:
+      properties:
+        Token:
+          type: string
+      type: object
+  SignUpSucces:
+    description: ""
+    schema:
+      properties:
+        Token:
+          type: string
+        User:
+          $ref: '#/definitions/User'
+      type: object
+schemes:
+- http
+- https
+swagger: "2.0"

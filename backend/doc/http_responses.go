@@ -17,13 +17,6 @@ type GenericResponse struct {
 	Body httpresponse.Response
 }
 
-// swagger:response GetAllUsersResponse
-type GetAllUsersResponse struct {
-	// Used when accesing GET /users
-	// in: body
-	Body []user.User
-}
-
 // swagger:response GetOneUserResponse
 type GetOneUserResponse struct {
 	// Used when accesing GET /users

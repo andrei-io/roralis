@@ -32,7 +32,7 @@ migrate-status:
 
 .PHONY: swagger
 swagger:
-	swagger generate spec -o doc/swagger.json
+	swagger generate spec -o doc/swagger.yml
 
 .PHONY: start-containers
 start-containers:

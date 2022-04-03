@@ -1,8 +1,8 @@
-// Application description
+// Package classification Roralis API.
 //
-//     Schemes: http
+//     Schemes: http, https
 //     BasePath: /
-//     Version: 1.0.
+//     Version: 1.0.0
 //
 //     Consumes:
 //     - application/json
@@ -11,7 +11,6 @@
 //     - application/json
 //
 // swagger:meta
-
 package config
 
 import (
@@ -78,7 +77,7 @@ func mountRoutes(app *gin.Engine, c *Services) {
 	//       200:     SignInSucces
 	v1.POST("/users/signin", c.AuthController.SignIn)
 
-	// swagger:route GET /api/v1/categories/ category getCategory
+	// swagger:route GET /api/v1/categories/ category getCategories
 	//
 	// Get all categories
 	//
@@ -96,7 +95,7 @@ func mountRoutes(app *gin.Engine, c *Services) {
 	//       default: GenericResponse
 	v1.GET("/categories/:id", c.CategoryController.ReadOne)
 
-	// swagger:route GET /api/v1/regions/ region getRegion
+	// swagger:route GET /api/v1/regions/ region getRegions
 	//
 	// Get all regions
 	//
@@ -105,7 +104,7 @@ func mountRoutes(app *gin.Engine, c *Services) {
 	//       default: GenericResponse
 	v1.GET("/regions", c.RegionController.ReadAll)
 
-	// swagger:route GET /api/v1/regions/:id region getCategory
+	// swagger:route GET /api/v1/regions/:id region getOneRegion
 	//
 	// Get region by id
 	//
@@ -114,7 +113,7 @@ func mountRoutes(app *gin.Engine, c *Services) {
 	//       default: GenericResponse
 	v1.GET("/regions/:id", c.RegionController.ReadOne)
 
-	// swagger:route GET /api/v1/posts/:id posts getPost
+	// swagger:route GET /api/v1/posts/:id posts getOnePost
 	//
 	// Get region by id
 	//
@@ -123,7 +122,7 @@ func mountRoutes(app *gin.Engine, c *Services) {
 	//       default: GenericResponse
 	v1.GET("/posts/:id", c.PostController.ReadOne)
 
-	// swagger:route GET /api/v1/posts/?offset=&limit=20 posts getAllPosts
+	// swagger:route GET /api/v1/posts/ posts getPosts
 	//
 	// Get post by id
 	//
