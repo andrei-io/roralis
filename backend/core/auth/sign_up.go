@@ -65,6 +65,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 
 	// Don't send emails on DEV enviroments, just output to console
 	if viper.GetString("ENV") == "PROD" {
+		// TODO: check rest response
 		_, err = r.emailRepo.Send(json.Email, "backend/roralis Roads verification email", verficationCode)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})

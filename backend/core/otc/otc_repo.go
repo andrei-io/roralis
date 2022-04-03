@@ -33,6 +33,7 @@ func (k *otcRepo) Set(key uint64, value string, expire_minutes int64) error {
 		Active: true,
 		Expire: time.Now().Add(time.Minute * time.Duration(expire_minutes)),
 	}
+	// TODO: handle this - currently doesn't work if there already is a verification code
 	err := k.db.Create(&otc).Error
 	return err
 
