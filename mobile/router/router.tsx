@@ -12,14 +12,9 @@ import LoginScreen from '../screens/account/Login';
 import DevScreen from '../screens/Dev';
 import HomeScreen from '../screens/Home';
 import LoadingScreen from '../screens/Loading';
-<<<<<<< HEAD
-=======
-import DevScreen from '@/screens/Dev';
-import HomeScreen from '@/screens/Home';
-import LoadingScreen from '@/screens/Loading';
-import LoginScreen from '@/screens/Login';
-import AllPostsScreen from '@/screens/post/AllPosts';
->>>>>>> mobile: all posts screen done
+
+
+
 
 export type ScreenParamsList = {
   Home: undefined;
@@ -31,8 +26,11 @@ export type ScreenParamsList = {
   ResetPassword: undefined;
   AllPosts: undefined;
   OnePost: { id: number };
+<<<<<<< HEAD
   Signup: undefined;
   NewPost: undefined;
+=======
+>>>>>>> mobile: full post view done
 };
 
 // The api for tabsNavigator is really idiotic so it's easier to hand-roll a component than deal with it
