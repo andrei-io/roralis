@@ -4,6 +4,7 @@ import SignupScreen from "@/screens/account/Signup";
 import LandingScreen from "@/screens/Landing";
 import AllPostsScreen from "@/screens/post/AllPosts";
 import FullPostScreen from "@/screens/post/FullPost";
+import NewPostScreen from "@/screens/post/NewPost";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Constants from "expo-constants";
@@ -22,6 +23,8 @@ export type ScreenParamsList = {
   ResetPassword: undefined;
   AllPosts: undefined;
   OnePost: { id: number };
+  Signup: undefined;
+  NewPost: undefined;
 };
 
 // The api for tabsNavigator is really idiotic so it's easier to hand-roll a component than deal with it
@@ -52,6 +55,7 @@ export function Router() {
         <Stack.Screen name="AllPosts" component={AllPostsScreen} />
         <Stack.Screen name="OnePost" component={FullPostScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="NewPost" component={NewPostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

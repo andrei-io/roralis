@@ -25,5 +25,10 @@
   "description": "Descrierea",
   "signup": "Creare cont",
   "name": "Nume",
-  "newsletterSignup": "Aș dori să primesc buletinul dumneavoastră informativ și alte informații promoționale."
+  "newsletterSignup": "Aș dori să primesc buletinul dumneavoastră informativ și alte informații promoționale.",
+  "newPost": "Creare anunț",
+  "insertTitle": "Introdu titlul anunțului",
+  "insertDescription": "Introdu descrierea anunțului",
+  "insertImage": "Adaugă poze",
+  "createPost": "Creează"
 }

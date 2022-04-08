@@ -7,12 +7,12 @@ import colors from "@/shared/colors";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import I18n from "i18n-js";
-import React from "react";
+import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { SimpleHeader } from "../header/SimpleHeader";
 
 interface ISignuprops {}
-type RouterProps = NativeStackScreenProps<ScreenParamsList, "Login">;
+type RouterProps = NativeStackScreenProps<ScreenParamsList, "Signup">;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.dark.background,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
-const SignupScreen: React.FC<ISignuprops & RouterProps> = ({ navigation }) => {
+const SignupScreen: FC<ISignuprops & RouterProps> = ({ navigation }) => {
   return (
     <>
       <SimpleHeader title={I18n.t("signup")} />
