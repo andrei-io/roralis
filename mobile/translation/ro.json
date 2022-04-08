@@ -10,5 +10,17 @@
   "noAccount": "Intră fără cont",
   "email": "Email",
   "password": "Parolă",
-  "forgotPassword": "Ați uitat parola?"
+  "forgotPassword": "Ați uitat parola?",
+  "generateCode": "Generează cod",
+  "youWillReceiveACode": "După completare vei primi un cod pentru resetarea parolei pe mail.",
+  "verify": "Verifica",
+  "resetPassword": "Recuperare parolă",
+  "insertNewPassword": "Introdu parola nouă",
+  "confirmNewPassword": "Confirmă parola nouă",
+  "posts": "Anunțuri",
+  "search": "Caută!",
+  "postDetails": "Detalii anunț",
+  "author": "Autor",
+  "title": "Titlu",
+  "description": "Descrierea"
 }

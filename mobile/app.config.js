@@ -14,5 +14,6 @@ export default {
   assetBundlePatterns: ['**/*'],
   extra: {
     production: process.env.PRODUCTION_BUILD === '1',
+    initialScreenName: process.env.INITIAL_SCREEN_NAME ?? 'Home',
   },
 };

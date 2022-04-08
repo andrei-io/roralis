@@ -9,7 +9,7 @@ interface IVerificationCodeProps {
 }
 
 export const RVerificationCode: React.FC<IVerificationCodeProps> = ({
-  codeLength = 4,
+  codeLength = 6,
   onChange,
   style,
 }) => {
