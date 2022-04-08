@@ -27,7 +27,7 @@ export function Router() {
           headerShown: false,
           animation: "none",
         }}
-        initialRouteName={production ? "Home" : "Landing"}
+        initialRouteName={production ? "Home" : "Login"}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />

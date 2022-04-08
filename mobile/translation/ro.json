@@ -7,5 +7,8 @@
   "internetProblemMessage": "Ne pare rau, dar pentru functionarea aplicatiei este nevoie de o conexiune la internet.",
   "createAccount": "Creare cont",
   "connect": "Conectare",
-  "noAccount": "Intră fără cont"
+  "noAccount": "Intră fără cont",
+  "email": "Email",
+  "password": "Parolă",
+  "forgotPassword": "Ați uitat parola?"
 }
