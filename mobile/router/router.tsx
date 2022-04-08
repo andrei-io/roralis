@@ -1,15 +1,16 @@
 import ResetPasswordScreen from "@/screens/account/ResetPassword";
 import ResetPasswordCodeScreen from "@/screens/account/ResetPasswordConfirm";
+import SignupScreen from "@/screens/account/Signup";
 import LandingScreen from "@/screens/Landing";
 import AllPostsScreen from "@/screens/post/AllPosts";
 import FullPostScreen from "@/screens/post/FullPost";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Constants from "expo-constants";
+import LoginScreen from "../screens/account/Login";
 import DevScreen from "../screens/Dev";
 import HomeScreen from "../screens/Home";
 import LoadingScreen from "../screens/Loading";
-import LoginScreen from "../screens/Login";
 
 export type ScreenParamsList = {
   Home: undefined;
@@ -50,6 +51,7 @@ export function Router() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="AllPosts" component={AllPostsScreen} />
         <Stack.Screen name="OnePost" component={FullPostScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

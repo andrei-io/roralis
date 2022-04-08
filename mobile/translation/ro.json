@@ -22,5 +22,8 @@
   "postDetails": "Detalii anunț",
   "author": "Autor",
   "title": "Titlu",
-  "description": "Descrierea"
+  "description": "Descrierea",
+  "signup": "Creare cont",
+  "name": "Nume",
+  "newsletterSignup": "Aș dori să primesc buletinul dumneavoastră informativ și alte informații promoționale."
 }
