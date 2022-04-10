@@ -1,6 +1,7 @@
 import ResetPasswordScreen from '@/screens/account/ResetPassword';
 import ResetPasswordCodeScreen from '@/screens/account/ResetPasswordConfirm';
 import SignupScreen from '@/screens/account/Signup';
+import AllArticlesScreen from '@/screens/article/AllArticles';
 import LandingScreen from '@/screens/Landing';
 import AllPostsScreen from '@/screens/post/AllPosts';
 import FullPostScreen from '@/screens/post/FullPost';
@@ -13,9 +14,6 @@ import DevScreen from '../screens/Dev';
 import HomeScreen from '../screens/Home';
 import LoadingScreen from '../screens/Loading';
 
-
-
-
 export type ScreenParamsList = {
   Home: undefined;
   Login: undefined;
@@ -26,11 +24,9 @@ export type ScreenParamsList = {
   ResetPassword: undefined;
   AllPosts: undefined;
   OnePost: { id: number };
-<<<<<<< HEAD
   Signup: undefined;
   NewPost: undefined;
-=======
->>>>>>> mobile: full post view done
+  AllArticles: undefined;
 };
 
 // The api for tabsNavigator is really idiotic so it's easier to hand-roll a component than deal with it
@@ -56,8 +52,11 @@ export function Router() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="AllPosts" component={AllPostsScreen} />
         <Stack.Screen name="OnePost" component={FullPostScreen} />
+
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="NewPost" component={NewPostScreen} />
+
+        <Stack.Screen name="AllArticles" component={AllArticlesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
