@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "generate-swagger": "openapi-typescript https://raw.githubusercontent.com/andrei-io/roralis/prod-server/backend/doc/swagger.yml --default-non-nullable --output ./restapi/generated-schema.ts"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.2",
@@ -33,6 +34,7 @@
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "babel-plugin-module-resolver": "^4.1.0",
+    "openapi-typescript": "^5.2.0",
     "typescript": "~4.3.5"
   },
   "private": true

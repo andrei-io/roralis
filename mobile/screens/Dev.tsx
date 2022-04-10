@@ -4,7 +4,8 @@ import colors from '@/shared/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type IDevProps = NativeStackScreenProps<ScreenParamsList, 'Dev'>;
 

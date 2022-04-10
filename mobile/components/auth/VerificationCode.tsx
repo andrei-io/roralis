@@ -9,7 +9,7 @@ interface IVerificationCodeProps {
 }
 
 export const RVerificationCode: React.FC<IVerificationCodeProps> = ({
-  codeLength = 4,
+  codeLength = 6,
   onChange,
   style,
 }) => {
@@ -30,7 +30,7 @@ export const RVerificationCode: React.FC<IVerificationCodeProps> = ({
   return (
     <TextInput
       style={combinedStyle}
-      onChangeText={(value) => {
+      onChangeText={value => {
         if (value.length == codeLength) Keyboard.dismiss();
         onChange(value);
       }}

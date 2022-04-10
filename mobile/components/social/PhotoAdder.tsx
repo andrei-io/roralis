@@ -7,7 +7,7 @@ import { RText } from '../ui/Text';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.dark.white,
-    width: '90%',
+    width: '100%',
     paddingLeft: 10,
     paddingRight: 30,
     borderRadius: 8,
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   plus: {
-    fontSize: 48,
+    fontSize: 40,
     color: colors.dark.green,
   },
   minus: {
-    fontSize: 48,
+    fontSize: 40,
     color: colors.dark.red,
   },
 });
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 export const RPhotoAdder: FC = () => {
   return (
     <View style={styles.container}>
-      <Ionicons name="md-camera-outline" size={50} />
+      <Ionicons name="md-camera-outline" size={40} />
       <RText text="+" style={styles.plus} />
       <RText text="-" style={styles.minus} />
     </View>

@@ -6,7 +6,7 @@ import { RText } from '../ui/Text';
 
 export interface IPostProps {
   title: string;
-  description: string;
+  description?: string;
   time?: string;
 }
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const RPostNormal: FC<IPostProps> = ({ title, description, time = '?' }) => {
+export const RPostNormal: FC<IPostProps> = ({ title, description = '', time = '?' }) => {
   return (
     <View style={styles.bigContainer}>
       <Image style={styles.tinyImage} source={require('@/assets/post-placeholder.png')} />

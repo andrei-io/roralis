@@ -1,19 +1,25 @@
 import colors from '@/shared/colors';
-import React from 'react';
 import { StyleSheet, TextInput, TextStyle, ViewStyle } from 'react-native';
 import { TextVariant } from './Text';
 
 interface ITextInputProps {
   style?: any;
   placeholder?: string;
+  password?: boolean;
+  onChange?(text: string): void;
 }
 
-export const RTextInput: React.FC<ITextInputProps> = ({ style, placeholder }) => {
+export const RTextInput: React.FC<ITextInputProps> = ({
+  style,
+  onChange,
+  placeholder,
+  password = false,
+}) => {
   const combinedStyle = StyleSheet.compose(
     {
       backgroundColor: colors.dark.lightGray,
-      paddingHorizontal: 10,
-      paddingVertical: 5,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
       borderRadius: 8,
       fontFamily: TextVariant.medium,
     } as ViewStyle & TextStyle,
@@ -23,7 +29,9 @@ export const RTextInput: React.FC<ITextInputProps> = ({ style, placeholder }) =>
     <TextInput
       style={combinedStyle}
       placeholder={placeholder}
+      onChangeText={onChange}
       selectionColor={colors.dark.accent}
+      secureTextEntry={password}
     />
   );
 };
