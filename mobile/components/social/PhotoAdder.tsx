@@ -1,19 +1,19 @@
-import colors from "@/shared/colors";
-import { Ionicons } from "@expo/vector-icons";
-import { FC } from "react";
-import { StyleSheet, View } from "react-native";
-import { RText } from "../ui/Text";
+import colors from '@/shared/colors';
+import { Ionicons } from '@expo/vector-icons';
+import { FC } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { RText } from '../ui/Text';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.dark.white,
-    width: "100%",
+    width: '100%',
     paddingLeft: 10,
     paddingRight: 30,
     borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   plus: {
     fontSize: 40,

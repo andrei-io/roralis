@@ -4,51 +4,51 @@
  */
 
 export interface paths {
-  "/api/v1/categories/": {
+  '/api/v1/categories/': {
     /** Get all categories */
-    get: operations["getCategories"];
+    get: operations['getCategories'];
   };
-  "/api/v1/categories/:id": {
+  '/api/v1/categories/:id': {
     /** Get category by id */
-    get: operations["getOneCategory"];
+    get: operations['getOneCategory'];
   };
-  "/api/v1/posts/": {
+  '/api/v1/posts/': {
     /** Get post by id */
-    get: operations["getPosts"];
+    get: operations['getPosts'];
     /** Create post */
-    post: operations["createPost"];
+    post: operations['createPost'];
   };
-  "/api/v1/posts/:id": {
+  '/api/v1/posts/:id': {
     /** Get region by id */
-    get: operations["getOnePost"];
+    get: operations['getOnePost'];
   };
-  "/api/v1/regions/": {
+  '/api/v1/regions/': {
     /** Get all regions */
-    get: operations["getRegions"];
+    get: operations['getRegions'];
   };
-  "/api/v1/regions/:id": {
+  '/api/v1/regions/:id': {
     /** Get region by id */
-    get: operations["getOneRegion"];
+    get: operations['getOneRegion'];
   };
-  "/api/v1/users/:id": {
+  '/api/v1/users/:id': {
     /** Get one user */
-    get: operations["getUser"];
+    get: operations['getUser'];
   };
-  "/api/v1/users/aboutme": {
+  '/api/v1/users/aboutme': {
     /** Sign Up */
-    get: operations["aboutme"];
+    get: operations['aboutme'];
   };
-  "/api/v1/users/confirm/:id": {
+  '/api/v1/users/confirm/:id': {
     /** Validate email */
-    post: operations["confirm"];
+    post: operations['confirm'];
   };
-  "/api/v1/users/signup": {
+  '/api/v1/users/signup': {
     /** Sign Up */
-    post: operations["signup"];
+    post: operations['signup'];
   };
-  "/api/v1/users/validate": {
+  '/api/v1/users/validate': {
     /** Resend email */
-    get: operations["signin"];
+    get: operations['signin'];
   };
 }
 
@@ -141,32 +141,32 @@ export interface definitions {
 export interface responses {
   AboutMeSucces: {
     schema: {
-      User?: definitions["JWTClaims"];
+      User?: definitions['JWTClaims'];
     };
   };
   GenericResponse: {
-    schema: definitions["Response"];
+    schema: definitions['Response'];
   };
   GetAllCategoriesResponse: {
-    schema: definitions["Category"][];
+    schema: definitions['Category'][];
   };
   GetAllPostResponse: {
-    schema: definitions["Post"][];
+    schema: definitions['Post'][];
   };
   GetAllRegionsResponse: {
-    schema: definitions["Region"][];
+    schema: definitions['Region'][];
   };
   GetOneCategoriesResponse: {
-    schema: definitions["Category"];
+    schema: definitions['Category'];
   };
   GetOnePostResponse: {
-    schema: definitions["Post"];
+    schema: definitions['Post'];
   };
   GetOneRegionsResponse: {
-    schema: definitions["Region"];
+    schema: definitions['Region'];
   };
   GetOneUserResponse: {
-    schema: definitions["User"];
+    schema: definitions['User'];
   };
   SignInSucces: {
     schema: {
@@ -176,7 +176,7 @@ export interface responses {
   SignUpSucces: {
     schema: {
       Token?: string;
-      User?: definitions["User"];
+      User?: definitions['User'];
     };
   };
 }
@@ -185,85 +185,85 @@ export interface operations {
   /** Get all categories */
   getCategories: {
     responses: {
-      200: responses["GetAllCategoriesResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetAllCategoriesResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Get category by id */
   getOneCategory: {
     responses: {
-      200: responses["GetOneCategoriesResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetOneCategoriesResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Get post by id */
   getPosts: {
     responses: {
-      200: responses["GetAllPostResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetAllPostResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Create post */
   createPost: {
     responses: {
-      200: responses["GetOnePostResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetOnePostResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Get region by id */
   getOnePost: {
     responses: {
-      200: responses["GetOnePostResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetOnePostResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Get all regions */
   getRegions: {
     responses: {
-      200: responses["GetAllRegionsResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetAllRegionsResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Get region by id */
   getOneRegion: {
     responses: {
-      200: responses["GetOneRegionsResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetOneRegionsResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Get one user */
   getUser: {
     responses: {
-      200: responses["GetOneUserResponse"];
-      default: responses["GenericResponse"];
+      200: responses['GetOneUserResponse'];
+      default: responses['GenericResponse'];
     };
   };
   /** Sign Up */
   aboutme: {
     responses: {
-      200: responses["AboutMeSucces"];
-      default: responses["GenericResponse"];
+      200: responses['AboutMeSucces'];
+      default: responses['GenericResponse'];
     };
   };
   /** Validate email */
   confirm: {
     responses: {
-      200: responses["SignInSucces"];
-      default: responses["GenericResponse"];
+      200: responses['SignInSucces'];
+      default: responses['GenericResponse'];
     };
   };
   /** Sign Up */
   signup: {
     responses: {
-      200: responses["SignUpSucces"];
-      default: responses["GenericResponse"];
+      200: responses['SignUpSucces'];
+      default: responses['GenericResponse'];
     };
   };
   /** Resend email */
   signin: {
     responses: {
-      200: responses["SignInSucces"];
-      default: responses["GenericResponse"];
+      200: responses['SignInSucces'];
+      default: responses['GenericResponse'];
     };
   };
 }

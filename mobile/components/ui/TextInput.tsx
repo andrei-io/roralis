@@ -1,6 +1,6 @@
-import colors from "@/shared/colors";
-import { StyleSheet, TextInput, TextStyle, ViewStyle } from "react-native";
-import { TextVariant } from "./Text";
+import colors from '@/shared/colors';
+import { StyleSheet, TextInput, TextStyle, ViewStyle } from 'react-native';
+import { TextVariant } from './Text';
 
 interface ITextInputProps {
   style?: any;
@@ -23,7 +23,7 @@ export const RTextInput: React.FC<ITextInputProps> = ({
       borderRadius: 8,
       fontFamily: TextVariant.medium,
     } as ViewStyle & TextStyle,
-    style
+    style,
   );
   return (
     <TextInput

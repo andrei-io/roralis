@@ -34,7 +34,7 @@ const AllPostsScreen: FC<IAllPostProps> = ({ navigation }) => {
   useEffect(() => {
     GetAllPosts()
       .then(setPosts)
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
       });
   }, []);
