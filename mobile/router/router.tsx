@@ -1,3 +1,4 @@
+import Profile from '@/screens/account/Profile';
 import ResetPasswordScreen from '@/screens/account/ResetPassword';
 import ResetPasswordCodeScreen from '@/screens/account/ResetPasswordConfirm';
 import SignupScreen from '@/screens/account/Signup';
@@ -27,6 +28,7 @@ export type ScreenParamsList = {
   Signup: undefined;
   NewPost: undefined;
   AllArticles: undefined;
+  Profile: { id: number };
 };
 
 // The api for tabsNavigator is really idiotic so it's easier to hand-roll a component than deal with it
@@ -57,6 +59,7 @@ export function Router() {
         <Stack.Screen name="NewPost" component={NewPostScreen} />
 
         <Stack.Screen name="AllArticles" component={AllArticlesScreen} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

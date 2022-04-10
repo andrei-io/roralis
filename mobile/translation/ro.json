@@ -30,5 +30,9 @@
   "insertTitle": "Introdu titlul anunțului",
   "insertDescription": "Introdu descrierea anunțului",
   "insertImage": "Adaugă poze",
-  "createPost": "Creează"
+  "createPost": "Creează",
+  "profile": "Profil",
+  "settings": "Setări",
+  "logOut": "Deconectare",
+  "createNewPost": "Creează anunț nou"
 }
