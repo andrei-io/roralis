@@ -1,4 +1,5 @@
 import { RPostNormal } from '@/components/social/Post';
+import { RNavigationBar } from '@/components/ui/NavigationBar';
 import { RTextInput } from '@/components/ui/TextInput';
 import { GetAllPosts, Post } from '@/restapi/PostAPI';
 import { ScreenParamsList } from '@/router/router';
@@ -14,7 +15,8 @@ type IAllPostProps = NativeStackScreenProps<ScreenParamsList, 'AllPosts'>;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '77%',
     alignItems: 'center',
     backgroundColor: colors.dark.background,
   },
@@ -67,6 +69,7 @@ const AllPostsScreen: FC<IAllPostProps> = ({ navigation }) => {
         </ScrollView>
       </View>
       <StatusBar style="inverted" />
+      <RNavigationBar focused="AllPosts" navigation={navigation} />
     </>
   );
 };

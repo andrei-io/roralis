@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, TextStyle } from 'react-native';
 
 export enum TextSize {
+  extraLarge = 60,
   large = 30,
   semiLarge = 24,
   normal = 16,

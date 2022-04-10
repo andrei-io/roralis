@@ -4,42 +4,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-
-export type RScreen = {
-  name: string;
-  routeName: keyof ScreenParamsList;
-  iconName: string;
-  checked?: boolean;
-};
+import { RDefaultScreens, RScreen } from '../../shared/screens';
 
 interface INavigationBarProps {
   screens?: RScreen[];
   navigation: NativeStackNavigationProp<ScreenParamsList, keyof ScreenParamsList>;
+  focused: keyof ScreenParamsList;
 }
-
-export const RDefaultScreens: RScreen[] = [
-  {
-    name: 'Posts',
-    routeName: 'Home',
-    iconName: 'md-home-outline',
-    checked: true,
-  },
-  {
-    name: 'Map',
-    routeName: 'Home',
-    iconName: 'md-map-outline',
-  },
-  {
-    name: 'Articles',
-    routeName: 'Home',
-    iconName: 'md-pencil-outline',
-  },
-  {
-    name: 'User',
-    routeName: 'Login',
-    iconName: 'md-person-outline',
-  },
-];
 
 const styles = StyleSheet.create({
   container: {
@@ -50,6 +21,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    backgroundColor: colors.dark.background,
   },
   icon: {
     backgroundColor: colors.dark.white,
@@ -71,6 +43,7 @@ const styles = StyleSheet.create({
 
 export const RNavigationBar: FC<INavigationBarProps> = ({
   screens = RDefaultScreens,
+  focused,
   navigation,
 }) => {
   // Ignoring typescript beacuse i can't find the correct type for Ionicons.name
@@ -82,7 +55,7 @@ export const RNavigationBar: FC<INavigationBarProps> = ({
     <View style={styles.container}>
       {screens.map((screen, i) => (
         <Pressable
-          style={screen.checked ? styles.selectedIcon : styles.icon}
+          style={screen.routeName == focused ? styles.selectedIcon : styles.icon}
           onPress={() => {
             navigation.push(screen.routeName);
           }}
