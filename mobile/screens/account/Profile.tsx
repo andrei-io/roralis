@@ -93,7 +93,7 @@ const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
         </View>
         <StatusBar style="dark" />
       </View>
-      <RNavigationBar navigation={navigation} accent="Profile" />
+      <RNavigationBar navigation={navigation} focused="Profile" />
     </>
   );
 };

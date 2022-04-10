@@ -9,7 +9,7 @@ import { RDefaultScreens, RScreen } from '../../shared/screens';
 interface INavigationBarProps {
   screens?: RScreen[];
   navigation: NativeStackNavigationProp<ScreenParamsList, keyof ScreenParamsList>;
-  accent: keyof ScreenParamsList;
+  focused: keyof ScreenParamsList;
 }
 
 const styles = StyleSheet.create({
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
 export const RNavigationBar: FC<INavigationBarProps> = ({
   screens = RDefaultScreens,
-  accent,
+  focused,
   navigation,
 }) => {
   // Ignoring typescript beacuse i can't find the correct type for Ionicons.name
@@ -55,7 +55,7 @@ export const RNavigationBar: FC<INavigationBarProps> = ({
     <View style={styles.container}>
       {screens.map((screen, i) => (
         <Pressable
-          style={screen.routeName == accent ? styles.selectedIcon : styles.icon}
+          style={screen.routeName == focused ? styles.selectedIcon : styles.icon}
           onPress={() => {
             navigation.push(screen.routeName);
           }}
