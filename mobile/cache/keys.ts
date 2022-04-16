@@ -1,3 +1,4 @@
 export default {
-  user: 'isLoggedIn',
+  user: 'userCache',
+  token: 'jwt',
 };
