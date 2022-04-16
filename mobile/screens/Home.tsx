@@ -1,9 +1,9 @@
-import { RText } from '@/components/ui/Text';
+import { isLoggedIn } from '@/cache/auth';
 import Colors from '@/shared/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { FC, useEffect } from 'react';
+import { Image, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenParamsList } from '../router/router';
 
@@ -16,12 +16,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.dark.background,
   },
+  image: {
+    width: '50%',
+    height: '30%',
+    resizeMode: 'contain',
+  },
 });
 
 const HomeScreen: FC<IHomeProps> = ({ navigation }) => {
+  useEffect(() => {
+    isLoggedIn().then(v => {
+      if (v) navigation.navigate('AllPosts');
+      else navigation.navigate('Landing');
+    });
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <RText text="Ecran Acasa" accent={true} />
+      <Image source={require('@/assets/logo.png')} style={styles.image} />
       <StatusBar style="inverted" />
     </SafeAreaView>
   );
