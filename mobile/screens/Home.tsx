@@ -1,4 +1,5 @@
-import { isLoggedIn } from '@/cache/auth';
+import { getUserCache, isLoggedIn, setToken } from '@/cache/auth';
+import { SignIn } from '@/restapi/UserAPI';
 import Colors from '@/shared/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
@@ -25,10 +26,15 @@ const styles = StyleSheet.create({
 
 const HomeScreen: FC<IHomeProps> = ({ navigation }) => {
   useEffect(() => {
-    isLoggedIn().then(v => {
-      if (v) navigation.navigate('AllPosts');
-      else navigation.navigate('Landing');
-    });
+    (async () => {
+      const authentificated = await isLoggedIn();
+      if (authentificated) {
+        const account = await getUserCache();
+        const token = await SignIn(account.Email ?? '', account.Password ?? '');
+        await setToken(token);
+        navigation.navigate('AllPosts');
+      } else navigation.navigate('Landing');
+    })();
   }, []);
   return (
     <SafeAreaView style={styles.container}>
