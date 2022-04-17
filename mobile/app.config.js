@@ -12,6 +12,10 @@ export default {
     fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ['**/*'],
+  splash: {
+    backgroundColor: '#212121',
+    image: './assets/splash.png',
+  },
   extra: {
     production: process.env.PRODUCTION_BUILD === '1',
     initialScreenName: process.env.INITIAL_SCREEN_NAME ?? 'Home',
