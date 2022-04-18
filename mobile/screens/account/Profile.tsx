@@ -1,3 +1,4 @@
+import { clearUserCache, getUserCache, isLoggedIn } from '@/cache/auth';
 import { iconSize, RUserPhoto } from '@/components/auth/UserPhoto';
 import { RPostNormal } from '@/components/social/Post';
 import { RButton } from '@/components/ui/Button';
@@ -41,26 +42,37 @@ const styles = StyleSheet.create({
 });
 
 const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
-  // TODO: store user info in local data
-  const userID = route.params?.id ?? 1;
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<Post[]>();
   useEffect(() => {
+    const aborter = new AbortController();
     async function fetchData() {
       try {
-        const u = await GetOneUser(userID);
+        const authentificated = await isLoggedIn();
+        let id: number = 1;
+        if (authentificated) {
+          const account = await getUserCache();
+          id = account.ID ?? 1;
+        } else navigation.navigate('Landing');
+        const u = await GetOneUser(id, aborter);
         setUser(u);
-        const [ps] = await GetAllPosts();
-        setPosts(Array(20).fill(ps));
+        const ps = await GetAllPosts(aborter);
+        setPosts(ps);
       } catch (e) {
         console.log(e);
       }
     }
     fetchData();
+    return () => aborter.abort();
   }, []);
+
+  const onLogout = async () => {
+    await clearUserCache();
+    navigation.navigate('Landing');
+  };
   return (
     <>
-      <ProfileHeader />
+      <ProfileHeader onLogout={onLogout} />
       <View style={styles.container}>
         <View style={styles.separator} />
         <RUserPhoto name={user?.Name ?? 'Vrooooooooom'} />

@@ -1,5 +1,5 @@
 import { User } from '@/restapi/UserAPI';
-import { getItemAsync, setItemAsync } from 'expo-secure-store';
+import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 import keys from './keys';
 
 export async function isLoggedIn(): Promise<boolean> {
@@ -18,4 +18,9 @@ export async function setUserCache(user: User): Promise<void> {
 
 export async function setToken(token: string): Promise<void> {
   await setItemAsync(keys.token, token);
+}
+
+export async function clearUserCache() {
+  await deleteItemAsync(keys.token);
+  await deleteItemAsync(keys.user);
 }

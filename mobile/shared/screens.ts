@@ -14,7 +14,7 @@ export const RDefaultScreens: RScreen[] = [
   },
   {
     name: 'Map',
-    routeName: 'Dev',
+    routeName: 'Home',
     iconName: 'md-map-outline',
   },
   {

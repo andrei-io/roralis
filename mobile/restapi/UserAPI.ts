@@ -5,8 +5,12 @@ export type User = definitions['User'];
 
 type SignInSucces = responses['SignInSucces']['schema'];
 
-export async function GetOneUser(id: number, basePath = serverPath): Promise<User> {
-  const raw = await fetch(`${basePath}/api/v1/users/${id}`);
+export async function GetOneUser(
+  id: number,
+  abort?: AbortController,
+  basePath = serverPath,
+): Promise<User> {
+  const raw = await fetch(`${basePath}/api/v1/users/${id}`, { signal: abort?.signal });
   const post: User = await raw.json();
   return post;
 }
@@ -14,6 +18,7 @@ export async function GetOneUser(id: number, basePath = serverPath): Promise<Use
 export async function SignIn(
   email: string,
   password: string,
+  abort?: AbortController,
   basePath = serverPath,
 ): Promise<string> {
   const requestBody = {
@@ -25,6 +30,7 @@ export async function SignIn(
     headers: {
       'Content-Type': 'application/json',
     },
+    signal: abort?.signal,
     body: JSON.stringify(requestBody),
   });
 

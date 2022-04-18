@@ -26,15 +26,17 @@ const styles = StyleSheet.create({
 
 const HomeScreen: FC<IHomeProps> = ({ navigation }) => {
   useEffect(() => {
+    const aborter = new AbortController();
     (async () => {
       const authentificated = await isLoggedIn();
       if (authentificated) {
         const account = await getUserCache();
-        const token = await SignIn(account.Email ?? '', account.Password ?? '');
+        const token = await SignIn(account.Email ?? '', account.Password ?? '', aborter);
         await setToken(token);
         navigation.navigate('AllPosts');
       } else navigation.navigate('Landing');
     })();
+    return () => aborter.abort();
   }, []);
   return (
     <SafeAreaView style={styles.container}>
