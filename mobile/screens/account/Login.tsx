@@ -45,10 +45,11 @@ const LoginScreen: FC<ILoginProps & RouterProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const signIn = async () => {
+  async function signIn() {
     if (email == '' || password == '') return;
     try {
       const token = await SignIn(email, password);
+      // TODO: make server send back user ID or get user by email
       await setUserCache({ Email: email, Password: password });
       await setToken(token);
       navigation.navigate('AllPosts');
@@ -56,30 +57,28 @@ const LoginScreen: FC<ILoginProps & RouterProps> = ({ navigation }) => {
       const error = e as Error;
       Alert.alert(error.message);
     }
-  };
+  }
 
   return (
-    <>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        enabled={false}
-        style={styles.bigContainer}
-      >
-        <SimpleHeader title={I18n.t('connect')} />
-        <View style={styles.container}>
-          <RTextInput style={styles.mail} placeholder={I18n.t('email')} onChange={setEmail} />
-          <RTextInput
-            style={styles.password}
-            placeholder={I18n.t('password')}
-            password={true}
-            onChange={setPassword}
-          />
-          <RButton text={I18n.t('connect')} style={styles.button} onClick={signIn} />
-          <RText text={I18n.t('forgotPassword')} accent={true} />
-          <StatusBar style="inverted" />
-        </View>
-      </KeyboardAvoidingView>
-    </>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      enabled={false}
+      style={styles.bigContainer}
+    >
+      <SimpleHeader title={I18n.t('connect')} />
+      <View style={styles.container}>
+        <RTextInput style={styles.mail} placeholder={I18n.t('email')} onChange={setEmail} />
+        <RTextInput
+          style={styles.password}
+          placeholder={I18n.t('password')}
+          password={true}
+          onChange={setPassword}
+        />
+        <RButton text={I18n.t('connect')} style={styles.button} onClick={signIn} />
+        <RText text={I18n.t('forgotPassword')} accent={true} />
+        <StatusBar style="inverted" />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

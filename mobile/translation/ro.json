@@ -34,5 +34,9 @@
   "profile": "Profil",
   "settings": "Setări",
   "logOut": "Deconectare",
-  "createNewPost": "Creează anunț nou"
+  "createNewPost": "Creează anunț nou",
+  "invalidEmail": "Emailul nu este valid",
+  "passwordTooShort": "Parola este prea scurta",
+  "nameTooShort": "Numele este prea scurt",
+  "problemCreatingAccount": "Problema la crearea contului"
 }

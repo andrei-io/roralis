@@ -12,7 +12,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import I18n from 'i18n-js';
 import React, { FC, useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { ProfileHeader } from './ProfileHeader';
 
 type IResetPasswordProps = NativeStackScreenProps<ScreenParamsList, 'Profile'>;
@@ -52,6 +52,7 @@ const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
         let id: number = 1;
         if (authentificated) {
           const account = await getUserCache();
+
           id = account.ID ?? 1;
         } else navigation.navigate('Landing');
         const u = await GetOneUser(id, aborter);
@@ -59,7 +60,8 @@ const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
         const ps = await GetAllPosts(aborter);
         setPosts(ps);
       } catch (e) {
-        console.log(e);
+        const error = e as Error;
+        Alert.alert(error.message);
       }
     }
     fetchData();

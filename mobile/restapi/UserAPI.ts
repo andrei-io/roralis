@@ -1,9 +1,10 @@
-import { serverPath } from './basePath';
+import { GenericResponse, serverPath } from './constants';
 import { definitions, responses } from './generated-schema';
 
 export type User = definitions['User'];
 
 type SignInSucces = responses['SignInSucces']['schema'];
+type SignUpSucces = responses['SignUpSucces']['schema'];
 
 export async function GetOneUser(
   id: number,
@@ -38,11 +39,46 @@ export async function SignIn(
   if (raw.status == 404) throw new Error('Account not found');
 
   if (!raw.ok) {
-    throw new Error('Request failed');
+    const error: GenericResponse = await raw.json();
+    throw new Error(`Request failed: ${error.Message} `);
   }
 
   const json: SignInSucces = await raw.json();
 
   if (!json.Token) throw new Error('Invalid request');
   return json.Token;
+}
+
+export async function SignUp(
+  name: string,
+  email: string,
+  password: string,
+  abort?: AbortController,
+  basePath = serverPath,
+): Promise<SignUpSucces> {
+  const requestBody = {
+    Name: name,
+    Email: email,
+    Password: password,
+  };
+  const raw = await fetch(`${basePath}/api/v1/users/signup`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abort?.signal,
+    body: JSON.stringify(requestBody),
+  });
+
+  if (raw.status == 409) throw new Error('Your email or username is already used');
+
+  if (!raw.ok) {
+    const error: GenericResponse = await raw.json();
+    throw new Error(`Request failed: ${error.Message} `);
+  }
+
+  const json: SignUpSucces = await raw.json();
+
+  if (!json.Token) throw new Error('Invalid request');
+  return json;
 }

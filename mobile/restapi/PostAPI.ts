@@ -1,4 +1,4 @@
-import { serverPath } from './basePath';
+import { serverPath } from './constants';
 import { definitions } from './generated-schema';
 
 export type Post = definitions['Post'];
