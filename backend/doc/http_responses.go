@@ -58,6 +58,7 @@ type SignInSucces struct {
 	// in: body
 	Body struct {
 		Token string
+		ID    uint64
 	}
 }
 

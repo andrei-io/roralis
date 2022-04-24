@@ -314,6 +314,9 @@ responses:
     description: ""
     schema:
       properties:
+        ID:
+          format: uint64
+          type: integer
         Token:
           type: string
       type: object
