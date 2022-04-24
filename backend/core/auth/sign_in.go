@@ -58,6 +58,7 @@ func (r *AuthController) SignIn(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
+		"ID":    user.ID,
 		"Token": token,
 	})
 }
