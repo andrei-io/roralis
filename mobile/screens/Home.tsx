@@ -31,8 +31,8 @@ const HomeScreen: FC<IHomeProps> = ({ navigation }) => {
       const authentificated = await isLoggedIn();
       if (authentificated) {
         const account = await getUserCache();
-        const token = await SignIn(account.Email ?? '', account.Password ?? '', aborter);
-        await setToken(token);
+        const { Token: token } = await SignIn(account.Email ?? '', account.Password ?? '', aborter);
+        await setToken(token ?? '');
         navigation.navigate('AllPosts');
       } else navigation.navigate('Landing');
     })();

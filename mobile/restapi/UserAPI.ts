@@ -21,7 +21,7 @@ export async function SignIn(
   password: string,
   abort?: AbortController,
   basePath = serverPath,
-): Promise<string> {
+): Promise<SignInSucces> {
   const requestBody = {
     Email: email,
     Password: password,
@@ -46,7 +46,8 @@ export async function SignIn(
   const json: SignInSucces = await raw.json();
 
   if (!json.Token) throw new Error('Invalid request');
-  return json.Token;
+  if (!json.ID) throw new Error('Invalid request');
+  return json;
 }
 
 export async function SignUp(

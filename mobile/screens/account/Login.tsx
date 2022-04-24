@@ -48,10 +48,10 @@ const LoginScreen: FC<ILoginProps & RouterProps> = ({ navigation }) => {
   async function signIn() {
     if (email == '' || password == '') return;
     try {
-      const token = await SignIn(email, password);
+      const { ID: userID, Token: token } = await SignIn(email, password);
       // TODO: make server send back user ID or get user by email
-      await setUserCache({ Email: email, Password: password });
-      await setToken(token);
+      await setUserCache({ Email: email, Password: password, ID: userID ?? 0 });
+      await setToken(token ?? '');
       navigation.navigate('AllPosts');
     } catch (e) {
       const error = e as Error;
