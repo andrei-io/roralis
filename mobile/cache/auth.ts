@@ -19,6 +19,9 @@ export async function setUserCache(user: User): Promise<void> {
 export async function setToken(token: string): Promise<void> {
   await setItemAsync(keys.token, token);
 }
+export async function getToken(): Promise<string> {
+  return (await getItemAsync(keys.token)) ?? '';
+}
 
 export async function clearUserCache() {
   await deleteItemAsync(keys.token);

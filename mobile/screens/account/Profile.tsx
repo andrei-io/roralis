@@ -72,6 +72,8 @@ const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
     await clearUserCache();
     navigation.navigate('Landing');
   };
+
+  const newPost = () => navigation.navigate('NewPost');
   return (
     <>
       <ProfileHeader onLogout={onLogout} />
@@ -80,7 +82,11 @@ const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
         <RUserPhoto name={user?.Name ?? 'Vrooooooooom'} />
         <View style={styles.content}>
           <RText text={user?.Name ?? 'User'} accent={true} size="large" variant="semiBold" />
-          <RButton text={I18n.t('createNewPost')} style={{ marginVertical: 20 }} />
+          <RButton
+            text={I18n.t('createNewPost')}
+            style={{ marginVertical: 20 }}
+            onClick={newPost}
+          />
           <ScrollView style={styles.posts}>
             {posts?.map((post, i) => (
               <Pressable

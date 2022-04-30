@@ -38,5 +38,6 @@
   "invalidEmail": "Emailul nu este valid",
   "passwordTooShort": "Parola este prea scurta",
   "nameTooShort": "Numele este prea scurt",
-  "problemCreatingAccount": "Problema la crearea contului"
+  "problemCreatingAccount": "Problema la crearea contului",
+  "titleNotValid": "Titlul nu este destul de lung"
 }
