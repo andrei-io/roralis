@@ -2,16 +2,13 @@ package auth
 
 import (
 	"backend/roralis/core/jwt"
-	"backend/roralis/core/otc"
 	"backend/roralis/core/user"
 	httpresponse "backend/roralis/shared/http_response"
-	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgconn"
-	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -25,7 +22,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 		return
 	}
 
-	json.Role = 1
+	json.Role = 5
 	json.Verified = false
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(json.Password), bcrypt.DefaultCost)
 
@@ -49,31 +46,6 @@ func (r *AuthController) SignUp(c *gin.Context) {
 		}
 	}
 
-	verficationCode, err := otc.GenerateVerificationCode(6)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
-		return
-	}
-
-	// Sets a verification code in db that expires in 30 minuets
-	err = r.otcRepo.Set(json.ID, verficationCode, 30)
-	if err != nil {
-		// TODO: handle this better
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
-		return
-	}
-
-	// Don't send emails on DEV enviroments, just output to console
-	if viper.GetString("ENV") == "PROD" {
-		// TODO: check rest response
-		_, err = r.emailRepo.Send(json.Email, "backend/roralis Roads verification email", verficationCode)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
-			return
-		}
-	} else {
-		fmt.Printf("Verification code for user %s is %s\n", json.Email, verficationCode)
-	}
 	json.Password = "Secret"
 
 	payload := jwt.JWTClaims{

@@ -43,34 +43,16 @@ func mountRoutes(app *gin.Engine, c *Services) {
 
 	// swagger:route GET /api/v1/users/aboutme user aboutme
 	//
-	// Sign Up
+	// About me
 	//
 	//     Responses:
 	//       default: GenericResponse
 	//       200:     AboutMeSucces
 	v1.GET("/users/aboutme", c.AuthMiddleware.IsLoggedIn, c.AuthController.AboutMe)
 
-	// swagger:route POST /api/v1/users/confirm/:id user confirm
+	// swagger:route POST /api/v1/users/signin user signin
 	//
-	// Validate email
-	//
-	//     Responses:
-	//       default: GenericResponse
-	//       200:     SignInSucces
-	v1.POST("/users/confirm/:id", c.AuthController.ValidateEmail)
-
-	// swagger:route GET /api/v1/users/validate user resend
-	//
-	// Resend email
-	//
-	//     Responses:
-	//       default: GenericResponse
-	//       200:     GenericResponse
-	v1.GET("/users/resend/:id", c.AuthController.ResendValidationEmail)
-
-	// swagger:route GET /api/v1/users/validate user signin
-	//
-	// Resend email
+	// Sign In
 	//
 	//     Responses:
 	//       default: GenericResponse
@@ -115,7 +97,7 @@ func mountRoutes(app *gin.Engine, c *Services) {
 
 	// swagger:route GET /api/v1/posts/:id posts getOnePost
 	//
-	// Get region by id
+	// Get post by id
 	//
 	//     Responses:
 	//       200:     GetOnePostResponse
@@ -124,7 +106,7 @@ func mountRoutes(app *gin.Engine, c *Services) {
 
 	// swagger:route GET /api/v1/posts/ posts getPosts
 	//
-	// Get post by id
+	// Get all posts
 	//
 	//     Responses:
 	//       200:     GetAllPostResponse

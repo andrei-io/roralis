@@ -170,6 +170,8 @@ export interface responses {
   };
   SignInSucces: {
     schema: {
+      /** Format: uint64 */
+      ID?: number;
       Token?: string;
     };
   };

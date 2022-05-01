@@ -1,3 +1,4 @@
+import { clearUserCache, getUserCache, isLoggedIn } from '@/cache/auth';
 import { iconSize, RUserPhoto } from '@/components/auth/UserPhoto';
 import { RPostNormal } from '@/components/social/Post';
 import { RButton } from '@/components/ui/Button';
@@ -11,7 +12,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import I18n from 'i18n-js';
 import React, { FC, useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { ProfileHeader } from './ProfileHeader';
 
 type IResetPasswordProps = NativeStackScreenProps<ScreenParamsList, 'Profile'>;
@@ -41,32 +42,51 @@ const styles = StyleSheet.create({
 });
 
 const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
-  // TODO: store user info in local data
-  const userID = route.params?.id ?? 1;
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<Post[]>();
   useEffect(() => {
+    const aborter = new AbortController();
     async function fetchData() {
       try {
-        const u = await GetOneUser(userID);
+        const authentificated = await isLoggedIn();
+        let id: number = 1;
+        if (authentificated) {
+          const account = await getUserCache();
+
+          id = account.ID ?? 1;
+        } else navigation.navigate('Landing');
+        const u = await GetOneUser(id, aborter);
         setUser(u);
-        const [ps] = await GetAllPosts();
-        setPosts(Array(20).fill(ps));
+        const ps = await GetAllPosts(aborter);
+        setPosts(ps);
       } catch (e) {
-        console.log(e);
+        const error = e as Error;
+        Alert.alert(error.message);
       }
     }
     fetchData();
+    return () => aborter.abort();
   }, []);
+
+  const onLogout = async () => {
+    await clearUserCache();
+    navigation.navigate('Landing');
+  };
+
+  const newPost = () => navigation.navigate('NewPost');
   return (
     <>
-      <ProfileHeader />
+      <ProfileHeader onLogout={onLogout} />
       <View style={styles.container}>
         <View style={styles.separator} />
         <RUserPhoto name={user?.Name ?? 'Vrooooooooom'} />
         <View style={styles.content}>
           <RText text={user?.Name ?? 'User'} accent={true} size="large" variant="semiBold" />
-          <RButton text={I18n.t('createNewPost')} style={{ marginVertical: 20 }} />
+          <RButton
+            text={I18n.t('createNewPost')}
+            style={{ marginVertical: 20 }}
+            onClick={newPost}
+          />
           <ScrollView style={styles.posts}>
             {posts?.map((post, i) => (
               <Pressable

@@ -31,9 +31,21 @@ const LandingScreen: FC<ILandingProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require('@/assets/logo.png')} style={styles.image} />
-      <RButton text={I18n.t('createAccount')} style={styles.button} />
-      <RButton text={I18n.t('connect')} style={styles.button} />
-      <RButton text={I18n.t('noAccount')} style={styles.button} />
+      <RButton
+        text={I18n.t('createAccount')}
+        style={styles.button}
+        onClick={() => navigation.navigate('Signup')}
+      />
+      <RButton
+        text={I18n.t('connect')}
+        style={styles.button}
+        onClick={() => navigation.navigate('Login')}
+      />
+      <RButton
+        text={I18n.t('noAccount')}
+        style={styles.button}
+        onClick={() => navigation.navigate('AllPosts')}
+      />
       <StatusBar style="inverted" />
     </SafeAreaView>
   );
