@@ -17,7 +17,7 @@ type signInRequest struct {
 	Password string `binding:"required"`
 }
 
-// Gin controller for sign-in flou
+// Gin controller for sign-in flow
 func (r *AuthController) SignIn(c *gin.Context) {
 	// TODO
 	var json signInRequest
