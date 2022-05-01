@@ -26,6 +26,17 @@ func (r *PostController) ReadAll(c *gin.Context) {
 	offset, _ := strconv.Atoi(c.DefaultQuery("offset", "0"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "200"))
 
+	user_id := c.Query("user_id")
+	if user_id != "" {
+		posts, err := r.repo.GetByUserID(user_id)
+		if err != nil {
+			c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, posts)
+		return
+	}
+
 	posts, err := r.repo.GetAll(offset, limit, true)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
