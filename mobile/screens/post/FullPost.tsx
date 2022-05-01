@@ -7,7 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import I18n from 'i18n-js';
 import { FC, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { SimpleHeader } from '../header/SimpleHeader';
 
 type IFullPostProps = NativeStackScreenProps<ScreenParamsList, 'OnePost'>;
@@ -43,7 +43,8 @@ const FullPostScreen: FC<IFullPostProps> = ({ route }) => {
         const u = await GetOneUser(p.ID || -1);
         setUser(u);
       } catch (e) {
-        console.log(e);
+        const error = e as Error;
+        Alert.alert(error.message);
       }
     }
     fetchData();

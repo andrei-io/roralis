@@ -8,7 +8,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import I18n from 'i18n-js';
 import { FC, useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SimpleHeader } from '../header/SimpleHeader';
 
 type IAllPostProps = NativeStackScreenProps<ScreenParamsList, 'AllPosts'>;
@@ -37,7 +37,8 @@ const AllPostsScreen: FC<IAllPostProps> = ({ navigation }) => {
     GetAllPosts()
       .then(setPosts)
       .catch(e => {
-        console.log(e);
+        const error = e as Error;
+        Alert.alert(error.message);
       });
   }, []);
   return (

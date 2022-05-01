@@ -6,7 +6,8 @@ import { FC } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 interface IProfileHeaderProps {
-  onX?(): void;
+  onSettings?(): void;
+  onLogout?(): void;
 }
 
 const headerStyles = StyleSheet.create({
@@ -23,17 +24,15 @@ const headerStyles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export const ProfileHeader: FC<IProfileHeaderProps> = ({ onX }) => {
+export const ProfileHeader: FC<IProfileHeaderProps> = ({ onLogout, onSettings }) => {
   return (
     <View style={headerStyles.headerContainer}>
       <View style={headerStyles.titleContainer}>
-        <Pressable onPress={onX} style={headerStyles.settings} android_disableSound={true}>
+        <Pressable onPress={onSettings} style={headerStyles.settings} android_disableSound={true}>
           <RText text={I18n.t('settings')} variant="medium" />
         </Pressable>
-        <Pressable onPress={onX} style={headerStyles.settings} android_disableSound={true}>
-          <RText text={I18n.t('profile')} variant="semiBold" size="large" />
-        </Pressable>
-        <Pressable onPress={onX} style={headerStyles.settings} android_disableSound={true}>
+        <RText text={I18n.t('profile')} variant="semiBold" size="large" />
+        <Pressable onPress={onLogout} style={headerStyles.settings} android_disableSound={true}>
           <RText text={I18n.t('logOut')} variant="medium" />
         </Pressable>
       </View>
