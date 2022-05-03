@@ -3,8 +3,16 @@ import { definitions } from './generated-schema';
 
 export type Post = definitions['Post'];
 
-export async function GetAllPosts(abort?: AbortController, basePath = serverPath): Promise<Post[]> {
-  const raw = await fetch(`${basePath}/api/v1/posts/`, { signal: abort?.signal });
+export async function GetAllPosts(
+  abort?: AbortController,
+  userID?: number,
+  basePath = serverPath,
+): Promise<Post[]> {
+  const url = new URL(`${basePath}/api/v1/posts/`);
+  if (userID) {
+    url.searchParams.append('user_id', userID.toString());
+  }
+  const raw = await fetch(url.toString(), { signal: abort?.signal });
   const posts: Post[] = await raw.json();
   return posts;
 }
