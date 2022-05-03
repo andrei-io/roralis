@@ -57,7 +57,7 @@ const ProfileScreen: FC<IResetPasswordProps> = ({ navigation, route }) => {
         } else navigation.navigate('Landing');
         const u = await GetOneUser(id, aborter);
         setUser(u);
-        const ps = await GetAllPosts(aborter);
+        const ps = await GetAllPosts(aborter, id);
         setPosts(ps);
       } catch (e) {
         const error = e as Error;
