@@ -7,8 +7,9 @@ import (
 )
 
 type PostRepo interface {
-	GetAll(offset int, limit int, newest bool) (c []Post, err error)
-	Get(id string) (p *Post, err error)
+	GetAll(offset int, limit int, newest bool) ([]Post, error)
+	Get(id string) (*Post, error)
+	GetByUserID(id string) ([]Post, error)
 	Update(id string, p *Post) error
 	Create(p *Post) error
 	Delete(id string) error
@@ -27,16 +28,16 @@ func NewPostRepo(db *gorm.DB) *postRepo {
 }
 
 // Gets one post by id
-func (r *postRepo) Get(id string) (p *Post, err error) {
+func (r *postRepo) Get(id string) (*Post, error) {
 	var post Post
 
-	err = r.db.First(&post, id).Error
+	err := r.db.First(&post, id).Error
 
 	return &post, err
 }
 
 // Gets all the posts with pagination and if set orderds by date created
-func (r *postRepo) GetAll(offset int, limit int, newest bool) (c []Post, err error) {
+func (r *postRepo) GetAll(offset int, limit int, newest bool) ([]Post, error) {
 	var posts []Post
 	var order string
 
@@ -46,8 +47,15 @@ func (r *postRepo) GetAll(offset int, limit int, newest bool) (c []Post, err err
 		order = "id"
 	}
 
-	err = r.db.Offset(offset).Limit(limit).Order(order).Find(&posts).Error
+	err := r.db.Offset(offset).Limit(limit).Order(order).Find(&posts).Error
 
+	return posts, err
+}
+
+func (r *postRepo) GetByUserID(id string) ([]Post, error) {
+	var posts []Post
+
+	err := r.db.Where("user_id = ?", id).Order("created_at desc").Find(&posts).Error
 	return posts, err
 }
 
