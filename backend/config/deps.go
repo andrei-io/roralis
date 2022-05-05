@@ -3,9 +3,7 @@ package config
 import (
 	"backend/roralis/core/auth"
 	"backend/roralis/core/category"
-	"backend/roralis/core/email"
 	"backend/roralis/core/jwt"
-	"backend/roralis/core/otc"
 	"backend/roralis/core/post"
 	posthttp "backend/roralis/core/post/post_http"
 	"backend/roralis/core/region"
@@ -41,9 +39,6 @@ type Services struct {
 
 	AuthController auth.AuthController
 
-	EmailRepo email.EmailRepo
-	OTCRepo   otc.OTCRepo
-
 	AuthMiddleware middleware.AuthService
 }
 
@@ -69,9 +64,6 @@ func BootstrapServices() (*Services, error) {
 	config.PostRepo = post.NewPostRepo(config.DB)
 	config.PostController = posthttp.NewPostController(config.PostRepo, config.TokenKey)
 
-	config.EmailRepo = email.NewEmailRepo(viper.GetString("SENDGRID_KEY"))
-	config.OTCRepo = otc.NewOTCRepo(config.DB)
-
 	config.JWTSecret, err = loadRSAKeys(viper.GetString("JWT_PRIVATE"), viper.GetString("JWT_PUBLIC"))
 	if err != nil {
 		return nil, err
@@ -83,8 +75,6 @@ func BootstrapServices() (*Services, error) {
 
 	config.AuthController = auth.NewAuthController(
 		config.UserRepo,
-		config.EmailRepo,
-		config.OTCRepo,
 		config.JWTService,
 		config.TokenKey,
 	)
