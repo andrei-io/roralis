@@ -1,6 +1,7 @@
 package post
 
 import (
+	"backend/roralis/shared/repo"
 	"errors"
 
 	"gorm.io/gorm"
@@ -33,6 +34,10 @@ func (r *postRepo) Get(id string) (*Post, error) {
 
 	err := r.db.First(&post, id).Error
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, repo.ErrRecordNotFound
+	}
+
 	return &post, err
 }
 
@@ -49,6 +54,10 @@ func (r *postRepo) GetAll(offset int, limit int, newest bool) ([]Post, error) {
 
 	err := r.db.Offset(offset).Limit(limit).Order(order).Find(&posts).Error
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, repo.ErrRecordNotFound
+	}
+
 	return posts, err
 }
 
@@ -56,11 +65,16 @@ func (r *postRepo) GetByUserID(id string) ([]Post, error) {
 	var posts []Post
 
 	err := r.db.Where("user_id = ?", id).Order("created_at desc").Find(&posts).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, repo.ErrRecordNotFound
+	}
+
 	return posts, err
 }
 
 func (r *postRepo) Update(id string, p *Post) error {
-	return errors.New("Not implemented yet")
+	return repo.ErrNotImplementedYet
 }
 
 func (r *postRepo) Create(p *Post) error {
@@ -69,5 +83,5 @@ func (r *postRepo) Create(p *Post) error {
 }
 
 func (r *postRepo) Delete(id string) error {
-	return errors.New("Not implemented yet")
+	return repo.ErrNotImplementedYet
 }

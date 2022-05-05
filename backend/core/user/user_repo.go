@@ -55,6 +55,7 @@ func (r *userRepo) Create(u *User) error {
 		if strings.Contains(err.Message, "duplicate key value violates unique constraint") {
 			return repo.ErrEmailTaken
 		}
+		return err
 	}
 	return nil
 }

@@ -2,13 +2,13 @@ package posthttp
 
 import (
 	"backend/roralis/core/post"
+	"backend/roralis/shared/repo"
 	"backend/roralis/shared/rest"
 	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type PostController struct {
@@ -30,6 +30,9 @@ func (r *PostController) ReadAll(c *gin.Context) {
 	if user_id != "" {
 		posts, err := r.repo.GetByUserID(user_id)
 		if err != nil {
+			if errors.Is(err, repo.ErrRecordNotFound) {
+				c.JSON(http.StatusNotFound, rest.NotFoundResponse)
+			}
 			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
 			return
 		}
@@ -39,14 +42,17 @@ func (r *PostController) ReadAll(c *gin.Context) {
 
 	posts, err := r.repo.GetAll(offset, limit, true)
 
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundResponse)
-		return
-	}
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
-		return
+
+		if errors.Is(err, repo.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, rest.NotFoundResponse)
+			return
+		} else {
+			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
+			return
+		}
 	}
+
 	c.JSON(http.StatusOK, posts)
 }
 
@@ -57,13 +63,14 @@ func (r *PostController) ReadOne(c *gin.Context) {
 
 	post, err := r.repo.Get(id)
 
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundResponse)
-		return
-	}
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
-		return
+		if errors.Is(err, repo.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, rest.NotFoundResponse)
+			return
+		} else {
+			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
+			return
+		}
 	}
 	c.JSON(http.StatusOK, post)
 }
