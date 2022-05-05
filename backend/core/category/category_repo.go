@@ -1,6 +1,7 @@
 package category
 
 import (
+	"backend/roralis/shared/repo"
 	"errors"
 
 	"gorm.io/gorm"
@@ -33,6 +34,10 @@ func (r *categoryRepo) GetAll() (c []Category, err error) {
 	// Will panic on fail,but gin has a recovery middleware
 	err = r.db.Find(&categories).Error
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, repo.ErrRecordNotFound
+	}
+
 	return categories, err
 }
 
@@ -42,17 +47,21 @@ func (r *categoryRepo) Get(id string) (c *Category, err error) {
 
 	err = r.db.First(&category, id).Error
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, repo.ErrRecordNotFound
+	}
+
 	return &category, err
 }
 
 func (r *categoryRepo) Update(id string, c *Category) error {
-	return errors.New("Modifying categories is not allowed")
+	return repo.ErrNotImplementedYet
 }
 
 func (r *categoryRepo) Create(c *Category) error {
-	return errors.New("Modifying categories is not allowed")
+	return repo.ErrNotImplementedYet
 }
 
 func (r *categoryRepo) Delete(id string) error {
-	return errors.New("Modifying categories is not allowed")
+	return repo.ErrNotImplementedYet
 }
