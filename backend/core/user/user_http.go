@@ -1,12 +1,12 @@
 package user
 
 import (
+	"backend/roralis/shared/repo"
 	"backend/roralis/shared/rest"
 	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type UserController struct {
@@ -22,10 +22,7 @@ func (r *UserController) ReadOne(c *gin.Context) {
 	id := c.Param("id")
 
 	u, err := r.userRepo.Get(id)
-	u.Password = "Secret"
-	u.Email = "Secret"
-
-	if errors.Is(err, gorm.ErrRecordNotFound) {
+	if errors.Is(err, repo.ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, rest.NotFoundError)
 		return
 	}
@@ -33,6 +30,9 @@ func (r *UserController) ReadOne(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
+
+	u.Password = "Secret"
+	u.Email = "Secret"
 
 	c.JSON(http.StatusOK, u)
 }

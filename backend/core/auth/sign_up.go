@@ -3,12 +3,12 @@ package auth
 import (
 	"backend/roralis/core/jwt"
 	"backend/roralis/core/user"
+	"backend/roralis/shared/repo"
 	"backend/roralis/shared/rest"
+	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgconn"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -35,10 +35,8 @@ func (r *AuthController) SignUp(c *gin.Context) {
 	// Create in db. Will error out when invalid
 	err = r.userRepo.Create(&json)
 	if err != nil {
-		err := err.(*pgconn.PgError)
-		message := err.Message
-		if strings.Contains(message, "duplicate key value violates unique constraint") {
-			c.JSON(http.StatusConflict, rest.NewDuplicateEntityErrorResponse(err.ConstraintName))
+		if errors.Is(err, repo.ErrEmailTaken) {
+			c.JSON(http.StatusConflict, rest.EmailTakenReponse)
 			return
 		} else {
 			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})

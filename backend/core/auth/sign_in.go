@@ -2,13 +2,13 @@ package auth
 
 import (
 	"backend/roralis/core/jwt"
+	"backend/roralis/shared/repo"
 	"backend/roralis/shared/rest"
 	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 )
 
 // Request body for Sign In route
@@ -28,14 +28,15 @@ func (r *AuthController) SignIn(c *gin.Context) {
 	}
 
 	user, err := r.userRepo.GetByEmail(json.Email)
-
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundError)
-		return
-	}
-
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
+		if errors.Is(err, repo.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, rest.NotFoundError)
+			return
+		} else {
+			c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
+			return
+		}
+
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(json.Password))
@@ -55,6 +56,7 @@ func (r *AuthController) SignIn(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, rest.Response{Message: "Your password or email are incorrect"})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
