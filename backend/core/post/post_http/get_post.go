@@ -2,7 +2,7 @@ package posthttp
 
 import (
 	"backend/roralis/core/post"
-	httpresponse "backend/roralis/shared/http_response"
+	"backend/roralis/shared/rest"
 	"errors"
 	"net/http"
 	"strconv"
@@ -30,7 +30,7 @@ func (r *PostController) ReadAll(c *gin.Context) {
 	if user_id != "" {
 		posts, err := r.repo.GetByUserID(user_id)
 		if err != nil {
-			c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
+			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
 			return
 		}
 		c.JSON(http.StatusOK, posts)
@@ -40,11 +40,11 @@ func (r *PostController) ReadAll(c *gin.Context) {
 	posts, err := r.repo.GetAll(offset, limit, true)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundError)
 		return
 	}
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, posts)
@@ -58,11 +58,11 @@ func (r *PostController) ReadOne(c *gin.Context) {
 	post, err := r.repo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundError)
 		return
 	}
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, post)

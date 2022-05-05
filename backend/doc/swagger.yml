@@ -1,9 +1,9 @@
 basePath: /
 consumes:
-- application/json
+  - application/json
 definitions:
   Category:
-    description: 'nolint: govet'
+    description: "nolint: govet"
     properties:
       CreatedAt:
         format: date-time
@@ -34,7 +34,7 @@ definitions:
     type: object
     x-go-package: backend/roralis/core/jwt
   Post:
-    description: 'nolint: govet'
+    description: "nolint: govet"
     properties:
       Address:
         type: string
@@ -74,7 +74,7 @@ definitions:
     type: object
     x-go-package: backend/roralis/core/post
   Region:
-    description: 'nolint: govet'
+    description: "nolint: govet"
     properties:
       CreatedAt:
         format: date-time
@@ -96,9 +96,9 @@ definitions:
       Message:
         type: string
     type: object
-    x-go-package: backend/roralis/shared/http_response
+    x-go-package: backend/roralis/shared/rest
   User:
-    description: 'nolint: govet'
+    description: "nolint: govet"
     properties:
       CreatedAt:
         format: date-time
@@ -137,168 +137,168 @@ paths:
       operationId: getCategories
       responses:
         "200":
-          $ref: '#/responses/GetAllCategoriesResponse'
+          $ref: "#/responses/GetAllCategoriesResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - category
+        - category
   /api/v1/categories/:id:
     get:
       description: Get category by id
       operationId: getOneCategory
       responses:
         "200":
-          $ref: '#/responses/GetOneCategoriesResponse'
+          $ref: "#/responses/GetOneCategoriesResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - category
+        - category
   /api/v1/posts/:
     get:
       description: Get post by id
       operationId: getPosts
       responses:
         "200":
-          $ref: '#/responses/GetAllPostResponse'
+          $ref: "#/responses/GetAllPostResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - posts
+        - posts
     post:
       description: Create post
       operationId: createPost
       responses:
         "200":
-          $ref: '#/responses/GetOnePostResponse'
+          $ref: "#/responses/GetOnePostResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - posts
+        - posts
   /api/v1/posts/:id:
     get:
       description: Get region by id
       operationId: getOnePost
       responses:
         "200":
-          $ref: '#/responses/GetOnePostResponse'
+          $ref: "#/responses/GetOnePostResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - posts
+        - posts
   /api/v1/regions/:
     get:
       description: Get all regions
       operationId: getRegions
       responses:
         "200":
-          $ref: '#/responses/GetAllRegionsResponse'
+          $ref: "#/responses/GetAllRegionsResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - region
+        - region
   /api/v1/regions/:id:
     get:
       description: Get region by id
       operationId: getOneRegion
       responses:
         "200":
-          $ref: '#/responses/GetOneRegionsResponse'
+          $ref: "#/responses/GetOneRegionsResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - region
+        - region
   /api/v1/users/:id:
     get:
       description: Get one user
       operationId: getUser
       responses:
         "200":
-          $ref: '#/responses/GetOneUserResponse'
+          $ref: "#/responses/GetOneUserResponse"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - user
+        - user
   /api/v1/users/aboutme:
     get:
       description: Sign Up
       operationId: aboutme
       responses:
         "200":
-          $ref: '#/responses/AboutMeSucces'
+          $ref: "#/responses/AboutMeSucces"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - user
+        - user
   /api/v1/users/signin:
     post:
       description: Resend email
       operationId: signin
       responses:
         "200":
-          $ref: '#/responses/SignInSucces'
+          $ref: "#/responses/SignInSucces"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - user
+        - user
   /api/v1/users/signup:
     post:
       description: Sign Up
       operationId: signup
       responses:
         "200":
-          $ref: '#/responses/SignUpSucces'
+          $ref: "#/responses/SignUpSucces"
         default:
-          $ref: '#/responses/GenericResponse'
+          $ref: "#/responses/GenericResponse"
       tags:
-      - user
+        - user
 produces:
-- application/json
+  - application/json
 responses:
   AboutMeSucces:
     description: ""
     schema:
       properties:
         User:
-          $ref: '#/definitions/JWTClaims'
+          $ref: "#/definitions/JWTClaims"
       type: object
   GenericResponse:
     description: ""
     schema:
-      $ref: '#/definitions/Response'
+      $ref: "#/definitions/Response"
   GetAllCategoriesResponse:
     description: ""
     schema:
       items:
-        $ref: '#/definitions/Category'
+        $ref: "#/definitions/Category"
       type: array
   GetAllPostResponse:
     description: ""
     schema:
       items:
-        $ref: '#/definitions/Post'
+        $ref: "#/definitions/Post"
       type: array
   GetAllRegionsResponse:
     description: ""
     schema:
       items:
-        $ref: '#/definitions/Region'
+        $ref: "#/definitions/Region"
       type: array
   GetOneCategoriesResponse:
     description: ""
     schema:
-      $ref: '#/definitions/Category'
+      $ref: "#/definitions/Category"
   GetOnePostResponse:
     description: ""
     schema:
-      $ref: '#/definitions/Post'
+      $ref: "#/definitions/Post"
   GetOneRegionsResponse:
     description: ""
     schema:
-      $ref: '#/definitions/Region'
+      $ref: "#/definitions/Region"
   GetOneUserResponse:
     description: ""
     schema:
-      $ref: '#/definitions/User'
+      $ref: "#/definitions/User"
   SignInSucces:
     description: ""
     schema:
@@ -316,9 +316,9 @@ responses:
         Token:
           type: string
         User:
-          $ref: '#/definitions/User'
+          $ref: "#/definitions/User"
       type: object
 schemes:
-- http
-- https
+  - http
+  - https
 swagger: "2.0"

@@ -1,7 +1,7 @@
 package user
 
 import (
-	httpresponse "backend/roralis/shared/http_response"
+	"backend/roralis/shared/rest"
 	"errors"
 	"net/http"
 
@@ -26,11 +26,11 @@ func (r *UserController) ReadOne(c *gin.Context) {
 	u.Email = "Secret"
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundError)
 		return
 	}
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 

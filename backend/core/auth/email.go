@@ -3,7 +3,7 @@ package auth
 import (
 	"backend/roralis/core/jwt"
 	"backend/roralis/core/otc"
-	httpresponse "backend/roralis/shared/http_response"
+	"backend/roralis/shared/rest"
 	"errors"
 	"fmt"
 	"net/http"
@@ -21,42 +21,42 @@ func (r *AuthController) ResendValidationEmail(c *gin.Context) {
 	user, err := r.userRepo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundError)
 		return
 	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 
 	if user.Verified {
-		c.JSON(http.StatusOK, httpresponse.Response{Message: "Email already confirmed"})
+		c.JSON(http.StatusOK, rest.Response{Message: "Email already confirmed"})
 		return
 	}
 
 	verficationCode, err := otc.GenerateVerificationCode(6)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 
 	err = r.otcRepo.Set(user.ID, verficationCode, 30)
 	if err != nil {
 		// TODO: handle this better
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 
 	if viper.GetString("ENV") == "PROD" {
 		_, err := r.emailRepo.Send(user.Email, "backend/roralis Roads verification email", verficationCode)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+			c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 			return
 		}
 	} else {
 		fmt.Printf("Verification code for user %s is %s\n", user.Email, verficationCode)
 	}
 
-	c.JSON(http.StatusOK, httpresponse.SuccesResponse)
+	c.JSON(http.StatusOK, rest.SuccesResponse)
 
 }
 
@@ -72,33 +72,33 @@ func (r *AuthController) ValidateEmail(c *gin.Context) {
 	var json validateEmailRequest
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
-		c.JSON(http.StatusBadRequest, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusBadRequest, rest.Response{Message: err.Error()})
 		return
 	}
 
 	user, err := r.userRepo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, httpresponse.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundError)
 		return
 	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 
 	if user.Verified {
-		c.JSON(http.StatusOK, httpresponse.Response{Message: "Email already confirmed"})
+		c.JSON(http.StatusOK, rest.Response{Message: "Email already confirmed"})
 		return
 	}
 
 	correctCode, err := r.otcRepo.Get(user.ID)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 	if json.Code != correctCode {
-		c.JSON(http.StatusUnauthorized, httpresponse.Response{Message: "The code is not correct"})
+		c.JSON(http.StatusUnauthorized, rest.Response{Message: "The code is not correct"})
 		return
 	}
 
@@ -107,7 +107,7 @@ func (r *AuthController) ValidateEmail(c *gin.Context) {
 
 	err = r.userRepo.Update(id, user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 
@@ -120,7 +120,7 @@ func (r *AuthController) ValidateEmail(c *gin.Context) {
 
 	token, err := r.jwtService.NewJWT(&payload)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 		return
 	}
 

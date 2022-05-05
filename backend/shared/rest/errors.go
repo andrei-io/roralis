@@ -1,4 +1,4 @@
-package httpresponse
+package rest
 
 import "fmt"
 

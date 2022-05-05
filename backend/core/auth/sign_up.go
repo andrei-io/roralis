@@ -3,7 +3,7 @@ package auth
 import (
 	"backend/roralis/core/jwt"
 	"backend/roralis/core/user"
-	httpresponse "backend/roralis/shared/http_response"
+	"backend/roralis/shared/rest"
 	"net/http"
 	"strings"
 
@@ -18,7 +18,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 	var json user.User
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
-		c.JSON(http.StatusBadRequest, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusBadRequest, rest.Response{Message: err.Error()})
 		return
 	}
 
@@ -28,7 +28,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 
 	if err != nil {
 		// Failing to hash a password is a fatal error
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 	}
 	json.Password = string(hashedPassword)
 
@@ -38,10 +38,10 @@ func (r *AuthController) SignUp(c *gin.Context) {
 		err := err.(*pgconn.PgError)
 		message := err.Message
 		if strings.Contains(message, "duplicate key value violates unique constraint") {
-			c.JSON(http.StatusConflict, httpresponse.NewDuplicateEntityErrorResponse(err.ConstraintName))
+			c.JSON(http.StatusConflict, rest.NewDuplicateEntityErrorResponse(err.ConstraintName))
 			return
 		} else {
-			c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
+			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
 			return
 		}
 	}
@@ -57,7 +57,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 
 	token, err := r.jwtService.NewJWT(&payload)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: "Your password or email are incorrect"})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: "Your password or email are incorrect"})
 	}
 
 	c.JSON(http.StatusOK, gin.H{
