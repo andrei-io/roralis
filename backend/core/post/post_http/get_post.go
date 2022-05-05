@@ -40,7 +40,7 @@ func (r *PostController) ReadAll(c *gin.Context) {
 	posts, err := r.repo.GetAll(offset, limit, true)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundResponse)
 		return
 	}
 	if err != nil {
@@ -58,7 +58,7 @@ func (r *PostController) ReadOne(c *gin.Context) {
 	post, err := r.repo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundResponse)
 		return
 	}
 	if err != nil {

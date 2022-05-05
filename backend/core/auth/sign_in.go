@@ -30,7 +30,7 @@ func (r *AuthController) SignIn(c *gin.Context) {
 	user, err := r.userRepo.GetByEmail(json.Email)
 	if err != nil {
 		if errors.Is(err, repo.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, rest.NotFoundError)
+			c.JSON(http.StatusNotFound, rest.NotFoundResponse)
 			return
 		} else {
 			c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})

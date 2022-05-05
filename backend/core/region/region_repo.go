@@ -1,6 +1,7 @@
 package region
 
 import (
+	"backend/roralis/shared/repo"
 	"errors"
 
 	"gorm.io/gorm"
@@ -33,6 +34,10 @@ func (r *regionRepo) GetAll() (re []Region, err error) {
 	// Will panic on fail,but gin has a recovery middleware
 	err = r.db.Find(&regions).Error
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, repo.ErrRecordNotFound
+	}
+
 	return regions, err
 }
 
@@ -42,17 +47,21 @@ func (r *regionRepo) Get(id string) (re *Region, err error) {
 
 	err = r.db.First(&region, id).Error
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, repo.ErrRecordNotFound
+	}
+
 	return &region, err
 }
 
 func (r *regionRepo) Update(id string, re *Region) error {
-	return errors.New("Modifying regions is not allowed")
+	return repo.ErrNotImplementedYet
 }
 
 func (r *regionRepo) Create(re *Region) error {
-	return errors.New("Modifying regions is not allowed")
+	return repo.ErrNotImplementedYet
 }
 
 func (r *regionRepo) Delete(id string) error {
-	return errors.New("Modifying regions is not allowed")
+	return repo.ErrNotImplementedYet
 }

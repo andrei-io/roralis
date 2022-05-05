@@ -6,7 +6,7 @@ type Response struct {
 }
 
 var (
-	NotFoundError     = Response{Message: "Record not found"}
+	NotFoundResponse  = Response{Message: "Record not found"}
 	SuccesResponse    = Response{Message: "Succes"}
 	EmailTakenReponse = Response{Message: "Email is already taken"}
 )

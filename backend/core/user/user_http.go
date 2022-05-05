@@ -23,7 +23,7 @@ func (r *UserController) ReadOne(c *gin.Context) {
 
 	u, err := r.userRepo.Get(id)
 	if errors.Is(err, repo.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundResponse)
 		return
 	}
 	if err != nil {

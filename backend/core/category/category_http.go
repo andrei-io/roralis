@@ -23,7 +23,7 @@ func (r *CategoryController) ReadAll(c *gin.Context) {
 	categories, err := r.repo.GetAll()
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundResponse)
 		return
 	}
 	if err != nil {
@@ -41,7 +41,7 @@ func (r *CategoryController) ReadOne(c *gin.Context) {
 	category, err := r.repo.Get(id)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusNotFound, rest.NotFoundError)
+		c.JSON(http.StatusNotFound, rest.NotFoundResponse)
 		return
 	}
 	if err != nil {
