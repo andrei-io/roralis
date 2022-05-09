@@ -12,12 +12,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type categoryRepoMock struct {
+type regionRepoMock struct {
 	data          []category.Category
 	notFoundError bool
 }
 
-func (r *categoryRepoMock) Get(id string) (*category.Category, error) {
+func (r *regionRepoMock) Get(id string) (*category.Category, error) {
 	if r.notFoundError {
 		return nil, repo.ErrRecordNotFound
 	}
@@ -28,27 +28,27 @@ func (r *categoryRepoMock) Get(id string) (*category.Category, error) {
 	}
 	return nil, repo.ErrRecordNotFound
 }
-func (r *categoryRepoMock) GetAll() ([]category.Category, error) {
+func (r *regionRepoMock) GetAll() ([]category.Category, error) {
 	if r.notFoundError {
 		return nil, repo.ErrRecordNotFound
 	}
 	return r.data, nil
 }
 
-func (r *categoryRepoMock) Create(c *category.Category) error {
+func (r *regionRepoMock) Create(c *category.Category) error {
 	return repo.ErrNotImplementedYet
 
 }
-func (r *categoryRepoMock) Update(id string, c *category.Category) error {
+func (r *regionRepoMock) Update(id string, c *category.Category) error {
 	return repo.ErrNotImplementedYet
 }
-func (r *categoryRepoMock) Delete(id string) error {
+func (r *regionRepoMock) Delete(id string) error {
 	return repo.ErrNotImplementedYet
 }
 
 func TestCategoryController_ReadAll(t *testing.T) {
-	t.Parallel()
-	mockRepo := categoryRepoMock{
+
+	mockRepo := regionRepoMock{
 		notFoundError: false,
 		data: []category.Category{
 			{ID: 1, Text: "Categoria 1"},
@@ -57,6 +57,8 @@ func TestCategoryController_ReadAll(t *testing.T) {
 	}
 	c, w := rest.NewMockGinContext()
 	categoryController := category.NewCategoryController(&mockRepo)
+
+	// Succesfully get all categories
 	categoryController.ReadAll(c)
 	if w.Code != http.StatusOK {
 		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
@@ -70,7 +72,8 @@ func TestCategoryController_ReadAll(t *testing.T) {
 		t.Errorf("Wanted number of items: %v, got %v", len(mockRepo.data), len(responseSucces))
 	}
 
-	mockRepo = categoryRepoMock{notFoundError: true}
+	// Artificially simulate a db failure(record not found)
+	mockRepo = regionRepoMock{notFoundError: true}
 	c, w = rest.NewMockGinContext()
 	categoryController = category.NewCategoryController(&mockRepo)
 	categoryController.ReadAll(c)
@@ -80,17 +83,21 @@ func TestCategoryController_ReadAll(t *testing.T) {
 }
 
 func TestCategoryController_ReadOne(t *testing.T) {
-	t.Parallel()
-	mockRepo := categoryRepoMock{
+
+	mockRepo := regionRepoMock{
 		notFoundError: false,
 		data: []category.Category{
 			{ID: 1, Text: "Categoria 1"},
 			{ID: 2, Text: "Categoria 2"},
 		},
 	}
+
 	c, w := rest.NewMockGinContext()
 	categoryController := category.NewCategoryController(&mockRepo)
+
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
+
+	// Sucesfully get controller by id
 	categoryController.ReadOne(c)
 	if w.Code != http.StatusOK {
 		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
@@ -104,10 +111,11 @@ func TestCategoryController_ReadOne(t *testing.T) {
 		t.Errorf("Wanted items: %v, got %v", mockRepo.data[0], responseSucces)
 	}
 
-	mockRepo = categoryRepoMock{notFoundError: true}
 	c, w = rest.NewMockGinContext()
-	categoryController = category.NewCategoryController(&mockRepo)
-	categoryController.ReadAll(c)
+
+	// Error on invalid id
+	c.Params = append(c.Params, gin.Param{Key: "id", Value: "3"})
+	categoryController.ReadOne(c)
 	if w.Code != http.StatusNotFound {
 		t.Errorf("Wanted return code: %v, got %v", http.StatusNotFound, w.Code)
 	}
