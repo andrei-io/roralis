@@ -3,7 +3,6 @@ package user
 import (
 	"backend/roralis/shared/repo"
 	"errors"
-	"fmt"
 	"strings"
 
 	"github.com/jackc/pgconn"
@@ -51,7 +50,6 @@ func (r *userRepo) Create(u *User) error {
 	err := r.db.Create(&u).Error
 	if err != nil {
 		err := err.(*pgconn.PgError)
-		fmt.Println(err.Message)
 		if strings.Contains(err.Message, "duplicate key value violates unique constraint") {
 			return repo.ErrEmailTaken
 		}
