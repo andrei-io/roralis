@@ -11,9 +11,7 @@ type PostRepo interface {
 	GetAll(offset int, limit int, newest bool) ([]Post, error)
 	Get(id string) (*Post, error)
 	GetByUserID(id string) ([]Post, error)
-	Update(id string, p *Post) error
 	Create(p *Post) error
-	Delete(id string) error
 }
 
 type postRepo struct {
@@ -73,15 +71,7 @@ func (r *postRepo) GetByUserID(id string) ([]Post, error) {
 	return posts, err
 }
 
-func (r *postRepo) Update(id string, p *Post) error {
-	return repo.ErrNotImplementedYet
-}
-
 func (r *postRepo) Create(p *Post) error {
 	err := r.db.Create(&p).Error
 	return err
-}
-
-func (r *postRepo) Delete(id string) error {
-	return repo.ErrNotImplementedYet
 }

@@ -10,9 +10,6 @@ import (
 type RegionRepo interface {
 	GetAll() (re []Region, err error)
 	Get(id string) (re *Region, err error)
-	Update(id string, re *Region) error
-	Create(re *Region) error
-	Delete(id string) error
 }
 
 type regionRepo struct {
@@ -52,16 +49,4 @@ func (r *regionRepo) Get(id string) (re *Region, err error) {
 	}
 
 	return &region, err
-}
-
-func (r *regionRepo) Update(id string, re *Region) error {
-	return repo.ErrNotImplementedYet
-}
-
-func (r *regionRepo) Create(re *Region) error {
-	return repo.ErrNotImplementedYet
-}
-
-func (r *regionRepo) Delete(id string) error {
-	return repo.ErrNotImplementedYet
 }

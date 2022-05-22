@@ -45,13 +45,6 @@ func (r *postRepoMock) Create(c *post.Post) error {
 	return repo.ErrNotImplementedYet
 
 }
-func (r *postRepoMock) Update(id string, c *post.Post) error {
-	return repo.ErrNotImplementedYet
-}
-func (r *postRepoMock) Delete(id string) error {
-	return repo.ErrNotImplementedYet
-}
-
 func TestPostController_ReadAll(t *testing.T) {
 	mockRepo := postRepoMock{
 		notFoundError: false,

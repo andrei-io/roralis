@@ -13,9 +13,7 @@ type UserRepo interface {
 	GetAll() (users []User, err error)
 	Get(id string) (u *User, err error)
 	GetByEmail(email string) (u *User, err error)
-	Update(id string, u *User) error
 	Create(u *User) error
-	Delete(id string) error
 }
 
 type userRepo struct {
@@ -42,10 +40,6 @@ func (r *userRepo) Get(id string) (u *User, err error) {
 	return &user, err
 }
 
-func (r *userRepo) Update(id string, u *User) error {
-	return repo.ErrNotImplementedYet
-}
-
 func (r *userRepo) Create(u *User) error {
 	err := r.db.Create(&u).Error
 	if err != nil {
@@ -56,10 +50,6 @@ func (r *userRepo) Create(u *User) error {
 		return err
 	}
 	return nil
-}
-
-func (r *userRepo) Delete(id string) error {
-	return repo.ErrNotImplementedYet
 }
 
 func (r *userRepo) GetByEmail(email string) (u *User, err error) {

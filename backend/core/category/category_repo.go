@@ -10,9 +10,6 @@ import (
 type CategoryRepo interface {
 	GetAll() (c []Category, err error)
 	Get(id string) (c *Category, err error)
-	Update(id string, c *Category) error
-	Create(c *Category) error
-	Delete(id string) error
 }
 
 type categoryRepo struct {
@@ -52,16 +49,4 @@ func (r *categoryRepo) Get(id string) (c *Category, err error) {
 	}
 
 	return &category, err
-}
-
-func (r *categoryRepo) Update(id string, c *Category) error {
-	return repo.ErrNotImplementedYet
-}
-
-func (r *categoryRepo) Create(c *Category) error {
-	return repo.ErrNotImplementedYet
-}
-
-func (r *categoryRepo) Delete(id string) error {
-	return repo.ErrNotImplementedYet
 }
