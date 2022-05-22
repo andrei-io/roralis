@@ -35,17 +35,6 @@ func (r *regionRepoMock) GetAll() ([]category.Category, error) {
 	return r.data, nil
 }
 
-func (r *regionRepoMock) Create(c *category.Category) error {
-	return repo.ErrNotImplementedYet
-
-}
-func (r *regionRepoMock) Update(id string, c *category.Category) error {
-	return repo.ErrNotImplementedYet
-}
-func (r *regionRepoMock) Delete(id string) error {
-	return repo.ErrNotImplementedYet
-}
-
 func TestCategoryController_ReadAll(t *testing.T) {
 
 	mockRepo := regionRepoMock{
@@ -55,6 +44,7 @@ func TestCategoryController_ReadAll(t *testing.T) {
 			{ID: 2, Text: "Categoria 2"},
 		},
 	}
+	// Test GET all
 	c, w := rest.NewMockGinContext(nil)
 	categoryController := category.NewCategoryController(&mockRepo)
 
@@ -92,12 +82,12 @@ func TestCategoryController_ReadOne(t *testing.T) {
 		},
 	}
 
+	// Sucesfully get category by id
 	c, w := rest.NewMockGinContext(nil)
 	categoryController := category.NewCategoryController(&mockRepo)
 
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
 
-	// Sucesfully get controller by id
 	categoryController.ReadOne(c)
 	if w.Code != http.StatusOK {
 		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)

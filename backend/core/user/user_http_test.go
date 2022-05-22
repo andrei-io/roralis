@@ -43,12 +43,6 @@ func (r *userRepoMock) Create(c *user.User) error {
 	return repo.ErrNotImplementedYet
 
 }
-func (r *userRepoMock) Update(id string, c *user.User) error {
-	return repo.ErrNotImplementedYet
-}
-func (r *userRepoMock) Delete(id string) error {
-	return repo.ErrNotImplementedYet
-}
 
 func TestUserController_ReadOne(t *testing.T) {
 	mockRepo := userRepoMock{
@@ -73,11 +67,11 @@ func TestUserController_ReadOne(t *testing.T) {
 		},
 	}
 
+	// Succesfully read a user by id
 	c, w := rest.NewMockGinContext(nil)
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
 
 	userController := user.NewUserController(&mockRepo)
-	// Succesfully read a user by id
 	userController.ReadOne(c)
 	if w.Code != http.StatusOK {
 		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)

@@ -35,17 +35,6 @@ func (r *regionRepoMock) GetAll() ([]region.Region, error) {
 	return r.data, nil
 }
 
-func (r *regionRepoMock) Create(c *region.Region) error {
-	return repo.ErrNotImplementedYet
-
-}
-func (r *regionRepoMock) Update(id string, c *region.Region) error {
-	return repo.ErrNotImplementedYet
-}
-func (r *regionRepoMock) Delete(id string) error {
-	return repo.ErrNotImplementedYet
-}
-
 func TestRegionController_ReadAll(t *testing.T) {
 
 	mockRepo := regionRepoMock{
@@ -92,12 +81,12 @@ func TestRegionController_ReadOne(t *testing.T) {
 			{ID: 2, Text: "Regiunea 2"},
 		},
 	}
+	// Succesfully get region by id
 	c, w := rest.NewMockGinContext(nil)
 	regionController := region.NewRegionController(&mockRepo)
 
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
 
-	// Succesfully get region by id
 	regionController.ReadOne(c)
 	if w.Code != http.StatusOK {
 		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
