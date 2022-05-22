@@ -32,6 +32,7 @@ func (r *PostController) ReadAll(c *gin.Context) {
 		if err != nil {
 			if errors.Is(err, repo.ErrRecordNotFound) {
 				c.JSON(http.StatusNotFound, rest.NotFoundResponse)
+				return
 			}
 			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
 			return
