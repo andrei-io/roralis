@@ -73,7 +73,7 @@ func TestUserController_ReadOne(t *testing.T) {
 		},
 	}
 
-	c, w := rest.NewMockGinContext()
+	c, w := rest.NewMockGinContext(nil)
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
 
 	userController := user.NewUserController(&mockRepo)
@@ -91,7 +91,7 @@ func TestUserController_ReadOne(t *testing.T) {
 		t.Errorf("Wanted items: %v, got %v", mockRepo.data[0], responseSucces)
 	}
 
-	c, w = rest.NewMockGinContext()
+	c, w = rest.NewMockGinContext(nil)
 
 	// Error on invalid id
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "3"})

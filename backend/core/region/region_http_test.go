@@ -55,7 +55,7 @@ func TestRegionController_ReadAll(t *testing.T) {
 			{ID: 2, Text: "Regiunea 2"},
 		},
 	}
-	c, w := rest.NewMockGinContext()
+	c, w := rest.NewMockGinContext(nil)
 	regionController := region.NewRegionController(&mockRepo)
 
 	// Succesfully get all regions
@@ -75,7 +75,7 @@ func TestRegionController_ReadAll(t *testing.T) {
 
 	// Artificially simulate a db failure(record not found)
 	mockRepo = regionRepoMock{notFoundError: true}
-	c, w = rest.NewMockGinContext()
+	c, w = rest.NewMockGinContext(nil)
 	regionController = region.NewRegionController(&mockRepo)
 
 	regionController.ReadAll(c)
@@ -92,7 +92,7 @@ func TestRegionController_ReadOne(t *testing.T) {
 			{ID: 2, Text: "Regiunea 2"},
 		},
 	}
-	c, w := rest.NewMockGinContext()
+	c, w := rest.NewMockGinContext(nil)
 	regionController := region.NewRegionController(&mockRepo)
 
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
@@ -111,7 +111,7 @@ func TestRegionController_ReadOne(t *testing.T) {
 		t.Errorf("Wanted items: %v, got %v", mockRepo.data[0], responseSucces)
 	}
 
-	c, w = rest.NewMockGinContext()
+	c, w = rest.NewMockGinContext(nil)
 
 	// Error on invalid id
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "3"})

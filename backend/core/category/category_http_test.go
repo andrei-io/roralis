@@ -55,7 +55,7 @@ func TestCategoryController_ReadAll(t *testing.T) {
 			{ID: 2, Text: "Categoria 2"},
 		},
 	}
-	c, w := rest.NewMockGinContext()
+	c, w := rest.NewMockGinContext(nil)
 	categoryController := category.NewCategoryController(&mockRepo)
 
 	// Succesfully get all categories
@@ -74,7 +74,7 @@ func TestCategoryController_ReadAll(t *testing.T) {
 
 	// Artificially simulate a db failure(record not found)
 	mockRepo = regionRepoMock{notFoundError: true}
-	c, w = rest.NewMockGinContext()
+	c, w = rest.NewMockGinContext(nil)
 	categoryController = category.NewCategoryController(&mockRepo)
 	categoryController.ReadAll(c)
 	if w.Code != http.StatusNotFound {
@@ -92,7 +92,7 @@ func TestCategoryController_ReadOne(t *testing.T) {
 		},
 	}
 
-	c, w := rest.NewMockGinContext()
+	c, w := rest.NewMockGinContext(nil)
 	categoryController := category.NewCategoryController(&mockRepo)
 
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
@@ -111,7 +111,7 @@ func TestCategoryController_ReadOne(t *testing.T) {
 		t.Errorf("Wanted items: %v, got %v", mockRepo.data[0], responseSucces)
 	}
 
-	c, w = rest.NewMockGinContext()
+	c, w = rest.NewMockGinContext(nil)
 
 	// Error on invalid id
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "3"})
