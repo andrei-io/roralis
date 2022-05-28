@@ -64,7 +64,7 @@ func BootstrapServices() (*Services, error) {
 	config.PostRepo = post.NewPostRepo(config.DB)
 	config.PostController = posthttp.NewPostController(config.PostRepo, config.TokenKey)
 
-	config.JWTSecret, err = loadRSAKeys(viper.GetString("JWT_PRIVATE"), viper.GetString("JWT_PUBLIC"))
+	config.JWTSecret, err = LoadRSAKeys(viper.GetString("JWT_PRIVATE"), viper.GetString("JWT_PUBLIC"))
 	if err != nil {
 		return nil, err
 	}
