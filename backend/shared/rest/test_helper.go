@@ -1,6 +1,8 @@
 package rest
 
 import (
+	"bytes"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -16,6 +18,7 @@ type KV struct {
 type TestHttpConfig struct {
 	Header      http.Header
 	QueryParams []KV
+	Body        []byte
 }
 
 func NewMockGinContext(config *TestHttpConfig) (*gin.Context, *httptest.ResponseRecorder) {
@@ -30,6 +33,10 @@ func NewMockGinContext(config *TestHttpConfig) (*gin.Context, *httptest.Response
 	req := &http.Request{
 		URL:    &url.URL{},
 		Header: config.Header,
+	}
+	if config.Body != nil {
+		bodyReadCloser := io.NopCloser(bytes.NewReader(config.Body))
+		req.Body = bodyReadCloser
 	}
 
 	if config.QueryParams != nil {
