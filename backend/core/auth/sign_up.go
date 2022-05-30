@@ -39,7 +39,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 			c.JSON(http.StatusConflict, rest.EmailTakenReponse)
 			return
 		} else {
-			c.JSON(http.StatusUnprocessableEntity, rest.Response{Message: err.Error()})
+			c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 			return
 		}
 	}

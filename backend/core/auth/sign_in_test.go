@@ -50,8 +50,13 @@ func (r *userRepoMock) GetByEmail(email string) (*user.User, error) {
 }
 
 func (r *userRepoMock) Create(c *user.User) error {
-	return repo.ErrNotImplementedYet
-
+	for _, v := range r.data {
+		if v.Email == c.Email {
+			return repo.ErrEmailTaken
+		}
+	}
+	r.data = append(r.data, *c)
+	return nil
 }
 
 type jwtServiceMock struct {
