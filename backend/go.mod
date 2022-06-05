@@ -7,8 +7,6 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.2.0
 	github.com/jackc/pgconn v1.10.0
 	github.com/kr/pretty v0.2.1 // indirect
-	github.com/sendgrid/rest v2.6.7+incompatible
-	github.com/sendgrid/sendgrid-go v3.10.5+incompatible
 	github.com/spf13/viper v1.9.0
 	golang.org/x/crypto v0.0.0-20220126234351-aa10faf2a1f8
 	gorm.io/driver/postgres v1.2.2

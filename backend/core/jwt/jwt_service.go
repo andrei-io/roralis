@@ -17,11 +17,8 @@ type jwtService struct {
 	secret *JWTSecret
 }
 
-// Check interface at compile time
-var _ JWTService = (*jwtService)(nil)
-
 // Constructor function
-func NewJWTService(secret *JWTSecret) *jwtService {
+func NewJWTService(secret *JWTSecret) JWTService {
 	return &jwtService{secret: secret}
 }
 

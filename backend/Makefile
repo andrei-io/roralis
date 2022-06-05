@@ -14,6 +14,10 @@ watch:
 clean:
 	rm -rf build/
 
+.PHONY: test
+test:
+	go test -v ./...
+
 .PHONY: migrate-up
 migrate-up:
 	goose -dir infrastructure/migrations postgres "user=admin password=admin dbname=asdf sslmode=disable" up

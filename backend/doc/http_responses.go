@@ -7,14 +7,14 @@ import (
 	"backend/roralis/core/post"
 	"backend/roralis/core/region"
 	"backend/roralis/core/user"
-	httpresponse "backend/roralis/shared/http_response"
+	"backend/roralis/shared/rest"
 )
 
 // swagger:response GenericResponse
 type GenericResponse struct {
 	// Generic response, used when erros occurep
 	// in: body
-	Body httpresponse.Response
+	Body rest.Response
 }
 
 // swagger:response GetOneUserResponse

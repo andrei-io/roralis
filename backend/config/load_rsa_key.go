@@ -11,7 +11,7 @@ import (
 
 // Loads RSA keys from viper.
 // This function is mostly copied from the internet because working with crypto keys is golang is a pain
-func loadRSAKeys(jwtPrivate, jwtPublic string) (*jwt.JWTSecret, error) {
+func LoadRSAKeys(jwtPrivate, jwtPublic string) (*jwt.JWTSecret, error) {
 
 	var err error
 

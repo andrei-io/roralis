@@ -3,12 +3,12 @@ package auth
 import (
 	"backend/roralis/core/jwt"
 	"backend/roralis/core/user"
-	httpresponse "backend/roralis/shared/http_response"
+	"backend/roralis/shared/repo"
+	"backend/roralis/shared/rest"
+	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgconn"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -18,7 +18,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 	var json user.User
 	// Validate request form
 	if err := c.ShouldBindJSON(&json); err != nil {
-		c.JSON(http.StatusBadRequest, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusBadRequest, rest.Response{Message: err.Error()})
 		return
 	}
 
@@ -28,20 +28,18 @@ func (r *AuthController) SignUp(c *gin.Context) {
 
 	if err != nil {
 		// Failing to hash a password is a fatal error
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: err.Error()})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 	}
 	json.Password = string(hashedPassword)
 
 	// Create in db. Will error out when invalid
 	err = r.userRepo.Create(&json)
 	if err != nil {
-		err := err.(*pgconn.PgError)
-		message := err.Message
-		if strings.Contains(message, "duplicate key value violates unique constraint") {
-			c.JSON(http.StatusConflict, httpresponse.NewDuplicateEntityErrorResponse(err.ConstraintName))
+		if errors.Is(err, repo.ErrEmailTaken) {
+			c.JSON(http.StatusConflict, rest.EmailTakenReponse)
 			return
 		} else {
-			c.JSON(http.StatusUnprocessableEntity, httpresponse.Response{Message: err.Error()})
+			c.JSON(http.StatusInternalServerError, rest.Response{Message: err.Error()})
 			return
 		}
 	}
@@ -57,7 +55,7 @@ func (r *AuthController) SignUp(c *gin.Context) {
 
 	token, err := r.jwtService.NewJWT(&payload)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, httpresponse.Response{Message: "Your password or email are incorrect"})
+		c.JSON(http.StatusInternalServerError, rest.Response{Message: "Your password or email are incorrect"})
 	}
 
 	c.JSON(http.StatusOK, gin.H{
