@@ -50,8 +50,8 @@ func (r *postRepoMock) GetByUserID(id string) ([]post.Post, error) {
 }
 
 func (r *postRepoMock) Create(c *post.Post) error {
-	return repo.ErrNotImplementedYet
-
+	r.data = append(r.data, *c)
+	return nil
 }
 func TestPostController_ReadAll(t *testing.T) {
 	mockRepo := postRepoMock{
