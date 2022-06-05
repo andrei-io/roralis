@@ -74,7 +74,7 @@ func TestUserController_ReadOne(t *testing.T) {
 	userController := user.NewUserController(&mockRepo)
 	userController.ReadOne(c)
 	if w.Code != http.StatusOK {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusOK, w.Code, w.Body.String())
 	}
 	var responseSucces user.User
 	err := json.Unmarshal(w.Body.Bytes(), &responseSucces)
@@ -91,6 +91,6 @@ func TestUserController_ReadOne(t *testing.T) {
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "3"})
 	userController.ReadOne(c)
 	if w.Code != http.StatusNotFound {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusNotFound, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusNotFound, w.Code, w.Body.String())
 	}
 }

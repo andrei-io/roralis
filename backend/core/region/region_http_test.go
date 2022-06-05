@@ -89,7 +89,7 @@ func TestRegionController_ReadOne(t *testing.T) {
 
 	regionController.ReadOne(c)
 	if w.Code != http.StatusOK {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusOK, w.Code, w.Body.String())
 	}
 	var responseSucces region.Region
 	err := json.Unmarshal(w.Body.Bytes(), &responseSucces)
@@ -106,6 +106,6 @@ func TestRegionController_ReadOne(t *testing.T) {
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "3"})
 	regionController.ReadOne(c)
 	if w.Code != http.StatusNotFound {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusNotFound, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusNotFound, w.Code, w.Body.String())
 	}
 }

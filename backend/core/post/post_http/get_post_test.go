@@ -69,7 +69,7 @@ func TestPostController_ReadAll(t *testing.T) {
 
 	postController.ReadAll(c)
 	if w.Code != http.StatusOK {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusOK, w.Code, w.Body.String())
 	}
 	var responseSucces []post.Post
 	err := json.Unmarshal(w.Body.Bytes(), &responseSucces)
@@ -89,7 +89,7 @@ func TestPostController_ReadAll(t *testing.T) {
 
 	postController.ReadAll(c)
 	if w.Code != http.StatusOK {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusOK, w.Code, w.Body.String())
 	}
 	err = json.Unmarshal(w.Body.Bytes(), &responseSucces)
 	if err != nil {
@@ -108,7 +108,7 @@ func TestPostController_ReadAll(t *testing.T) {
 	// Test filtering(user_id)
 	postController.ReadAll(c)
 	if w.Code != http.StatusOK {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusOK, w.Code, w.Body.String())
 	}
 	err = json.Unmarshal(w.Body.Bytes(), &responseSucces)
 	if err != nil {
@@ -124,7 +124,7 @@ func TestPostController_ReadAll(t *testing.T) {
 	postController = posthttp.NewPostController(&mockRepo, "aaaa")
 	postController.ReadAll(c)
 	if w.Code != http.StatusNotFound {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusNotFound, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusNotFound, w.Code, w.Body.String())
 	}
 
 }
@@ -145,7 +145,7 @@ func TestPostController_ReadOne(t *testing.T) {
 	c.Params = append(c.Params, gin.Param{Key: "id", Value: "1"})
 	postController.ReadOne(c)
 	if w.Code != http.StatusOK {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusOK, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusOK, w.Code, w.Body.String())
 	}
 	var responseSucces post.Post
 	err := json.Unmarshal(w.Body.Bytes(), &responseSucces)
@@ -161,6 +161,6 @@ func TestPostController_ReadOne(t *testing.T) {
 	postController = posthttp.NewPostController(&mockRepo, "aaaa")
 	postController.ReadOne(c)
 	if w.Code != http.StatusNotFound {
-		t.Errorf("Wanted return code: %v, got %v", http.StatusNotFound, w.Code)
+		t.Errorf("Got wrong http code, wanted %v, got %v, \nJSON: %+v", http.StatusNotFound, w.Code, w.Body.String())
 	}
 }
