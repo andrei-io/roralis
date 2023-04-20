@@ -12,11 +12,11 @@ export const RDefaultScreens: RScreen[] = [
     routeName: 'AllPosts',
     iconName: 'md-home-outline',
   },
-  {
-    name: 'Map',
-    routeName: 'Home',
-    iconName: 'md-map-outline',
-  },
+  // {
+  //   name: 'Map',
+  //   routeName: 'Home',
+  //   iconName: 'md-map-outline',
+  // },
   {
     name: 'Articles',
     routeName: 'AllArticles',

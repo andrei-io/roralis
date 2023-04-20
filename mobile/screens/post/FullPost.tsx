@@ -40,7 +40,7 @@ const FullPostScreen: FC<IFullPostProps> = ({ route }) => {
       try {
         const p = await GetOnePost(route.params.id);
         setPost(p);
-        const u = await GetOneUser(p.ID || -1);
+        const u = await GetOneUser(p.UserID || -1);
         setUser(u);
       } catch (e) {
         const error = e as Error;
